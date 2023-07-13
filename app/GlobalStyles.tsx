@@ -33,6 +33,10 @@ a,h1,h2,h3,h4,h5,h6 {
   font-family: 'Montserrat', sans-serif;
   /* color: #1C1D20; */
 }
+a{
+  text-decoration: none;
+  color: #000;
+}
 `;
 
 export const InfoSec = styled.div`

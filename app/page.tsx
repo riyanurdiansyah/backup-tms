@@ -1,4 +1,4 @@
-import styles from "./page.module.css";
+// import styles from "./page.module.css";
 import GetPartner from "./home/GetPartner";
 import Hero from "./home/Hero";
 import MyPartner from "./home/MyPartner";
