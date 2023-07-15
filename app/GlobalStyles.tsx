@@ -1,47 +1,62 @@
 "use client";
+
 import styled, { createGlobalStyle } from "styled-components";
 
+export const color = {
+  main: "red",
+  secondary: "#e7cccc",
+  fh: "#262626",
+  fr: "#717276",
+  border: "#EAF0F9",
+};
+
 export const GlobalStyle = createGlobalStyle`
+
 *{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     list-style: none;
 }
-body {
-    /* color: #333539; */
-   line-height: 1.5;
-   font-size: 1.1rem;
-   font-family: 'Source Sans Pro', sans-serif;
-   font-weight:400;
-   overflow-x: hidden;
- }
- p {
-   /* color: #333539; */
- }
-h1 {
-  font-size: calc(1.775rem + 1.5vw);
-  font-weight:400;
+
+body{
+    color: #fff;
+    font-size: 16px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight:400;
+    overflow-x: hidden;
 }
-h2 {
-  font-size: calc(1.325rem + 0.9vw);
+
+p{
+  color: ${color.fr};
 }
-strong {
-  font-weight: 800;
+
+input{
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 400;
+  outline: none;
+  border-radius: 6px;
 }
-a,h1,h2,h3,h4,h5,h6 {
+
+h1,h2,h3,h4,h5,h6 {
   font-family: 'Montserrat', sans-serif;
-  /* color: #1C1D20; */
+  color: ${color.fh};
 }
+
 a{
+  color: ${color.fr};
   text-decoration: none;
-  color: #000;
 }
 `;
 
-export const InfoSec = styled.div`
-  color: #fff;
-  padding: 5px 0;
+export const FullContainer = styled.section`
+  z-index: 1;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  transition: all 1s;
 `;
 
 export const Container = styled.section`
@@ -50,11 +65,12 @@ export const Container = styled.section`
   max-width: 1140px;
   margin-left: auto;
   margin-right: auto;
-  padding: 10px;
+  padding: 0;
   transition: all 1s;
   /* ============ Mobile Max 576 */
   @media screen and (max-width: 576px) {
     max-width: 100%;
+    padding: 16px;
   }
 
   /* ============ Mobile Min 576  */
@@ -76,18 +92,32 @@ export const Container = styled.section`
   @media screen and (min-width: 1200px) {
     max-width: 1140px;
   }
+  /* ============ Desktop Min 1440 */
+  @media screen and (min-width: 1440px) {
+    width: 80%;
+    max-width: 80%;
+  }
 `;
 
 export const Btn = styled.button`
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   white-space: nowrap;
   border-radius: 8px;
-  font-size: 0.8rem;
+  font-size: 14px;
   font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  white-space: nowrap;
   cursor: pointer;
+  border: none;
+  outline: none;
+  background: ${color.main};
+  color: #fff;
+  transition: all 1s;
   &:hover {
     transition: all 0.3s ease-out;
+    background: #d10000;
   }
 `;

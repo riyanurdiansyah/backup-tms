@@ -6,6 +6,7 @@ import { styled } from "styled-components";
 const colorText = "#b6b6b6";
 
 export const Foo = styled.footer`
+  margin-top: 100px;
   width: 100%;
   background-color: #414141;
   left: 0;
