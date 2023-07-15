@@ -2,6 +2,10 @@
 import { color } from "@/app/GlobalStyles";
 import { styled } from "styled-components";
 
+export interface IProps {
+  paddingTop: any;
+}
+
 export const HoverBox = styled.div`
   position: relative;
 `;
@@ -18,9 +22,9 @@ export const ChildrenComponent = styled.div`
   }
 `;
 
-export const DropdownComponent = styled.div`
+export const DropdownComponent = styled.div<IProps>`
   position: absolute;
-  padding-top: 5px;
+  padding-top: ${(props) => `${props.paddingTop}px` || "5px"};
   top: 0;
   left: 0;
   opacity: 0;

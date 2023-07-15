@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
 import LogoColab from "./logo-colab.png";
@@ -8,67 +10,98 @@ import {
   HeaderLogoBrand,
   HeaderLogoColab,
   HeaderWrapper,
+  IconToggle,
   ItemNavbar,
+  LMenu,
   ListNavbar,
   Navbar,
+  ToggleMenu,
 } from "./Styles";
+import Hover from "../Hover";
+import DropdownMenu from "../Hover/DropdownMenu";
+import { FaSortDown } from "react-icons/fa";
 
 const Header = () => {
+  const listMenuResources = [
+    "Owner Manual Book",
+    "Warranty & KSG",
+    "Part Catalogue",
+    "Owning Operation Cost",
+  ];
+
+  const ListMenuContact = ["TMS Izusu Network", "Customer Service"];
+
+  const handleClickDropdown = (e: any) => {
+    console.log("menu", e);
+  };
   return (
     <HeaderWrapper>
       <HeaderContainer>
         <HeaderLogoColab>
           <Link href="/">
-            <Image src={LogoColab} alt={""} height={40} />
+            <Image src={LogoColab} alt={""} height={30} />
           </Link>
         </HeaderLogoColab>
         <Navbar>
           <ListNavbar>
             <ItemNavbar>
-              <Link href="/explore-car">Explore Car</Link>
+              <LMenu href="/products">Products</LMenu>
             </ItemNavbar>
             <ItemNavbar>
-              <Link href="/service-and-tools">Service & Tools</Link>
+              <Hover
+                paddingTop={20}
+                topHover={30}
+                kananHover="auto"
+                kiriHover={0}
+                onHover={
+                  <DropdownMenu
+                    dataMenu={listMenuResources}
+                    handleClickDropdown={handleClickDropdown}
+                  />
+                }
+              >
+                <LMenu href="">
+                  Resources <FaSortDown style={{ marginTop: "-3px" }} />
+                </LMenu>
+              </Hover>
             </ItemNavbar>
             <ItemNavbar>
-              <Link href="/contact-us">Clontact Us</Link>
+              <LMenu href="/service">Service</LMenu>
+            </ItemNavbar>
+            <ItemNavbar>
+              <Hover
+                paddingTop={20}
+                topHover={30}
+                kananHover="auto"
+                kiriHover={0}
+                onHover={
+                  <DropdownMenu
+                    dataMenu={ListMenuContact}
+                    handleClickDropdown={handleClickDropdown}
+                  />
+                }
+              >
+                <LMenu href="">
+                  Contact
+                  <FaSortDown style={{ marginTop: "-3px" }} />
+                </LMenu>
+              </Hover>
+            </ItemNavbar>
+            <ItemNavbar>
+              <LMenu href="/career">Career</LMenu>
             </ItemNavbar>
           </ListNavbar>
         </Navbar>
         <HeaderLogoBrand>
           <Link href="/" className="flex justify-end">
-            <Image src={LogoBrand} alt={""} height={40} />
+            <Image src={LogoBrand} alt={""} height={30} />
           </Link>
         </HeaderLogoBrand>
+        <ToggleMenu>
+          <IconToggle />
+        </ToggleMenu>
       </HeaderContainer>
     </HeaderWrapper>
-    // <header className="shadow-md">
-    //   <div className="container mx-auto flex justify-between items-center py-4">
-    //     <div className="logo-colab w-[255px]">
-    //       <Link href="/">
-    //         <Image src={LogoColab} alt={""} height={40} />
-    //       </Link>
-    //     </div>
-    //     <nav>
-    //       <ul className="flex flex-row gap-10 font-medium ">
-    //         <li>
-    //           <Link href="/explore-car">Explore Car</Link>
-    //         </li>
-    //         <li>
-    //           <Link href="/service-and-tools">Service & Tools</Link>
-    //         </li>
-    //         <li>
-    //           <Link href="/contact-us">Clontact Us</Link>
-    //         </li>
-    //       </ul>
-    //     </nav>
-    //     <div className="logo-brand w-[255px]">
-    //       <Link href="/" className="flex justify-end">
-    //         <Image src={LogoBrand} alt={""} height={40} />
-    //       </Link>
-    //     </div>
-    //   </div>
-    // </header>
   );
 };
 

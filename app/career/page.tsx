@@ -75,6 +75,7 @@ const CareerPage = () => {
           </Search>
           <DropdownFilterCategory>
             <Hover
+              paddingTop={5}
               topHover={40}
               kananHover={0}
               kiriHover="auto"
@@ -94,6 +95,7 @@ const CareerPage = () => {
           </DropdownFilterCategory>
           <DropdownFilterRank>
             <Hover
+              paddingTop={5}
               topHover={45}
               kananHover={0}
               kiriHover="auto"

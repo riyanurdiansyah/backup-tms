@@ -3,6 +3,7 @@ import React, { FC, ReactNode } from "react";
 import { ChildrenComponent, DropdownComponent, HoverBox } from "./Styled";
 
 const Hover: FC<IHover> = ({
+  paddingTop,
   onHover,
   topHover,
   children,
@@ -14,6 +15,7 @@ const Hover: FC<IHover> = ({
       <ChildrenComponent>{children}</ChildrenComponent>
       <DropdownComponent
         className="hover-komponen"
+        paddingTop={paddingTop}
         style={{
           top: topHover || 0,
           left: kiriHover == null ? "auto" : kiriHover,
@@ -27,6 +29,7 @@ const Hover: FC<IHover> = ({
 };
 
 interface IHover {
+  paddingTop: any;
   topHover: any;
   kiriHover: any;
   kananHover: any;
