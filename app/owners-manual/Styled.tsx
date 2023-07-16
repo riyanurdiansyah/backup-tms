@@ -43,36 +43,7 @@ export const SearchInput = styled.input`
   }
 `;
 
-export const DropdownFilterCategory = styled.div`
-  width: 20%;
-`;
-
-export const DropdownFilterRank = styled(DropdownFilterCategory)``;
-
-export const FilterCategory = styled.div`
-  height: 40px;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  border: 1px solid ${color.border};
-  border-radius: 6px;
-  background: #fff;
-  padding: 0 10px;
-  cursor: pointer;
-  .text {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    white-space: nowrap;
-    gap: 20px;
-    font-size: 14px;
-    font-weight: 500;
-  }
-`;
-
-export const FilterRank = styled(FilterCategory)``;
-
-export const ListJob = styled.div`
+export const ListBook = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 15px;
