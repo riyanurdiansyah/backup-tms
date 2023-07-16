@@ -1,3 +1,5 @@
+import { Btn, color, font } from "@/app/GlobalStyles";
+import { HiHome } from "react-icons/hi";
 import { styled } from "styled-components";
 
 export interface IProps {
@@ -15,25 +17,32 @@ export const BtnHomeWrapper = styled.div`
   align-items: center;
 `;
 
-export const BtnToggleHome = styled.button`
+export const BtnToggleHome = styled(Btn)<IProps>`
   background-color: #000;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
+  border-radius: 100%;
+  padding: 15px;
   z-index: 10;
+  color: ${(props) => (props.showMenu ? color.main : `#fff`)};
+  &:hover {
+    background-color: #000;
+    color: ${(props) => (props.showMenu ? color.main : `#fff`)};
+  }
+`;
+
+export const IconHome = styled(HiHome)`
+  font-size: 55px;
+  color: inherit;
 `;
 
 export const MenuToggleHome = styled.div<IProps>`
   width: ${(props) => (props.showMenu ? "90vw" : `0%`)};
-  height: 50px;
-  background-color: red;
+  height: 60px;
+  background-color: ${color.main};
   position: absolute;
   right: 10px;
   border-radius: 100px;
   padding-left: ${(props) => (props.showMenu ? "50px" : `0`)};
-  padding-right: ${(props) => (props.showMenu ? "100px" : `0`)};
+  padding-right: ${(props) => (props.showMenu ? "120px" : `0`)};
   transition: 0.5s all;
   overflow: hidden;
 `;
@@ -51,12 +60,13 @@ export const ItemMenuHome = styled.div`
   align-items: center;
   gap: 8px;
   color: #fff;
+  font-family: ${font.heading};
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
-  transition: 0.7s all;
+  transition: 0.5s all;
   &:hover {
-    color: #cbcaca;
+    color: ${color.fh};
   }
 `;

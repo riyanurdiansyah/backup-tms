@@ -33,7 +33,7 @@ const Header = () => {
       );
     } else if (e == "/customer-service") {
       window.open(
-        "https://wa.me/6281326017533?text=This is WhatsApp sharing example using lin",
+        "https://wa.me/6281326017533?text=Hallo TMS Isuzu, Saya ingin bertanya.",
         "_blank"
       );
     } else {
