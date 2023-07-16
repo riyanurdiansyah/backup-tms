@@ -1,57 +1,91 @@
 "use client";
 import { styled } from "styled-components";
-import { Btn } from "../GlobalStyles";
+import { Btn, Container, font } from "../GlobalStyles";
 import ImgBgPartner from "./assets/img-bg-partner.jpeg";
 
 export const HeroWrapper = styled.div`
   width: 100%;
-  height: calc(100vh - 60px);
+  max-height: calc(100vh - 60px);
   margin: auto;
   overflow: hidden;
   position: relative;
 `;
 
 // GET PARTNER
-export const GetPartnerWrapper = styled.div`
-  width: 100%;
-  padding-top: 120px;
-`;
-
-export const GetPartnerContainer = styled.div`
-  width: 80%;
-  margin: auto;
+export const GetPartnerContainer = styled(Container)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-top: 60px;
+  @media screen and (max-width: 576px) {
+    padding-top: 50px;
+  }
 `;
 
 export const GetPartnerLeft = styled.div`
   width: 60%;
+  @media screen and (max-width: 576px) {
+    display: none;
+  }
 `;
 
 export const GetPartnerRight = styled.div`
-  width: fit-content;
+  min-width: 440px;
+  width: 40%;
   height: max-content;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  @media screen and (max-width: 991px) {
+    min-width: 320px;
+  }
+  @media screen and (max-width: 767px) {
+    min-width: 250px;
+  }
+  @media screen and (max-width: 576px) {
+    width: 100%;
+    align-items: center;
+  }
 `;
 
 export const GetPartnerTitle = styled.h2`
-  width: 370px;
-  text-align: center;
-  font-size: 44px;
+  width: 100%;
+  text-align: right;
+  font-family: ${font.heading};
+  font-size: 48px;
   font-weight: 500;
   margin-bottom: 30px;
+  @media screen and (max-width: 1199px) {
+    font-size: 40px;
+  }
+  @media screen and (max-width: 991px) {
+    font-size: 34px;
+  }
+  @media screen and (max-width: 767px) {
+    font-size: 24px;
+    line-height: 34px;
+    margin-bottom: 20px;
+  }
+  @media screen and (max-width: 576px) {
+    text-align: center;
+    align-items: center;
+  }
 `;
 
 export const ButttonGetPartner = styled(Btn)`
   background: red;
   color: #fff;
-  padding: 8px 24px;
+  padding: 14px 28px;
   font-size: 18px;
-  font-weight: 500;
+  @media screen and (max-width: 991px) {
+    padding: 12px 24px;
+    font-size: 16px;
+  }
+  @media screen and (max-width: 767px) {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
 `;
 
 // PRODUCT
