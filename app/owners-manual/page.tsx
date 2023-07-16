@@ -45,8 +45,7 @@ const OwnersManual = () => {
 
 export const bookDummy = [
   {
-    title:
-      "ISUZU ELF OWNER'S MANUAL (EURO 2) ISUZU ELF OWNER'S MANUAL (EURO 2)",
+    title: "ISUZU ELF OWNER'S MANUAL (EURO 2)",
     link: "https://uploads-ssl.webflow.com/60debe5ee0fe74c62dd2a66f/613984e0a0772c8bef055c64_Elf%20Owners%20manual_compressed%20(2).pdf",
   },
   {
