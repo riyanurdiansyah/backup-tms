@@ -13,7 +13,7 @@ export default function Home() {
     <main>
       <Hero />
       <GetPartner />
-      {/* <Product /> */}
+      <Product />
       {/* <Service />
       <Value />
       <MyPartner />

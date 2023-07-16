@@ -1,7 +1,11 @@
 "use client";
 import { styled } from "styled-components";
-import { Btn, Container, font } from "../GlobalStyles";
+import { Btn, Container, color, font } from "../GlobalStyles";
 import ImgBgPartner from "./assets/img-bg-partner.jpeg";
+
+export interface IProps {
+  source: any;
+}
 
 export const HeroWrapper = styled.div`
   width: 100%;
@@ -110,9 +114,13 @@ export const ListProduct = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: 100px;
+  height: auto;
+  position: relative;
 `;
 
 export const CardProduct = styled.div`
+  height: auto;
+  position: relative;
   cursor: pointer;
   filter: grayscale(100%);
   transition: all 0.5s;
@@ -122,8 +130,32 @@ export const CardProduct = styled.div`
   }
 `;
 
+export const HeadCardProduct = styled.div`
+  height: 350px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+`;
+
+export const ImgBG = styled.div<IProps>`
+  background: ${(props) => props.source && `url(${props.source.src})`};
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 60%;
+  height: 350px;
+  position: absolute;
+  bottom: 0;
+  z-index: -1;
+  border-radius: 8px;
+`;
+
 export const TitleCardProduct = styled.p`
   text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: ${color.fh};
+  margin-top: 16px;
 `;
 
 // SERVICE
