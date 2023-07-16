@@ -43,7 +43,7 @@ const BrochuresPage = () => {
   );
 };
 
-export const brochureDummy = [
+const brochureDummy = [
   {
     title: "ISUZU GIGA TRACTOR HEAD",
     thumbnail: "/img-brochure.png",
