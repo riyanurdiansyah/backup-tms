@@ -73,7 +73,7 @@ const Header = () => {
               </Hover>
             </ItemNavbar>
             <ItemNavbar>
-              <LMenu href="/service">Service</LMenu>
+              <LMenu href="/warranty-and-ksg">Service</LMenu>
             </ItemNavbar>
             <ItemNavbar>
               <Hover
@@ -127,7 +127,7 @@ export const listMenuResources = [
   },
   {
     name: "Owning & Operation Cost",
-    url: "/owners-and-operation-cost",
+    url: "/owning-and-operation-cost",
   },
 ];
 
