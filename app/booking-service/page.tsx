@@ -1,12 +1,12 @@
 import HeroBanner from "@/components/HeroBanner";
 import React from "react";
 
-const SimulationCreditPage = () => {
+const BookingServicePage = () => {
   return (
-    <div className="simulation-credit-page-wrapper">
+    <div className="booking-service-page-wrapper">
       <HeroBanner title={"Simulation Credit"} />
     </div>
   );
 };
 
-export default SimulationCreditPage;
+export default BookingServicePage;
