@@ -20,20 +20,27 @@ import {
 import Hover from "../Hover";
 import DropdownMenu from "../Hover/DropdownMenu";
 import { FaSortDown } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
-  const listMenuResources = [
-    "Owner Manual Book",
-    "Warranty & KSG",
-    "Part Catalogue",
-    "Owning Operation Cost",
-  ];
-
-  const ListMenuContact = ["TMS Izusu Network", "Customer Service"];
+  const route = useRouter();
 
   const handleClickDropdown = (e: any) => {
-    console.log("menu", e);
+    if (e == "/part-catalogue") {
+      window.open(
+        "https://parts.isuzu.astra.co.id/marketing/catalog/",
+        "_blank"
+      );
+    } else if (e == "/customer-service") {
+      window.open(
+        "https://wa.me/6281326017533?text=This is WhatsApp sharing example using lin",
+        "_blank"
+      );
+    } else {
+      route.push(e);
+    }
   };
+
   return (
     <HeaderWrapper>
       <HeaderContainer>
@@ -104,5 +111,35 @@ const Header = () => {
     </HeaderWrapper>
   );
 };
+
+export const listMenuResources = [
+  {
+    name: "Owners Manual Book",
+    url: "/owners-manual",
+  },
+  {
+    name: "Warranty & KSG",
+    url: "/warranty-and-ksg",
+  },
+  {
+    name: "Part Catalogue",
+    url: "/part-catalogue",
+  },
+  {
+    name: "Owning & Operation Cost",
+    url: "/owners-and-operation-cost",
+  },
+];
+
+export const ListMenuContact = [
+  {
+    name: "TMS Izusu Network",
+    url: "/tms-isuzu-network",
+  },
+  {
+    name: "Customer Service",
+    url: "/customer-service",
+  },
+];
 
 export default Header;

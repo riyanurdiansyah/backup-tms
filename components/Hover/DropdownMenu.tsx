@@ -9,9 +9,9 @@ const DropdownMenu: FC<IDropdownMenu> = ({ dataMenu, handleClickDropdown }) => {
         return (
           <ItemMenuDropdown
             key={index}
-            onClick={() => handleClickDropdown(item)}
+            onClick={() => handleClickDropdown(item?.url || item)}
           >
-            {item}
+            {item?.name || item}
           </ItemMenuDropdown>
         );
       })}
