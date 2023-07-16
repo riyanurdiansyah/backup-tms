@@ -12,12 +12,12 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <GetPartner />
+      {/* <GetPartner />
       <Product />
       <Service />
       <Value />
       <MyPartner />
-      <Testimony />
+      <Testimony /> */}
       <ButtonHome />
     </main>
   );
