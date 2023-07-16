@@ -10,13 +10,18 @@ export const color = {
   border: "#EAF0F9",
 };
 
+export const font = {
+  heading: "'Montserrat', sans-serif",
+  reguler: "'Source Sans Pro', sans-serif",
+};
+
 export const GlobalStyle = createGlobalStyle`
 
 *{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    list-style: none;
+    /* list-style: none; */
 }
 
 body{
