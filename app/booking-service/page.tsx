@@ -4,7 +4,7 @@ import React from "react";
 const BookingServicePage = () => {
   return (
     <div className="booking-service-page-wrapper">
-      <HeroBanner title={"Simulation Credit"} />
+      <HeroBanner title={"Booking Service"} />
     </div>
   );
 };
