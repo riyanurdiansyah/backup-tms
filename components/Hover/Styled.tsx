@@ -46,6 +46,7 @@ export const ListMenuDropdown = styled.div`
   background-color: #fff;
   border-radius: 6px;
   border: 1px solid ${color.border};
+  min-width: max-content;
   width: 200px;
   padding: 10px;
   display: flex;

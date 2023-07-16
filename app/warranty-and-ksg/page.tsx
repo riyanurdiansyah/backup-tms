@@ -7,9 +7,11 @@ import {
   BodyContent,
   IconArrowDown,
   IconArrowUp,
+  IconInfo,
   ItemQNA,
   ListQNA,
   Q,
+  TextInfo,
   TextQ,
 } from "./Styled";
 
@@ -52,6 +54,11 @@ const WarrantyPage = () => {
             </ItemQNA>
           ))}
         </ListQNA>
+        <TextInfo>
+          <IconInfo />
+          Silahkan merujuk pada Buku Servis & Garansi untuk melihat sepenuhnya
+          syarat dan ketentuan Warranty Claim.
+        </TextInfo>
       </BodyContent>
     </div>
   );

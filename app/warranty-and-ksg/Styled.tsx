@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 
 import { Container, color, font } from "../GlobalStyles";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
+import { AiFillInfoCircle } from "react-icons/ai";
 
 export interface IProps {
   active: boolean;
@@ -81,4 +82,20 @@ export const IconArrowUp = styled(MdKeyboardArrowUp)`
   color: ${color.fh};
   margin-top: -7px;
   color: inherit;
+`;
+
+export const TextInfo = styled.p`
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  color: ${color.fr};
+  font-style: italic;
+  margin-top: 30px;
+`;
+
+export const IconInfo = styled(AiFillInfoCircle)`
+  color: #ffd70c;
+  margin-right: 5px;
+  margin-bottom: -2px;
+  font-size: 16px;
 `;
