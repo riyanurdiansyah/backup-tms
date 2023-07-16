@@ -18,8 +18,10 @@ import { FaSortDown, FaSortUp } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import Hover from "@/components/Hover";
 import DropdownMenu from "@/components/Hover/DropdownMenu";
+import useDimensiLayar from "@/utils/useDimensiLayar";
 
 const CareerPage = () => {
+  const [lebarLayar] = useDimensiLayar();
   const jobDummy = [
     {
       id: 1,
@@ -77,8 +79,8 @@ const CareerPage = () => {
             <Hover
               paddingTop={5}
               topHover={40}
-              kananHover={0}
-              kiriHover="auto"
+              kananHover={lebarLayar > 576 ? 0 : "auto"}
+              kiriHover={lebarLayar > 576 ? "auto" : 0}
               onHover={
                 <DropdownMenu
                   dataMenu={listMenuJenjang}

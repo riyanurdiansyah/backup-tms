@@ -14,6 +14,8 @@ export const SearchBox = styled(Container)`
   padding: 15px 0;
   @media screen and (max-width: 576px) {
     padding: 15px 16px;
+    flex-wrap: wrap;
+    row-gap: 10px;
   }
 `;
 
@@ -45,6 +47,9 @@ export const SearchInput = styled.input`
 
 export const DropdownFilterCategory = styled.div`
   width: 20%;
+  @media screen and (max-width: 576px) {
+    width: calc((100% - 16px) / 2);
+  }
 `;
 
 export const DropdownFilterRank = styled(DropdownFilterCategory)``;
