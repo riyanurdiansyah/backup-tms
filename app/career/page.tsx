@@ -1,7 +1,7 @@
 "use client";
 import HeroBanner from "@/components/HeroBanner";
 import React from "react";
-import { Container } from "../GlobalStyles";
+import { Container } from "../../styles/styledComponents/GlobalStyled";
 import CardJob from "@/components/Card/CardJob";
 import {
   SearchContainer,

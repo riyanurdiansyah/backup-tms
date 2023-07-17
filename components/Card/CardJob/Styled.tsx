@@ -1,4 +1,4 @@
-import { Btn, color } from "@/app/GlobalStyles";
+import { Btn, color } from "@/styles/styledComponents/GlobalStyled";
 import { styled } from "styled-components";
 import ImgBrandTms from "./logo-tms.webp";
 

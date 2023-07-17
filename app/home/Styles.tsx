@@ -1,6 +1,11 @@
 "use client";
 import { styled } from "styled-components";
-import { Btn, Container, color, font } from "../GlobalStyles";
+import {
+  Btn,
+  Container,
+  color,
+  font,
+} from "../../styles/styledComponents/GlobalStyled";
 import ImgBgPartner from "./assets/img-bg-partner.jpeg";
 
 export interface IProps {
@@ -95,27 +100,68 @@ export const ButttonGetPartner = styled(Btn)`
 // PRODUCT
 export const ProductWrapper = styled.div`
   width: 100%;
-  padding-top: 120px;
+  padding-top: 100px;
+  @media screen and (max-width: 767px) {
+    padding-top: 60px;
+  }
 `;
 
-export const ProductContainer = styled.div`
-  width: 80%;
-  margin: auto;
-`;
+export const ProductContainer = styled(Container)``;
 
 export const ProductTitle = styled.h2`
+  font-family: ${font.heading};
   text-align: center;
   font-size: 44px;
   font-weight: 800;
-  margin-bottom: 50px;
+  margin-bottom: 60px;
+  @media screen and (max-width: 1199px) {
+    font-size: 40px;
+    margin-bottom: 50px;
+  }
+  @media screen and (max-width: 991px) {
+    font-size: 34px;
+    margin-bottom: 40px;
+  }
+  @media screen and (max-width: 767px) {
+    font-size: 24px;
+    line-height: 34px;
+    margin-bottom: 25px;
+  }
 `;
 
 export const ListProduct = styled.div`
-  display: grid;
+  .flickity-button {
+    background-color: ${color.border};
+    outline: none;
+    border: none;
+    box-shadow: none;
+    &.previous {
+      left: -20px;
+    }
+    &.next {
+      right: -20px;
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    .flickity-button {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 576px) {
+    .flickity-button {
+      display: none;
+    }
+  }
+  @media screen and (min-width: 576px) {
+    .flickity-page-dots {
+      display: none;
+    }
+  }
+  /* display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 100px;
+  column-gap: 20px;
   height: auto;
-  position: relative;
+  position: relative; */
 `;
 
 export const CardProduct = styled.div`
@@ -124,6 +170,12 @@ export const CardProduct = styled.div`
   cursor: pointer;
   filter: grayscale(100%);
   transition: all 0.5s;
+  min-width: 328px;
+  width: calc((100% - 40px) / 3);
+  margin-right: 20px;
+  &:last-child {
+    margin-right: 0;
+  }
   &:hover {
     font-weight: 700;
     filter: grayscale(0);
@@ -136,6 +188,12 @@ export const HeadCardProduct = styled.div`
   display: flex;
   justify-content: center;
   overflow: hidden;
+  @media screen and (max-width: 991px) {
+    height: 300px;
+  }
+  @media screen and (max-width: 767px) {
+    height: 250px;
+  }
 `;
 
 export const ImgBG = styled.div<IProps>`
@@ -143,7 +201,7 @@ export const ImgBG = styled.div<IProps>`
   background-position: center;
   background-repeat: no-repeat;
   width: 60%;
-  height: 350px;
+  height: 100%;
   position: absolute;
   bottom: 0;
   z-index: -1;
@@ -156,6 +214,9 @@ export const TitleCardProduct = styled.p`
   font-weight: 700;
   color: ${color.fh};
   margin-top: 16px;
+  @media screen and (max-width: 767px) {
+    font-size: 14px;
+  }
 `;
 
 // SERVICE

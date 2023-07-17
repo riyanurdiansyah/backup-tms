@@ -9,7 +9,7 @@ import {
   SearchInput,
 } from "./Styled";
 import { FiSearch } from "react-icons/fi";
-import { Container } from "../GlobalStyles";
+import { Container } from "../../styles/styledComponents/GlobalStyled";
 import CardBook from "@/components/Card/CardBook";
 
 const OwnersManual = () => {

@@ -2,7 +2,11 @@
 
 import { styled } from "styled-components";
 
-import { Container, color, font } from "../GlobalStyles";
+import {
+  Container,
+  color,
+  font,
+} from "../../styles/styledComponents/GlobalStyled";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { AiFillInfoCircle } from "react-icons/ai";
 

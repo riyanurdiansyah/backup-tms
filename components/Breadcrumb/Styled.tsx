@@ -1,5 +1,9 @@
 "use client";
-import { Container, FullContainer, color } from "@/app/GlobalStyles";
+import {
+  Container,
+  FullContainer,
+  color,
+} from "@/styles/styledComponents/GlobalStyled";
 import { styled } from "styled-components";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 

@@ -1,6 +1,10 @@
 "use client";
 import { styled } from "styled-components";
-import { Container, FullContainer, color } from "../GlobalStyles";
+import {
+  Container,
+  FullContainer,
+  color,
+} from "../../styles/styledComponents/GlobalStyled";
 
 export const SearchContainer = styled(FullContainer)`
   background-color: #f9fafc;

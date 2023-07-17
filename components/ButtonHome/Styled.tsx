@@ -1,4 +1,4 @@
-import { Btn, color, font } from "@/app/GlobalStyles";
+import { Btn, color, font } from "@/styles/styledComponents/GlobalStyled";
 import { HiHome } from "react-icons/hi";
 import { styled } from "styled-components";
 

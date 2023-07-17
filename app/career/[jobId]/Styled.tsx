@@ -1,5 +1,5 @@
 "use client";
-import { Btn, Container, color } from "@/app/GlobalStyles";
+import { Btn, Container, color } from "@/styles/styledComponents/GlobalStyled";
 import { styled } from "styled-components";
 import ImgBrandTms from "@/public/logo-tms.webp";
 

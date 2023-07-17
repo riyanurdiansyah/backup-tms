@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   CardProduct,
@@ -15,52 +16,76 @@ import Image from "next/image";
 import BgCardProduct1 from "./assets/bg-product-1.jpg";
 import BgCardProduct2 from "./assets/bg-product-2.jpg";
 import BgCardProduct3 from "./assets/bg-product-3.jpg";
+import Flickity from "react-flickity-component";
 
 const Product = () => {
   return (
     <ProductWrapper>
       <ProductContainer>
-        <ProductTitle>Products</ProductTitle>
+        <ProductTitle>Our Products</ProductTitle>
         <ListProduct>
-          <CardProduct>
-            <HeadCardProduct>
-              <Image
-                src={ImageCar2}
-                alt=""
-                layout="responsive"
-                objectFit="contain"
-                style={{ position: "absolute", bottom: "-10px" }}
-              />
-              <ImgBG source={BgCardProduct1} />
-            </HeadCardProduct>
-            <TitleCardProduct>GIGA</TitleCardProduct>
-          </CardProduct>
-          <CardProduct>
-            <HeadCardProduct>
-              <Image
-                src={ImageCar1}
-                alt=""
-                layout="responsive"
-                objectFit="contain"
-                style={{ position: "absolute", bottom: "-10px" }}
-              />
-              <ImgBG source={BgCardProduct2} />
-            </HeadCardProduct>
-            <TitleCardProduct>TRAGA</TitleCardProduct>
-          </CardProduct>
-          <CardProduct>
-            <HeadCardProduct>
-              <Image
-                src={ImageCar2}
-                alt=""
-                layout="responsive"
-                objectFit="contain"
-                style={{ position: "absolute", bottom: "-10px" }}
-              />
-              <ImgBG source={BgCardProduct3} />
-            </HeadCardProduct>
-            <TitleCardProduct>ELF</TitleCardProduct>
-          </CardProduct>
+          <Flickity
+            className={"carousel-list-product"}
+            options={{
+              cellAlign: "left",
+              contain: true,
+              groupCells: true,
+              pageDots: true,
+              draggable: true,
+            }}
+          >
+            <CardProduct>
+              <HeadCardProduct>
+                <Image
+                  src={ImageCar2}
+                  alt=""
+                  layout="responsive"
+                  objectFit="contain"
+                  style={{
+                    position: "absolute",
+                    bottom: "-10px",
+                    maxWidth: "90%",
+                  }}
+                />
+                <ImgBG source={BgCardProduct1} />
+              </HeadCardProduct>
+              <TitleCardProduct>GIGA</TitleCardProduct>
+            </CardProduct>
+            <CardProduct>
+              <HeadCardProduct>
+                <Image
+                  src={ImageCar1}
+                  alt=""
+                  layout="responsive"
+                  objectFit="contain"
+                  style={{
+                    position: "absolute",
+                    bottom: "-10px",
+                    maxWidth: "90%",
+                  }}
+                />
+                <ImgBG source={BgCardProduct2} />
+              </HeadCardProduct>
+              <TitleCardProduct>TRAGA</TitleCardProduct>
+            </CardProduct>
+            <CardProduct>
+              <HeadCardProduct>
+                <Image
+                  src={ImageCar2}
+                  alt=""
+                  layout="responsive"
+                  objectFit="contain"
+                  style={{
+                    position: "absolute",
+                    bottom: "-10px",
+                    maxWidth: "90%",
+                  }}
+                />
+                <ImgBG source={BgCardProduct3} />
+              </HeadCardProduct>
+              <TitleCardProduct>ELF</TitleCardProduct>
+            </CardProduct>
+          </Flickity>
         </ListProduct>
       </ProductContainer>
     </ProductWrapper>

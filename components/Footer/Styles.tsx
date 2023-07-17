@@ -1,5 +1,5 @@
 "use client";
-import { Container, font } from "@/app/GlobalStyles";
+import { Container, font } from "@/styles/styledComponents/GlobalStyled";
 import Link from "next/link";
 import { styled } from "styled-components";
 

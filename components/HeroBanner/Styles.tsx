@@ -1,5 +1,5 @@
 "use client";
-import { FullContainer } from "@/app/GlobalStyles";
+import { FullContainer } from "@/styles/styledComponents/GlobalStyled";
 import { styled } from "styled-components";
 import BgHeroBanner from "./bg-hero-banner.png";
 

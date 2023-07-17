@@ -1,5 +1,5 @@
 "use client";
-import { Container, color } from "@/app/GlobalStyles";
+import { Container, color } from "@/styles/styledComponents/GlobalStyled";
 import Link from "next/link";
 import { styled } from "styled-components";
 import { CgMenuGridO } from "react-icons/cg";

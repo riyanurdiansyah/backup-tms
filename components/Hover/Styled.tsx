@@ -1,5 +1,5 @@
 "use client";
-import { color } from "@/app/GlobalStyles";
+import { color } from "@/styles/styledComponents/GlobalStyled";
 import { styled } from "styled-components";
 
 export interface IProps {

@@ -1,6 +1,6 @@
 "use client";
 import { styled } from "styled-components";
-import { Btn, color } from "@/app/GlobalStyles";
+import { Btn, color } from "@/styles/styledComponents/GlobalStyled";
 import Image from "next/image";
 import { HiOutlineDownload } from "react-icons/hi";
 

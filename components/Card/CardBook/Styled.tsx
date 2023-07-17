@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { BsFillFileEarmarkPdfFill } from "react-icons/bs";
-import { color } from "@/app/GlobalStyles";
+import { color } from "@/styles/styledComponents/GlobalStyled";
 
 export const Card = styled.div`
   display: flex;

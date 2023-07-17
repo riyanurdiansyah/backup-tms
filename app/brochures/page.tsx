@@ -8,7 +8,7 @@ import {
   SearchInput,
 } from "./Styled";
 import { FiSearch } from "react-icons/fi";
-import { Container } from "../GlobalStyles";
+import { Container } from "../../styles/styledComponents/GlobalStyled";
 import CardBrochure from "@/components/Card/CardBrochure";
 
 const BrochuresPage = () => {
