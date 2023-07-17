@@ -94,6 +94,10 @@ export const ButttonGetPartner = styled(Btn)`
   @media screen and (max-width: 767px) {
     padding: 8px 16px;
     font-size: 14px;
+    border-radius: 6px;
+  }
+  @media screen and (max-width: 576px) {
+    font-size: 12px;
   }
 `;
 
@@ -222,38 +226,87 @@ export const TitleCardProduct = styled.p`
 // SERVICE
 export const ServiceWrapper = styled.div`
   width: 100%;
+  margin-top: 50px;
   padding: 100px 0;
-  margin-top: 120px;
-  background: linear-gradient(180deg, #e6e4e5 32.29%, #fff 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(217, 217, 217, 0) 0%,
+    rgba(201, 200, 200, 0.69) 49.48%,
+    rgba(229, 229, 229, 0) 100%
+  );
+  @media screen and (max-width: 767px) {
+    margin-top: 30px;
+    padding: 60px 0;
+  }
 `;
 
-export const ServiceContainer = styled.div`
-  width: 80%;
-  margin: auto;
+export const ServiceContainer = styled(Container)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 5%;
+  padding: 0 5%;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    padding: 0;
+    gap: 30px;
+  }
+  @media screen and (max-width: 576px) {
+    padding: 0 16px;
+    gap: 20px;
+  }
 `;
 
 export const ServiceLeft = styled.div`
-  width: 40%;
-  height: 350px;
+  width: 50%;
+  height: 40vw;
+  max-height: 350px;
   position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    height: 50vw;
+  }
 `;
 
 export const ServiceRight = styled.div`
-  width: 55%;
+  width: 50%;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
-export const ServiceTitle = styled.h2`
-  font-size: 44px;
-  font-weight: 800;
+export const ServiceTitle = styled(ProductTitle)`
+  text-transform: capitalize;
+  text-align: left;
   margin-bottom: 20px;
-  text-transform: uppercase;
+  @media screen and (max-width: 1199px) {
+    font-size: 40px;
+  }
+  @media screen and (max-width: 991px) {
+    font-size: 34px;
+  }
+  @media screen and (max-width: 767px) {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
 `;
 
 export const ServiceDesc = styled.p`
-  margin-bottom: 30px;
+  color: ${color.fh};
+  margin-bottom: 40px;
+  line-height: 22px;
+  @media screen and (max-width: 767px) {
+    margin-bottom: 20px;
+    font-size: 12px;
+    line-height: 16px;
+  }
 `;
 
 export const BtnService = styled(ButttonGetPartner)``;

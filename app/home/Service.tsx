@@ -28,7 +28,8 @@ const Service = () => {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
             impedit obcaecati tenetur, aut, facere, nihil aliquid consequatur
             eaque corporis dicta quas. Nostrum, accusamus veritatis quia sed et
-            tempore culpa recusandae!
+            tempore culpa recusandae!. Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Magni impedit.
           </ServiceDesc>
           <BtnService>Service</BtnService>
         </ServiceRight>

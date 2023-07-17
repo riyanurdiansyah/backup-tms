@@ -14,8 +14,8 @@ export default function Home() {
       <Hero />
       <GetPartner />
       <Product />
-      {/* <Service />
-      <Value />
+      <Service />
+      {/* <Value />
       <MyPartner />
       <Testimony />
       <ButtonHome /> */}
