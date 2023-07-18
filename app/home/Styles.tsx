@@ -271,12 +271,10 @@ export const ValueWrapper = styled.div`
 
 export const ValueContainer = styled(Container)`
   width: 100%;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   @media screen and (min-width: 1000px) {
-    align-items: flex-start;
     max-width: 1000px;
   }
   @media screen and (max-width: 767px) {
@@ -286,6 +284,7 @@ export const ValueContainer = styled(Container)`
 
 export const ValueTitle = styled(ProductTitle)`
   margin-bottom: 20px;
+  text-align: center;
   @media screen and (max-width: 767px) {
     text-align: left;
   }
