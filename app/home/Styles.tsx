@@ -263,47 +263,75 @@ export const BtnService = styled(ButttonGetPartner)``;
 export const ValueWrapper = styled.div`
   width: 100%;
   margin-top: 20px;
-  padding-bottom: 120px;
+  padding-bottom: 100px;
+  @media screen and (max-width: 767px) {
+    padding-bottom: 80px;
+  }
 `;
 
-export const ValueContainer = styled.div`
-  width: 80%;
-  max-width: 1000px;
-  margin: auto;
+export const ValueContainer = styled(Container)`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 767px) {
+    align-items: flex-start;
+  }
 `;
 
-export const ValueTitle = styled.h2`
-  font-size: 44px;
-  font-weight: 800;
+export const ValueTitle = styled(ProductTitle)`
   margin-bottom: 20px;
+  @media screen and (max-width: 767px) {
+    text-align: left;
+  }
 `;
 
 export const ValueDesc = styled.p`
   text-align: center;
   margin-bottom: 40px;
+  @media screen and (max-width: 767px) {
+    text-align: left;
+    margin-bottom: 30px;
+  }
 `;
 
 export const ListValue = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 16px;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 12px;
+  }
 `;
 
 export const CardValue = styled.div`
-  flex-basis: calc(100% / 5);
+  width: calc((100% - (16px * 4)) / 5);
+  min-width: 140px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 767px) {
+    flex-direction: row;
+    gap: 16px;
+    width: 100%;
+    padding: 16px;
+    border: 1.5px solid ${color.border};
+    border-radius: 6px;
+  }
 `;
 
 export const CardValueTitle = styled.p`
   text-align: center;
   text-transform: uppercase;
-  font-size: 14px;
   margin-top: 15px;
+  @media screen and (max-width: 767px) {
+    margin: 0;
+  }
 `;
 
 // MY PARTNER

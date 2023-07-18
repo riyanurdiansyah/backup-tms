@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   CardValue,
@@ -8,13 +9,40 @@ import {
   ValueTitle,
   ValueWrapper,
 } from "./Styles";
-import ImgValue1 from "./assets/img-value-1.png";
-import ImgValue2 from "./assets/img-value-2.png";
+import ImgValue1 from "./assets/img-value-1.jpg";
+import ImgValue2 from "./assets/img-value-2.jpg";
+import ImgValue3 from "./assets/img-value-3.jpg";
+import ImgValue4 from "./assets/img-value-4.jpg";
+import ImgValue5 from "./assets/img-value-5.jpg";
 import Image from "next/image";
+import useDimensiLayar from "@/utils/useDimensiLayar";
 
-const sizeImgValue = 120;
+const listValue = [
+  {
+    name: "Growth Seeker",
+    icon: ImgValue1,
+  },
+  {
+    name: "Robust Fighting Spirit",
+    icon: ImgValue2,
+  },
+  {
+    name: "Exceptional Customer Focus",
+    icon: ImgValue3,
+  },
+  {
+    name: "Agile Intrapreneurship",
+    icon: ImgValue4,
+  },
+  {
+    name: "Trusworthy",
+    icon: ImgValue5,
+  },
+];
 
 const Value = () => {
+  const [lebarLayar] = useDimensiLayar();
+
   return (
     <ValueWrapper>
       <ValueContainer>
@@ -29,26 +57,22 @@ const Value = () => {
           repellendus earum reiciendis quos assumenda laborum. Sint, facilis?
         </ValueDesc>
         <ListValue>
-          <CardValue>
-            <Image src={ImgValue1} alt="" width={sizeImgValue} />
-            <CardValueTitle>Growth Seeker</CardValueTitle>
-          </CardValue>
-          <CardValue>
-            <Image src={ImgValue2} alt="" width={sizeImgValue} />
-            <CardValueTitle>Robust Fighting Spirit</CardValueTitle>
-          </CardValue>
-          <CardValue>
-            <Image src={ImgValue1} alt="" width={sizeImgValue} />
-            <CardValueTitle>Exceptional Customer Focus</CardValueTitle>
-          </CardValue>
-          <CardValue>
-            <Image src={ImgValue2} alt="" width={sizeImgValue} />
-            <CardValueTitle>Agile Intrapreneurship</CardValueTitle>
-          </CardValue>
-          <CardValue>
-            <Image src={ImgValue1} alt="" width={sizeImgValue} />
-            <CardValueTitle>Trusworthy</CardValueTitle>
-          </CardValue>
+          {listValue?.map((item: any, index: number) => (
+            <CardValue key={index}>
+              <Image
+                src={item?.icon}
+                alt=""
+                layout="responsive"
+                objectFit="contain"
+                // width={sizeImgValue}
+                style={{
+                  borderRadius: "50%",
+                  maxWidth: lebarLayar < 768 ? "50px" : "130px",
+                }}
+              />
+              <CardValueTitle>{item?.name}</CardValueTitle>
+            </CardValue>
+          ))}
         </ListValue>
       </ValueContainer>
     </ValueWrapper>
