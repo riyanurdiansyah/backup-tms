@@ -51,15 +51,15 @@ h1,h2,h3,h4,h5,h6 {
   color: ${color.fh};
 }
 
-h1{
+h2{
   font-size: 44px;
   line-height: 56px;
 }
-h2{
+h3{
   font-size: 36px;
   line-height: 48px;
 }
-h3{
+h4{
   font-size: 24px;
   line-height: 36px;
 }
@@ -70,15 +70,15 @@ p{
 }
 
 @media screen and (max-width: 767px) {
-  h1{
+  h2{
     font-size: 36px;
     line-height: 48px;
   }
-  h2{
+  h3{
     font-size: 32px;
     line-height: 44px;
   }
-  h3{
+  h4{
     font-size: 20px;
     line-height: 28px;
   }
@@ -147,9 +147,10 @@ export const Btn = styled.button`
   gap: 6px;
   white-space: nowrap;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 16px;
+  line-height: normal;
   font-family: "Montserrat", sans-serif;
-  font-weight: 700;
+  font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
   border: none;
@@ -157,6 +158,7 @@ export const Btn = styled.button`
   background: ${color.main};
   color: #fff;
   transition: all 1s;
+  padding: 11px 24px;
   &:hover {
     transition: all 0.3s ease-out;
     background: #d10000;

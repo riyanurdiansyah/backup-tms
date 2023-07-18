@@ -33,7 +33,7 @@ export const GetPartnerContainer = styled(Container)`
 
 export const GetPartnerLeft = styled.div`
   width: 60%;
-  @media screen and (max-width: 576px) {
+  @media screen and (max-width: 767px) {
     display: none;
   }
 `;
@@ -50,11 +50,8 @@ export const GetPartnerRight = styled.div`
     min-width: 320px;
   }
   @media screen and (max-width: 767px) {
-    min-width: 250px;
-  }
-  @media screen and (max-width: 576px) {
     width: 100%;
-    align-items: center;
+    align-items: flex-start;
   }
 `;
 
@@ -62,42 +59,22 @@ export const GetPartnerTitle = styled.h2`
   width: 100%;
   text-align: right;
   font-family: ${font.heading};
-  font-size: 48px;
   font-weight: 500;
   margin-bottom: 30px;
-  @media screen and (max-width: 1199px) {
-    font-size: 40px;
-  }
-  @media screen and (max-width: 991px) {
-    font-size: 34px;
-  }
   @media screen and (max-width: 767px) {
-    font-size: 24px;
-    line-height: 34px;
     margin-bottom: 20px;
-  }
-  @media screen and (max-width: 576px) {
-    text-align: center;
-    align-items: center;
+    text-align: left;
+    align-items: flex-start;
   }
 `;
 
 export const ButttonGetPartner = styled(Btn)`
   background: red;
   color: #fff;
-  padding: 14px 28px;
-  font-size: 18px;
-  @media screen and (max-width: 991px) {
-    padding: 12px 24px;
-    font-size: 16px;
-  }
+  font-weight: 600;
+  border-radius: 6px;
   @media screen and (max-width: 767px) {
-    padding: 8px 16px;
-    font-size: 14px;
-    border-radius: 6px;
-  }
-  @media screen and (max-width: 576px) {
-    font-size: 12px;
+    border-radius: 4px;
   }
 `;
 
@@ -115,21 +92,10 @@ export const ProductContainer = styled(Container)``;
 export const ProductTitle = styled.h2`
   font-family: ${font.heading};
   text-align: center;
-  font-size: 44px;
   font-weight: 800;
   margin-bottom: 60px;
-  @media screen and (max-width: 1199px) {
-    font-size: 40px;
-    margin-bottom: 50px;
-  }
-  @media screen and (max-width: 991px) {
-    font-size: 34px;
-    margin-bottom: 40px;
-  }
   @media screen and (max-width: 767px) {
-    font-size: 24px;
-    line-height: 34px;
-    margin-bottom: 25px;
+    margin-bottom: 35px;
   }
 `;
 
@@ -212,15 +178,10 @@ export const ImgBG = styled.div<IProps>`
   border-radius: 8px;
 `;
 
-export const TitleCardProduct = styled.p`
+export const TitleCardProduct = styled.h4`
   text-align: center;
-  font-size: 24px;
   font-weight: 700;
-  color: ${color.fh};
   margin-top: 16px;
-  @media screen and (max-width: 767px) {
-    font-size: 14px;
-  }
 `;
 
 // SERVICE
@@ -247,13 +208,12 @@ export const ServiceContainer = styled(Container)`
   gap: 5%;
   padding: 0 5%;
   @media screen and (max-width: 767px) {
-    flex-direction: column;
+    flex-direction: column-reverse;
     padding: 0;
-    gap: 30px;
+    gap: 45px;
   }
   @media screen and (max-width: 576px) {
     padding: 0 16px;
-    gap: 20px;
   }
 `;
 
@@ -274,10 +234,10 @@ export const ServiceRight = styled.div`
   width: 50%;
   @media screen and (max-width: 767px) {
     width: 100%;
-    text-align: center;
+    text-align: left;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
   }
 `;
 
@@ -285,27 +245,15 @@ export const ServiceTitle = styled(ProductTitle)`
   text-transform: capitalize;
   text-align: left;
   margin-bottom: 20px;
-  @media screen and (max-width: 1199px) {
-    font-size: 40px;
-  }
-  @media screen and (max-width: 991px) {
-    font-size: 34px;
-  }
   @media screen and (max-width: 767px) {
-    font-size: 24px;
-    text-align: center;
-    margin-bottom: 10px;
   }
 `;
 
 export const ServiceDesc = styled.p`
   color: ${color.fh};
-  margin-bottom: 40px;
-  line-height: 22px;
+  margin-bottom: 30px;
   @media screen and (max-width: 767px) {
     margin-bottom: 20px;
-    font-size: 12px;
-    line-height: 16px;
   }
 `;
 

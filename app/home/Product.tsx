@@ -23,7 +23,6 @@ const Product = () => {
     <ProductWrapper>
       <ProductContainer>
         <ProductTitle>Our Products</ProductTitle>
-        <h1>Product</h1>
         <ListProduct>
           <Flickity
             className={"carousel-list-product"}
@@ -31,7 +30,7 @@ const Product = () => {
               cellAlign: "left",
               contain: true,
               groupCells: true,
-              pageDots: true,
+              pageDots: false,
               draggable: true,
             }}
           >
