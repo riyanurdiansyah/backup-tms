@@ -271,9 +271,14 @@ export const ValueWrapper = styled.div`
 
 export const ValueContainer = styled(Container)`
   width: 100%;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (min-width: 1000px) {
+    align-items: flex-start;
+    max-width: 1000px;
+  }
   @media screen and (max-width: 767px) {
     align-items: flex-start;
   }
@@ -379,30 +384,22 @@ export const ListMyPartner = styled.div`
 // TESTIMONY
 export const TestimonyWrapper = styled.div`
   width: 100%;
-  background: linear-gradient(264deg, #727272 0%, #e5d4d4 100%);
+  background: linear-gradient(0deg, #2b2b2b 0%, #ffffff 100%);
+  margin-bottom: -100px;
 `;
 
-export const TestimonyContainer = styled.div`
+export const TestimonyContainer = styled(Container)`
   padding: 100px 0;
-  width: 80%;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @media screen and (max-width: 576px) {
+    padding: 100px 16px;
+  }
 `;
 
-export const TestimonyTitle = styled.h2`
-  font-size: 44px;
-  font-weight: 800;
-  margin-bottom: 60px;
+export const TestimonyTitle = styled(ProductTitle)`
   text-align: center;
 `;
 
-export const ListTestimony = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
+export const ListTestimony = styled(ListProduct)`
   margin-bottom: 40px;
 `;
 
@@ -443,6 +440,13 @@ export const CardLine = styled.hr`
   margin: 15px 0;
 `;
 
+export const InfoContact = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const CardUserName = styled.p`
   color: #dedede;
   text-align: center;
@@ -452,8 +456,7 @@ export const CardUserName = styled.p`
 
 export const TestimonyDesc = styled.p`
   color: #fff;
-  font-size: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 `;
 
 export const Btntestimony = styled(ButttonGetPartner)``;

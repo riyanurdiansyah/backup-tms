@@ -16,9 +16,9 @@ export default function Home() {
       <Product />
       <Service />
       <Value />
-      {/* <MyPartner />
+      {/* <MyPartner /> */}
       <Testimony />
-      <ButtonHome /> */}
+      {/* <ButtonHome /> */}
     </main>
   );
 }
