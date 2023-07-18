@@ -140,7 +140,6 @@ export const CardProduct = styled.div`
   cursor: pointer;
   filter: grayscale(100%);
   transition: all 0.5s;
-  min-width: 328px;
   width: calc((100% - 40px) / 3);
   margin-right: 20px;
   &:last-child {
@@ -150,6 +149,12 @@ export const CardProduct = styled.div`
     font-weight: 700;
     filter: grayscale(0);
   }
+  @media screen and (max-width: 991px) {
+    width: calc((100% - 20px) / 2);
+  }
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 export const HeadCardProduct = styled.div`
@@ -158,12 +163,12 @@ export const HeadCardProduct = styled.div`
   display: flex;
   justify-content: center;
   overflow: hidden;
-  @media screen and (max-width: 991px) {
+  /* @media screen and (max-width: 991px) {
     height: 300px;
   }
   @media screen and (max-width: 767px) {
     height: 250px;
-  }
+  } */
 `;
 
 export const ImgBG = styled.div<IProps>`
