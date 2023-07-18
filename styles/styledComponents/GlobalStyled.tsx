@@ -17,8 +17,6 @@ export const font = {
 
 export const GlobalStyle = createGlobalStyle`
 
-
-
 *{
     box-sizing: border-box;
     margin: 0;
@@ -34,8 +32,9 @@ body{
     overflow-x: hidden;
 }
 
-p{
+a{
   color: ${color.fr};
+  text-decoration: none;
 }
 
 input{
@@ -52,10 +51,45 @@ h1,h2,h3,h4,h5,h6 {
   color: ${color.fh};
 }
 
-a{
-  color: ${color.fr};
-  text-decoration: none;
+h1{
+  font-size: 44px;
+  line-height: 56px;
 }
+h2{
+  font-size: 36px;
+  line-height: 48px;
+}
+h3{
+  font-size: 24px;
+  line-height: 36px;
+}
+p{
+  color: ${color.fr};
+  font-size: 16px;
+  line-height: 28px;
+}
+
+@media screen and (max-width: 767px) {
+  h1{
+    font-size: 36px;
+    line-height: 48px;
+  }
+  h2{
+    font-size: 32px;
+    line-height: 44px;
+  }
+  h3{
+    font-size: 20px;
+    line-height: 28px;
+  }
+  p{
+    color: ${color.fr};
+    font-size: 16px;
+    line-height: 28px;
+  }
+}
+
+
 `;
 
 export const FullContainer = styled.section`

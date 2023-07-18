@@ -23,6 +23,7 @@ const Product = () => {
     <ProductWrapper>
       <ProductContainer>
         <ProductTitle>Our Products</ProductTitle>
+        <h1>Product</h1>
         <ListProduct>
           <Flickity
             className={"carousel-list-product"}
