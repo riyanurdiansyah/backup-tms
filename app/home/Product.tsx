@@ -12,6 +12,7 @@ import {
 } from "./Styles";
 import ImageCar1 from "./assets/img-car-1.png";
 import ImageCar2 from "./assets/img-car-2.png";
+import ImageCar3 from "./assets/img-car-3.png";
 import Image from "next/image";
 import BgCardProduct1 from "./assets/bg-product-1.jpg";
 import BgCardProduct2 from "./assets/bg-product-2.jpg";
@@ -37,7 +38,7 @@ const Product = () => {
             <CardProduct>
               <HeadCardProduct>
                 <Image
-                  src={ImageCar2}
+                  src={ImageCar1}
                   alt=""
                   layout="responsive"
                   objectFit="contain"
@@ -54,7 +55,7 @@ const Product = () => {
             <CardProduct>
               <HeadCardProduct>
                 <Image
-                  src={ImageCar1}
+                  src={ImageCar2}
                   alt=""
                   layout="responsive"
                   objectFit="contain"
@@ -71,7 +72,7 @@ const Product = () => {
             <CardProduct>
               <HeadCardProduct>
                 <Image
-                  src={ImageCar2}
+                  src={ImageCar3}
                   alt=""
                   layout="responsive"
                   objectFit="contain"

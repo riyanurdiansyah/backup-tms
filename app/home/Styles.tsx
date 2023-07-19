@@ -7,6 +7,7 @@ import {
   font,
 } from "../../styles/styledComponents/GlobalStyled";
 import ImgBgPartner from "./assets/img-bg-partner.jpeg";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 export interface IProps {
   source: any;
@@ -154,6 +155,9 @@ export const CardProduct = styled.div`
   }
   @media screen and (max-width: 767px) {
     width: 100%;
+    &.is-selected {
+      filter: grayscale(0);
+    }
   }
 `;
 
@@ -365,24 +369,32 @@ export const MyPartnerWrapper = styled.div`
   }
 `;
 
-export const MyPartnerContainer = styled.div`
-  padding: 100px 0 120px 0;
-  width: 80%;
-  margin: auto;
+export const MyPartnerContainer = styled(Container)`
+  padding: 100px 0;
+  @media screen and (max-width: 767px) {
+    padding: 80px 16px;
+  }
 `;
 
-export const MyPartnerTitle = styled.h2`
-  font-size: 44px;
-  font-weight: 800;
-  margin-bottom: 60px;
+export const MyPartnerTitle = styled(ProductTitle)`
   text-align: center;
 `;
 
 export const ListMyPartner = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 90px;
+`;
+
+export const ItemMyPartner = styled.div`
+  width: calc(100% / 4);
+  @media screen and (max-width: 767px) {
+    max-height: 35vw;
+    width: calc(100% / 2);
+    display: flex;
+    align-items: center;
+  }
 `;
 
 // TESTIMONY
@@ -395,7 +407,7 @@ export const TestimonyWrapper = styled.div`
 export const TestimonyContainer = styled(Container)`
   padding: 100px 0;
   @media screen and (max-width: 576px) {
-    padding: 100px 16px;
+    padding: 80px 16px;
   }
 `;
 
@@ -461,6 +473,11 @@ export const CardUserName = styled.p`
 export const TestimonyDesc = styled.p`
   color: #fff;
   margin-bottom: 20px;
+  text-align: center;
 `;
 
 export const Btntestimony = styled(ButttonGetPartner)``;
+
+export const IconArrowRight = styled(MdOutlineKeyboardArrowRight)`
+  font-size: 22px;
+`;
