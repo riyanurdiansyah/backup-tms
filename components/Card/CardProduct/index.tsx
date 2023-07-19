@@ -1,9 +1,5 @@
 "use client";
 import React, { FC } from "react";
-
-import { BiTime } from "react-icons/bi";
-import { GoDotFill } from "react-icons/go";
-import { MdWorkOutline } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import {
   BodyCard,

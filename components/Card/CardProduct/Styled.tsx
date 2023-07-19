@@ -1,6 +1,5 @@
 import { Btn, color } from "@/styles/styledComponents/GlobalStyled";
 import { styled } from "styled-components";
-import ImgBrandTms from "./logo-tms.webp";
 
 export const Card = styled.div`
   display: flex;
