@@ -106,9 +106,9 @@ export const NavbarMobileWrapper = styled(Container)<INavbarMobileWrapper>`
   background-color: #fff;
   height: 100vh;
   top: 0;
-  padding-top: calc(30px + 16px + 16px);
+  padding-top: calc(30px + 16px + 16px + 16px);
   position: fixed;
-  transition: 1s all;
+  transition: 0.5s all;
   left: ${(props) => (props.isShow ? "0" : "100vw")};
   z-index: 9;
   overflow: scroll;
