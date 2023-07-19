@@ -4,6 +4,13 @@ import Link from "next/link";
 import { styled } from "styled-components";
 import { CgMenuGridO } from "react-icons/cg";
 
+interface INavbarMobileWrapper {
+  isShow: boolean;
+}
+interface ILMMenu {
+  isShow: boolean;
+}
+
 export const HeaderWrapper = styled.header`
   width: 100%;
   padding: 16px 0;
@@ -11,7 +18,7 @@ export const HeaderWrapper = styled.header`
   background-color: #fff;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 10;
 `;
 
 export const HeaderContainer = styled(Container)`
@@ -83,6 +90,7 @@ export const ToggleMenu = styled.div`
   display: none;
   @media screen and (max-width: 766px) {
     display: block;
+    cursor: pointer;
   }
 `;
 
@@ -90,4 +98,49 @@ export const IconToggle = styled(CgMenuGridO)`
   width: 30px;
   height: 30px;
   color: ${color.main};
+`;
+
+// NAVBAR MOBILE
+export const NavbarMobileWrapper = styled(Container)<INavbarMobileWrapper>`
+  padding: 16px;
+  background-color: #fff;
+  height: calc(100vh - (30px + 16px + 16px));
+  top: calc(30px + 16px + 16px);
+  position: absolute;
+  transition: 1s all;
+  left: ${(props) => (props.isShow ? "0" : "100vw")};
+
+  z-index: 9;
+`;
+
+export const MListNavbar = styled.ul``;
+
+export const MItemNavbar = styled.li``;
+
+export const LMMenu = styled(Link)`
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 5px;
+`;
+
+export const MListDropdown = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 30px;
+`;
+
+export const MItemDropdown = styled.div``;
+
+export const MLMMenuDropdown = styled(Link)`
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 5px;
 `;

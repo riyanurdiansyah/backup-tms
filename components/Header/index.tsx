@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { FC, useState } from "react";
 import LogoColab from "./logo-colab.png";
 import LogoBrand from "./logo-brand.png";
 import Link from "next/link";
@@ -12,18 +12,27 @@ import {
   HeaderWrapper,
   IconToggle,
   ItemNavbar,
+  LMMenu,
   LMenu,
   ListNavbar,
+  MItemDropdown,
+  MItemNavbar,
+  MLMMenuDropdown,
+  MListDropdown,
+  MListNavbar,
   Navbar,
+  NavbarMobileWrapper,
   ToggleMenu,
 } from "./Styles";
 import Hover from "../Hover";
 import DropdownMenu from "../Hover/DropdownMenu";
 import { FaSortDown } from "react-icons/fa";
+import { FaSortUp } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
 const Header = () => {
   const route = useRouter();
+  const [isShowNavbarMobile, setIsShowNavbarMobile] = useState(false);
 
   const handleClickDropdown = (e: any) => {
     if (e == "/part-catalogue") {
@@ -42,103 +51,178 @@ const Header = () => {
   };
 
   return (
-    <HeaderWrapper>
-      <HeaderContainer>
-        <HeaderLogoColab>
-          <Link href="/">
-            <Image src={LogoColab} alt={""} height={30} />
-          </Link>
-        </HeaderLogoColab>
-        <Navbar>
-          <ListNavbar>
-            <ItemNavbar>
-              <LMenu href="/products">Products</LMenu>
-            </ItemNavbar>
-            <ItemNavbar>
-              <Hover
-                paddingTop={20}
-                topHover={30}
-                kananHover="auto"
-                kiriHover={0}
-                onHover={
-                  <DropdownMenu
-                    dataMenu={listMenuResources}
-                    handleClickDropdown={handleClickDropdown}
-                  />
-                }
-              >
-                <LMenu href="">
-                  Resources <FaSortDown style={{ marginTop: "-3px" }} />
-                </LMenu>
-              </Hover>
-            </ItemNavbar>
-            <ItemNavbar>
-              <LMenu href="/warranty-and-ksg">Service</LMenu>
-            </ItemNavbar>
-            <ItemNavbar>
-              <Hover
-                paddingTop={20}
-                topHover={30}
-                kananHover="auto"
-                kiriHover={0}
-                onHover={
-                  <DropdownMenu
-                    dataMenu={ListMenuContact}
-                    handleClickDropdown={handleClickDropdown}
-                  />
-                }
-              >
-                <LMenu href="">
-                  Contact
-                  <FaSortDown style={{ marginTop: "-3px" }} />
-                </LMenu>
-              </Hover>
-            </ItemNavbar>
-            <ItemNavbar>
-              <LMenu href="/career">Career</LMenu>
-            </ItemNavbar>
-          </ListNavbar>
-        </Navbar>
-        <HeaderLogoBrand>
-          <Link href="/" className="flex justify-end">
-            <Image src={LogoBrand} alt={""} height={30} />
-          </Link>
-        </HeaderLogoBrand>
-        <ToggleMenu>
-          <IconToggle />
-        </ToggleMenu>
-      </HeaderContainer>
-    </HeaderWrapper>
+    <>
+      <HeaderWrapper>
+        <HeaderContainer>
+          <HeaderLogoColab>
+            <Link href="/">
+              <Image src={LogoColab} alt={""} height={30} />
+            </Link>
+          </HeaderLogoColab>
+          <Navbar>
+            <ListNavbar>
+              {listMenu?.map((parent: any, index: number) =>
+                parent?.child?.length > 0 ? (
+                  <ItemNavbar key={index}>
+                    <Hover
+                      paddingTop={20}
+                      topHover={30}
+                      kananHover="auto"
+                      kiriHover={0}
+                      onHover={
+                        <DropdownMenu
+                          dataMenu={parent?.child}
+                          handleClickDropdown={handleClickDropdown}
+                        />
+                      }
+                    >
+                      <LMenu href={parent?.url}>
+                        {parent?.name}{" "}
+                        <FaSortDown style={{ marginTop: "-3px" }} />
+                      </LMenu>
+                    </Hover>
+                  </ItemNavbar>
+                ) : (
+                  <ItemNavbar key={index}>
+                    <LMenu href={parent?.url}>{parent?.name}</LMenu>
+                  </ItemNavbar>
+                )
+              )}
+            </ListNavbar>
+          </Navbar>
+          <HeaderLogoBrand>
+            <Link href="/" className="flex justify-end">
+              <Image src={LogoBrand} alt={""} height={30} />
+            </Link>
+          </HeaderLogoBrand>
+          <ToggleMenu
+            onClick={() => setIsShowNavbarMobile(!isShowNavbarMobile)}
+          >
+            <IconToggle />
+          </ToggleMenu>
+        </HeaderContainer>
+      </HeaderWrapper>
+      <NavbarMobile
+        isShow={isShowNavbarMobile}
+        setIsShow={setIsShowNavbarMobile}
+      />
+    </>
   );
 };
 
-export const listMenuResources = [
-  {
-    name: "Owners Manual Book",
-    url: "/owners-manual",
-  },
-  {
-    name: "Warranty & KSG",
-    url: "/warranty-and-ksg",
-  },
-  {
-    name: "Part Catalogue",
-    url: "/part-catalogue",
-  },
-  {
-    name: "Owning & Operation Cost",
-    url: "/owning-and-operation-cost",
-  },
-];
+const NavbarMobile: FC<INavbarMobile> = ({ isShow, setIsShow }) => {
+  const [activeIndices, setActiveIndices] = useState<any>([]);
 
-export const ListMenuContact = [
+  const toggleAnswer = (index: any) => {
+    if (activeIndices.includes(index)) {
+      setActiveIndices(activeIndices.filter((i: any) => i !== index));
+    } else {
+      setActiveIndices([...activeIndices, index]);
+    }
+  };
+
+  const handleClickMenu = async (index: number, menuDropdown: boolean) => {
+    if (!menuDropdown) {
+      await setIsShow(false);
+    } else {
+      await toggleAnswer(index);
+    }
+  };
+  return (
+    <NavbarMobileWrapper isShow={isShow}>
+      <MListNavbar>
+        {listMenu?.map((parent: any, index: number) => (
+          <MItemNavbar key={index}>
+            <LMMenu
+              href={parent?.url}
+              onClick={() => handleClickMenu(index, parent?.child?.length > 0)}
+              // active={activeIndices.includes(index) ? true : false}
+            >
+              {parent?.name}
+              {parent?.child?.length > 0 &&
+                (activeIndices.includes(index) ? (
+                  <FaSortUp style={{ marginTop: "3px" }} />
+                ) : (
+                  <FaSortDown style={{ marginTop: "-3px" }} />
+                ))}
+            </LMMenu>
+            {parent?.child?.length > 0 &&
+              activeIndices.includes(index) &&
+              parent?.child?.map((child: any, index: number) => (
+                <MListDropdown>
+                  <MItemDropdown>
+                    <MLMMenuDropdown
+                      href={child?.url}
+                      onClick={() => handleClickMenu(index, false)}
+                    >
+                      {child?.name}
+                    </MLMMenuDropdown>
+                  </MItemDropdown>
+                </MListDropdown>
+              ))}
+          </MItemNavbar>
+        ))}
+      </MListNavbar>
+    </NavbarMobileWrapper>
+  );
+};
+
+interface INavbarMobile {
+  isShow: boolean;
+  setIsShow: (e: boolean) => void;
+}
+
+const listMenu = [
   {
-    name: "TMS Izusu Network",
-    url: "/tms-isuzu-network",
+    name: "Products",
+    url: "/products",
+    child: [],
   },
   {
-    name: "Customer Service",
-    url: "/customer-service",
+    name: "Resources",
+    url: "",
+    child: [
+      {
+        name: "Owners Manual Book",
+        url: "/owners-manual",
+      },
+      {
+        name: "Warranty & KSG",
+        url: "/warranty-and-ksg",
+      },
+      {
+        name: "Part Catalogue",
+        url: "/part-catalogue",
+      },
+      {
+        name: "Owning & Operation Cost",
+        url: "/owning-and-operation-cost",
+      },
+    ],
+  },
+  {
+    name: "Service",
+    url: "/warranty-and-ksg",
+    child: [],
+  },
+  {
+    name: "Contact",
+    url: "",
+    child: [
+      {
+        name: "TMS Izusu Network",
+        url: "/tms-isuzu-network",
+      },
+      {
+        name: "Customer Service",
+        url: "/customer-service",
+      },
+    ],
+  },
+  {
+    name: "Career",
+    url: "/career",
+    child: [],
   },
 ];
 
