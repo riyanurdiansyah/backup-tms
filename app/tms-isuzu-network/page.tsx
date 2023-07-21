@@ -1,28 +1,49 @@
+"use client";
 import HeroBanner from "@/components/HeroBanner";
-import React from "react";
-import { BodyNetwork, Left, Right } from "./Styled";
+import React, { useState } from "react";
+import { BodyNetwork, Left, ListNetwork, Right, Title, Togle } from "./Styled";
 import CardNetwork from "@/components/Card/CardNetwork";
 import Image from "next/image";
 import ImgMap from "./img-map.png";
+import { RiArrowRightSFill, RiArrowLeftSFill } from "react-icons/ri";
 
 const TmsIsuzuNetworkPage = () => {
+  const [isShow, setIsShow] = useState(false);
   return (
     <div className="tms-isuzu-network-page-wrapper">
       <HeroBanner title={"TMS Isuzu Network"} />
       <BodyNetwork>
-        <Left>
-          {dummyNetwork?.map((item: any, index: number) => (
-            <CardNetwork
-              name={item?.properties?.name}
-              jenis={item?.properties?.jenis}
-              address={item?.properties?.address}
-              phone={item?.properties?.phone}
-            />
-          ))}
+        <Left isShow={isShow}>
+          <Title>Lokasi Kami</Title>
+          <ListNetwork>
+            {dummyNetwork?.map((item: any, index: number) => (
+              <CardNetwork
+                name={item?.properties?.name}
+                jenis={item?.properties?.jenis}
+                address={item?.properties?.address}
+                phone={item?.properties?.phone}
+              />
+            ))}
+          </ListNetwork>
         </Left>
         <Right>
-          <Image src={ImgMap} alt="" layout="responsive" objectFit="cover" />
+          <Image src={ImgMap} alt="" layout="fill" objectFit="cover" />
         </Right>
+        <Togle onClick={() => setIsShow(!isShow)}>
+          {isShow ? (
+            <RiArrowLeftSFill
+              size={34}
+              color={"#fff"}
+              style={{ marginRight: "-3px" }}
+            />
+          ) : (
+            <RiArrowRightSFill
+              size={34}
+              color={"#fff"}
+              style={{ marginLeft: "-3px" }}
+            />
+          )}
+        </Togle>
       </BodyNetwork>
     </div>
   );
