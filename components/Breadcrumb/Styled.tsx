@@ -3,6 +3,7 @@ import {
   Container,
   FullContainer,
   color,
+  font,
 } from "@/styles/styledComponents/GlobalStyled";
 import { styled } from "styled-components";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
@@ -22,6 +23,10 @@ export const ListBreadcrumb = styled.ul`
   font-size: 14px;
   font-weight: 600;
   gap: 4px;
+  &.admin {
+    font-family: ${font.admin};
+    text-transform: capitalize;
+  }
 `;
 
 export const IconArrow = styled(MdOutlineKeyboardArrowRight)`
@@ -32,5 +37,10 @@ export const ItemBreadcrumb = styled.li`
   cursor: pointer;
   &:hover {
     color: ${color.main};
+  }
+  &.admin {
+    &:hover {
+      color: ${color.fr};
+    }
   }
 `;
