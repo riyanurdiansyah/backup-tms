@@ -100,11 +100,11 @@ const MenuAdmin = [
     child: [
       {
         nameChild: "TMS Isuzu Network",
-        url: "/admin/contact/tms-isuzu-network",
+        url: "/admin/contacts/tms-isuzu-network",
       },
       {
         nameChild: "Social Media",
-        url: "/admin/contact/social-media",
+        url: "/admin/contacts/social-media",
       },
     ],
   },
@@ -113,7 +113,7 @@ const MenuAdmin = [
     child: [
       {
         nameChild: "Career",
-        url: "/admin/contact/career",
+        url: "/admin/others/career",
       },
     ],
   },
