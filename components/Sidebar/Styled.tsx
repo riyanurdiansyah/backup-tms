@@ -69,4 +69,11 @@ export const LMenuChild = styled(Link)`
   position: relative;
   cursor: pointer;
   padding: 0.75rem 2rem;
+  transition: all 0.2s;
+  &:hover {
+    background: rgb(246, 249, 252);
+  }
+  &.active {
+    font-weight: 700;
+  }
 `;

@@ -20,7 +20,10 @@ import ImgAvatarAdmin from "./img-avatar-admin.jpg";
 
 const Topbar = () => {
   const pathname = usePathname();
-  const dataArray = pathname.split("/").filter((item) => item !== "");
+  const dataArray = pathname
+    .split("/")
+    .filter((item) => item !== "")
+    .map((item) => item.replace(/-/g, " "));
 
   return (
     <TopbarWrapper>
