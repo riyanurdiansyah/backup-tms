@@ -52,7 +52,7 @@ const Header = () => {
     }
   };
 
-  if (pathname == "/admin") {
+  if (pathname.startsWith("/admin")) {
     return <></>;
   }
   return (

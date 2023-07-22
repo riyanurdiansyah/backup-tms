@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   ChildItemMenu,
@@ -12,12 +14,30 @@ import {
 } from "./Styled";
 import LogoColab from "./logo-colab.png";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 
 const Sidebar = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const menuActive = (selected: any) => {
+    if (pathname == selected) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <SidebarLayout>
       <SidebarHeader>
-        <Image src={LogoColab} alt="" layout="responsive" objectFit="contain" />
+        <Image
+          src={LogoColab}
+          alt=""
+          layout="responsive"
+          objectFit="contain"
+          onClick={() => router.push("/admin")}
+        />
       </SidebarHeader>
       <MenuContainer>
         <ParentListMenu>
@@ -27,7 +47,10 @@ const Sidebar = () => {
               <ChildMenuList>
                 {parent?.child?.map((child: any, index: number) => (
                   <ChildItemMenu key={index}>
-                    <LMenuChild href={child?.url}>
+                    <LMenuChild
+                      href={child?.url}
+                      className={`${menuActive(child?.url) && "active"}`}
+                    >
                       {child?.nameChild}
                     </LMenuChild>
                   </ChildItemMenu>
@@ -46,12 +69,12 @@ const MenuAdmin = [
     nameParent: "Products",
     child: [
       {
-        nameChild: "Cars",
-        url: "",
+        nameChild: "Vehicle",
+        url: "/admin/products/vehicle",
       },
       {
         nameChild: "Detail",
-        url: "",
+        url: "/admin/products/detail",
       },
     ],
   },
@@ -60,28 +83,28 @@ const MenuAdmin = [
     child: [
       {
         nameChild: "Owners Manual Book",
-        url: "",
+        url: "/admin/service-and-tools/owners-manual-book",
       },
       {
         nameChild: "Warranty & KSG",
-        url: "",
+        url: "/admin/service-and-tools/warranty-and-ksg",
       },
       {
         nameChild: "Brochure",
-        url: "",
+        url: "/admin/service-and-tools/brochure",
       },
     ],
   },
   {
-    nameParent: "Contact Us",
+    nameParent: "Contacts",
     child: [
       {
         nameChild: "TMS Isuzu Network",
-        url: "",
+        url: "/admin/contact/tms-isuzu-network",
       },
       {
         nameChild: "Social Media",
-        url: "",
+        url: "/admin/contact/social-media",
       },
     ],
   },
@@ -90,11 +113,7 @@ const MenuAdmin = [
     child: [
       {
         nameChild: "Career",
-        url: "",
-      },
-      {
-        nameChild: "Social Media",
-        url: "",
+        url: "/admin/contact/career",
       },
     ],
   },
