@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import LogColab from "./logo-colab.png";
 import Image from "next/image";
@@ -25,8 +26,14 @@ import {
 import { FaFacebookF, FaTwitter, FaYoutube } from "react-icons/fa";
 import { TbMailFilled } from "react-icons/tb";
 import { AiFillInstagram } from "react-icons/ai";
+import { usePathname } from "next/navigation";
 
 const Footer = () => {
+  const pathname = usePathname();
+
+  if (pathname == "/admin") {
+    return <></>;
+  }
   return (
     <Foo>
       <FooterContainer>

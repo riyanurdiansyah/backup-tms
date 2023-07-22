@@ -29,9 +29,11 @@ import DropdownMenu from "../Hover/DropdownMenu";
 import { FaSortDown } from "react-icons/fa";
 import { FaSortUp } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const route = useRouter();
+  const pathname = usePathname();
   const [isShowNavbarMobile, setIsShowNavbarMobile] = useState(false);
 
   const handleClickDropdown = (e: any) => {
@@ -50,6 +52,9 @@ const Header = () => {
     }
   };
 
+  if (pathname == "/admin") {
+    return <></>;
+  }
   return (
     <>
       <HeaderWrapper>

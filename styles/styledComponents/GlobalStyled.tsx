@@ -13,6 +13,7 @@ export const color = {
 export const font = {
   heading: "'Montserrat', sans-serif",
   reguler: "'Source Sans Pro', sans-serif",
+  admin: "'Poppins', sans-serif",
 };
 
 export const GlobalStyle = createGlobalStyle`
@@ -163,4 +164,13 @@ export const Btn = styled.button`
     transition: all 0.3s ease-out;
     background: #d10000;
   }
+`;
+
+export const CardAdmin = styled.div`
+  background: #ffffff;
+  border: 1px solid #dfe7ef;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0px 4px 30px rgba(221, 224, 255, 0.54);
+  border-radius: 12px;
 `;

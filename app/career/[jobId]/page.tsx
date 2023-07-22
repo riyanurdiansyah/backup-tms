@@ -18,8 +18,6 @@ import { MdWorkOutline } from "react-icons/md";
 import BreadcrumbFull from "@/components/Breadcrumb/BreadcrumbFull";
 
 const JobDetail: FC<IJobDetail> = ({ params: { jobId } }) => {
-  console.log(jobId);
-
   const dataBreadcrumb = ["career", `${jobId}`];
 
   const data = {
