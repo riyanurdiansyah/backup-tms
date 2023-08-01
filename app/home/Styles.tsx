@@ -6,7 +6,7 @@ import {
   color,
   font,
 } from "../../styles/styledComponents/GlobalStyled";
-import ImgBgPartner from "./assets/img-bg-partner.jpeg";
+import ImgBgPartner from "./assets/img-bg-partner.png";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 export interface IProps {
@@ -367,7 +367,6 @@ export const MyPartnerWrapper = styled.div`
     z-index: -1;
     left: 0;
     top: 0;
-    opacity: 0.2;
     background-image: url(${ImgBgPartner.src});
     background-repeat: no-repeat;
     background-size: cover;
