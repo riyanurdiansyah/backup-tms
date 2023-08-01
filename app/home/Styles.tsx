@@ -80,8 +80,11 @@ export const ButttonGetPartner = styled(Btn)`
   color: #fff;
   font-weight: 600;
   border-radius: 6px;
+  padding: 15px 34px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   @media screen and (max-width: 767px) {
     border-radius: 4px;
+    padding: 11px 24px;
   }
 `;
 

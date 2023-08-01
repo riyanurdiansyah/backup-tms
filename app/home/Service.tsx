@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   BtnService,
@@ -9,8 +10,10 @@ import {
   ServiceWrapper,
 } from "./Styles";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Service = () => {
+  const route = useRouter();
   return (
     <ServiceWrapper>
       <ServiceContainer>
@@ -31,7 +34,9 @@ const Service = () => {
             tempore culpa recusandae!. Lorem ipsum dolor sit amet consectetur
             adipisicing elit. Magni impedit.
           </ServiceDesc>
-          <BtnService>Service</BtnService>
+          <BtnService onClick={() => route.push("/warranty-and-ksg")}>
+            Service
+          </BtnService>
         </ServiceRight>
       </ServiceContainer>
     </ServiceWrapper>

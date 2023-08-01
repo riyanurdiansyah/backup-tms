@@ -47,7 +47,16 @@ const Testimony = () => {
           <TestimonyDesc>
             Segera hubungi kami untuk mendapatkan partner bisnis Anda
           </TestimonyDesc>
-          <Btntestimony>Hubungi Kami</Btntestimony>
+          <Btntestimony
+            onClick={() =>
+              window.open(
+                "https://wa.me/6281326017533?text=Hallo TMS Isuzu, Saya ingin bertanya.",
+                "_blank"
+              )
+            }
+          >
+            Hubungi Kami
+          </Btntestimony>
         </InfoContact>
       </TestimonyContainer>
     </TestimonyWrapper>

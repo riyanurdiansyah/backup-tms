@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   ButttonGetPartner,
@@ -8,8 +10,10 @@ import {
 } from "./Styles";
 import Image from "next/image";
 import ImageCarGroup from "./assets/img-car-group.png";
+import { useRouter } from "next/navigation";
 
 const GetPartner = () => {
+  const route = useRouter();
   return (
     <GetPartnerContainer>
       <GetPartnerLeft>
@@ -24,7 +28,9 @@ const GetPartner = () => {
         <GetPartnerTitle>
           Your Partner <br /> for <strong>Your Business</strong>
         </GetPartnerTitle>
-        <ButttonGetPartner>Get Partner</ButttonGetPartner>
+        <ButttonGetPartner onClick={() => route.push("/products")}>
+          Get Partner
+        </ButttonGetPartner>
       </GetPartnerRight>
     </GetPartnerContainer>
   );
