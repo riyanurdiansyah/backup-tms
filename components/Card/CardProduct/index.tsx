@@ -20,6 +20,7 @@ import Image from "next/image";
 const CardProduct: FC<ICardJob> = ({
   id,
   name,
+  slug,
   type,
   gwv,
   cabin_to_end,
@@ -64,7 +65,9 @@ const CardProduct: FC<ICardJob> = ({
         </ListInfoDetail>
       </BodyCard>
       <FooterCard>
-        <BtnDetail>Info Detail</BtnDetail>
+        <BtnDetail onClick={() => router.push(`/products/${slug}`)}>
+          Info Detail
+        </BtnDetail>
       </FooterCard>
     </Card>
   );
@@ -73,6 +76,7 @@ const CardProduct: FC<ICardJob> = ({
 interface ICardJob {
   id: number;
   name: string;
+  slug: string;
   type: string;
   gwv: number;
   cabin_to_end: number;

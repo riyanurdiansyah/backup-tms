@@ -74,6 +74,7 @@ const ProductPage = () => {
               <CardProduct
                 id={item.id || index}
                 name={item.name}
+                slug={item.slug}
                 type={item.type}
                 gwv={item.gwv}
                 cabin_to_end={item.cabin_to_end}
@@ -92,6 +93,7 @@ const vehicleDummy = [
   {
     id: 1,
     name: "GIGA FVZ N HP",
+    slug: "giga-fvz-n-hp",
     type: "Medium Truck",
     gwv: 26000,
     cabin_to_end: 6545,
@@ -99,8 +101,9 @@ const vehicleDummy = [
     max_torque: 90,
   },
   {
-    id: 1,
+    id: 2,
     name: "GIGA FVZ N HP",
+    slug: "giga-fvz-n-hp",
     type: "Medium Truck",
     gwv: 26000,
     cabin_to_end: 6545,
@@ -108,8 +111,9 @@ const vehicleDummy = [
     max_torque: 90,
   },
   {
-    id: 1,
+    id: 3,
     name: "GIGA FVZ N HP",
+    slug: "giga-fvz-n-hp",
     type: "Medium Truck",
     gwv: 26000,
     cabin_to_end: 6545,
@@ -117,8 +121,9 @@ const vehicleDummy = [
     max_torque: 90,
   },
   {
-    id: 1,
+    id: 4,
     name: "GIGA FVZ N HP",
+    slug: "giga-fvz-n-hp",
     type: "Medium Truck",
     gwv: 26000,
     cabin_to_end: 6545,
@@ -126,8 +131,9 @@ const vehicleDummy = [
     max_torque: 90,
   },
   {
-    id: 1,
+    id: 5,
     name: "GIGA FVZ N HP",
+    slug: "giga-fvz-n-hp",
     type: "Medium Truck",
     gwv: 26000,
     cabin_to_end: 6545,
@@ -135,8 +141,9 @@ const vehicleDummy = [
     max_torque: 90,
   },
   {
-    id: 1,
+    id: 6,
     name: "GIGA FVZ N HP",
+    slug: "giga-fvz-n-hp",
     type: "Medium Truck",
     gwv: 26000,
     cabin_to_end: 6545,
@@ -144,8 +151,9 @@ const vehicleDummy = [
     max_torque: 90,
   },
   {
-    id: 1,
+    id: 7,
     name: "GIGA FVZ N HP",
+    slug: "giga-fvz-n-hp",
     type: "Medium Truck",
     gwv: 26000,
     cabin_to_end: 6545,
@@ -153,8 +161,9 @@ const vehicleDummy = [
     max_torque: 90,
   },
   {
-    id: 1,
+    id: 8,
     name: "GIGA FVZ N HP",
+    slug: "giga-fvz-n-hp",
     type: "Medium Truck",
     gwv: 26000,
     cabin_to_end: 6545,

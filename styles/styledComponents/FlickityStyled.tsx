@@ -1,5 +1,6 @@
 "use client";
 import { createGlobalStyle } from "styled-components";
+import { color } from "./GlobalStyled";
 
 export const FlickityStyle = createGlobalStyle`
     /*! Flickity v2.3.0
@@ -148,5 +149,9 @@ https://flickity.metafizzy.co
 
 .flickity-page-dots .dot.is-selected {
   opacity: 1;
+  width: 25px;
+  border-radius: 15px;
+  background: ${color.main};
+    
 }
 `;
