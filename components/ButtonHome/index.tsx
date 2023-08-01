@@ -33,7 +33,7 @@ const ButtonHome = () => {
           </ItemMenuHome>
           <ItemMenuHome onClick={() => route.push("/text-drive")}>
             <TbTruckDelivery size={sizeIconMenu} />
-            Test Drive
+            Booking Service
           </ItemMenuHome>
           <ItemMenuHome onClick={() => route.push("/simulation-credit")}>
             <AiOutlineCalculator size={sizeIconMenu} />
