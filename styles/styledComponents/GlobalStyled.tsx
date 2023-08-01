@@ -18,6 +18,8 @@ export const font = {
 
 export const GlobalStyle = createGlobalStyle`
 
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
+
 *{
     box-sizing: border-box;
     margin: 0;
@@ -36,6 +38,13 @@ body{
 a{
   color: ${color.fr};
   text-decoration: none;
+}
+
+label{
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
 }
 
 input{

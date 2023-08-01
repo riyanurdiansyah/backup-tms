@@ -4,11 +4,15 @@ import BtnDelete from "@/components/Buttons/BtnDelete";
 import BtnEdit from "@/components/Buttons/BtnEdit";
 import TableLayout from "@/components/TableLayout";
 import { CardAdmin } from "@/styles/styledComponents/GlobalStyled";
-import React from "react";
+import React, { useState } from "react";
 import { BoxAction } from "./Styled";
 import Image from "next/image";
+import { Dialog } from "primereact/dialog";
+import CreateDialog from "./CreateDialog";
 
 const BrochureContent = () => {
+  const [visible, setVisible] = useState(false);
+
   const imageBodyTemplate = (rowData: any) => {
     return (
       <Image
@@ -48,14 +52,25 @@ const BrochureContent = () => {
   const globalFilterFields = ["title", "thumbnail", "linkBrochure"];
 
   return (
-    <CardAdmin>
-      <TableLayout
-        data={brochureDummy}
-        columns={columns}
-        globalFilterFields={globalFilterFields}
-        withSearchBar={true}
-      />
-    </CardAdmin>
+    <>
+      <CardAdmin>
+        <TableLayout
+          data={brochureDummy}
+          columns={columns}
+          globalFilterFields={globalFilterFields}
+          withSearchBar={true}
+          setVisible={setVisible}
+        />
+      </CardAdmin>
+      <Dialog
+        header="Add New Brochure"
+        visible={visible}
+        style={{ width: "30vw" }}
+        onHide={() => setVisible(false)}
+      >
+        <CreateDialog />
+      </Dialog>
+    </>
   );
 };
 

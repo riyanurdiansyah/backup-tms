@@ -4,7 +4,7 @@ import { HeroWrapper } from "./Styles";
 import Flickity from "react-flickity-component";
 import Image from "next/image";
 
-import ImageSleder1 from "./assets/img-slider1.webp";
+import ImageSleder1 from "./assets/img-slider1.png";
 
 const Hero = () => {
   return (
