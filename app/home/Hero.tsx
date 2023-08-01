@@ -4,32 +4,31 @@ import { HeroWrapper } from "./Styles";
 import Flickity from "react-flickity-component";
 import Image from "next/image";
 
-import ImageSleder1 from "./assets/img-slider1.png";
+import ImageSleder1 from "./assets/img-slider-1.png";
+import ImageSleder2 from "./assets/img-slider-2.png";
 
 const Hero = () => {
   return (
     <HeroWrapper>
       <Flickity
-        className={"carousel"}
+        className={"carousel-list-hero"}
         options={{
           autoPlay: true,
+          pageDots: true,
+          draggable: true,
         }}
       >
         <Image
           src={ImageSleder1}
           alt=""
+          loading="lazy"
           layout="responsive"
           objectFit="contain"
         />
         <Image
-          src={ImageSleder1}
+          src={ImageSleder2}
           alt=""
-          layout="responsive"
-          objectFit="contain"
-        />
-        <Image
-          src={ImageSleder1}
-          alt=""
+          loading="lazy"
           layout="responsive"
           objectFit="contain"
         />

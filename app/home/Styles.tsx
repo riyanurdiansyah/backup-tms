@@ -19,6 +19,12 @@ export const HeroWrapper = styled.div`
   margin: auto;
   overflow: hidden;
   position: relative;
+  .flickity-button {
+    display: none;
+  }
+  .flickity-page-dots {
+    bottom: 10%;
+  }
 `;
 
 // GET PARTNER
