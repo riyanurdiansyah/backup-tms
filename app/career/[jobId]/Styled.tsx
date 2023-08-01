@@ -1,7 +1,6 @@
 "use client";
 import { Btn, Container, color } from "@/styles/styledComponents/GlobalStyled";
 import { styled } from "styled-components";
-import ImgBrandTms from "@/public/logo-tms.webp";
 
 export const HeadContent = styled(Container)`
   display: flex;
@@ -15,10 +14,10 @@ export const CardImgBrand = styled.div`
   height: 80px;
   border-radius: 8px;
   border: 2px solid ${color.border};
-  background: url(${ImgBrandTms.src});
+  background: url("/logo-tms.png");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
 `;
 
 export const HeadBody = styled.div`

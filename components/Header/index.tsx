@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import React, { FC, useState } from "react";
-import LogoColab from "./logo-colab.png";
 import LogoBrand from "./logo-brand.png";
 import Link from "next/link";
 import {
@@ -61,7 +60,17 @@ const Header = () => {
         <HeaderContainer>
           <HeaderLogoColab>
             <Link href="/">
-              <Image src={LogoColab} alt={""} height={30} />
+              <Image
+                src="/logo-tms.png"
+                alt={""}
+                width="0"
+                height="0"
+                layout="responsive"
+                objectFit="contain"
+                style={{
+                  minHeight: "30px",
+                }}
+              />
             </Link>
           </HeaderLogoColab>
           <Navbar>
