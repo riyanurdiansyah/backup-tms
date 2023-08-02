@@ -14,6 +14,9 @@ export const BreadcrumbWrapper = styled(FullContainer)`
 
 export const ContainerBreadcrumb = styled(Container)`
   padding: 15px 0;
+  @media screen and (max-width: 576px) {
+    padding: 10px 16px;
+  }
 `;
 
 export const ListBreadcrumb = styled.ul`
