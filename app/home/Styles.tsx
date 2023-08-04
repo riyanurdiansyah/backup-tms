@@ -353,6 +353,7 @@ export const CardValueTitle = styled.p`
   margin-top: 15px;
   @media screen and (max-width: 767px) {
     margin: 0;
+    text-align: left;
   }
 `;
 

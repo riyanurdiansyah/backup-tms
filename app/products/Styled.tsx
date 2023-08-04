@@ -53,7 +53,7 @@ export const SearchInput = styled.input`
 export const DropdownFilterCategory = styled.div`
   width: 20%;
   @media screen and (max-width: 576px) {
-    width: calc((100% - 16px) / 2);
+    width: 100%;
   }
 `;
 

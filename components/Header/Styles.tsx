@@ -104,6 +104,7 @@ export const IconToggle = styled(CgMenuGridO)`
 export const NavbarMobileWrapper = styled(Container)<INavbarMobileWrapper>`
   padding: 16px;
   background-color: #fff;
+  min-width: 100vw;
   height: 100vh;
   top: 0;
   padding-top: calc(30px + 16px + 16px + 16px);
@@ -112,6 +113,10 @@ export const NavbarMobileWrapper = styled(Container)<INavbarMobileWrapper>`
   left: ${(props) => (props.isShow ? "0" : "100vw")};
   z-index: 9;
   overflow: scroll;
+  @media screen and (min-width: 767px) {
+    display: none;
+    left: 100vw;
+  }
 `;
 
 export const MListNavbar = styled.ul``;
