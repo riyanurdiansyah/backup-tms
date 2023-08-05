@@ -99,6 +99,20 @@ p{
   }
 }
 
+.p-checkbox-box {
+  &.p-highlight{
+    background-color: ${color.main} !important;
+    border-color: ${color.main} !important;
+ }
+ &.p-focus{
+  box-shadow: 0 0 0 0.2rem ${color.secondary} !important;
+  border-color: ${color.main} !important;
+ }
+ &:hover{
+  border-color: ${color.main} !important;
+ }
+}
+
 
 `;
 
