@@ -9,6 +9,6 @@ module.exports = {
     includePaths: [path.join(__dirname, "styles")],
   },
   images: {
-    domains: ["blog-media.lifepal.co.id"],
+    domains: ["blog-media.lifepal.co.id", "isuzu-astra.com"],
   },
 };

@@ -12,6 +12,55 @@ export const HeroContent = styled.div`
   height: auto;
 `;
 
+export const ListContentProduct = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
+  margin-bottom: 60px;
+`;
+
+export const ItemContentProduct = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 8%;
+  @media screen and (max-width: 991px) {
+    flex-direction: column !important;
+  }
+`;
+
+export const LeftItemContent = styled.div`
+  width: 50%;
+  height: fit-content;
+  /* height: 40vw;
+  max-height: 350px; */
+  position: relative;
+  overflow: hidden;
+  @media screen and (max-width: 991px) {
+    width: 100%;
+    /* height: 50vw; */
+    margin-bottom: 30px;
+  }
+`;
+export const RightItemContent = styled.div`
+  width: 50%;
+  h2 {
+    font-size: 21px !important;
+    line-height: normal !important;
+    margin-bottom: 20px;
+  }
+  p {
+    margin-bottom: 12px !important;
+    font-family: ${font.reguler} !important;
+    i {
+      font-size: 14px !important;
+    }
+  }
+
+  @media screen and (max-width: 991px) {
+    width: 100%;
+  }
+`;
+
 export const ButtonGroup = styled(Container)`
   display: flex;
   flex-wrap: wrap;
