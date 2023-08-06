@@ -1,5 +1,4 @@
 "use client";
-
 import BtnDelete from "@/components/Buttons/BtnDelete";
 import BtnEdit from "@/components/Buttons/BtnEdit";
 import TableLayout from "@/components/TableLayout";
