@@ -113,6 +113,14 @@ p{
  }
 }
 
+.p-button {
+  font-size: 14px !important;
+  font-family: ${font.admin} !important;
+  .p-button-label{
+    font-weight: 500 !important;
+  }
+}
+
 
 `;
 

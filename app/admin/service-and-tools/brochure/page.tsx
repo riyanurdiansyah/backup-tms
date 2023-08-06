@@ -68,7 +68,7 @@ const BrochureContent = () => {
         style={{ width: "30vw" }}
         onHide={() => setVisible(false)}
       >
-        <CreateDialog />
+        <CreateDialog setVisible={setVisible} />
       </Dialog>
     </>
   );
