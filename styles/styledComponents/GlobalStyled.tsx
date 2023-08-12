@@ -57,7 +57,7 @@ input{
 }
 
 h1,h2,h3,h4,h5,h6 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: ${font.heading};
   color: ${color.fh};
 }
 
@@ -74,6 +74,7 @@ h4{
   line-height: 36px;
 }
 p{
+  font-family: ${font.reguler};
   color: ${color.fr};
   font-size: 16px;
   line-height: 28px;
