@@ -104,7 +104,7 @@ const BookingServicePage = () => {
               <RowInput>
                 <LForm>Waktu Service</LForm>
                 <RowServiceTime>
-                  <DropdownFull style={{ width: "30%" }}>
+                  <DropdownFull className="time">
                     <Hover
                       paddingTop={5}
                       topHover={40}
@@ -191,7 +191,7 @@ const BookingServicePage = () => {
               <RowInput>
                 <LForm>Model & Tahun Kendaraan</LForm>
                 <RowDoubleInput>
-                  <DropdownFull style={{ width: "50%" }}>
+                  <DropdownFull className="model">
                     <Hover
                       paddingTop={5}
                       topHover={40}
@@ -212,12 +212,12 @@ const BookingServicePage = () => {
                       </DropdownName>
                     </Hover>
                   </DropdownFull>
-                  <DropdownFull style={{ width: "50%" }}>
+                  <DropdownFull className="tahun">
                     <Hover
                       paddingTop={5}
                       topHover={40}
                       kananHover={0}
-                      kiriHover={0}
+                      kiriHover={"auto"}
                       onHover={
                         <DropdownMenu
                           dataMenu={listOutlet}

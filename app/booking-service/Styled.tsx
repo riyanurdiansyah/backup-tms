@@ -10,6 +10,12 @@ import { styled } from "styled-components";
 export const ContainerBS = styled(Container)`
   max-width: 914px;
   margin-top: 80px;
+  @media screen and (max-width: 767px) {
+    padding: 0 16px;
+  }
+  @media screen and (max-width: 575px) {
+    margin-top: 40px;
+  }
 `;
 
 export const Title = styled.h2`
@@ -18,6 +24,10 @@ export const Title = styled.h2`
   margin-bottom: 15px;
   text-transform: uppercase;
   text-align: center;
+  @media screen and (max-width: 767px) {
+    font-size: 20px;
+    line-height: 28px;
+  }
 `;
 
 export const Subtitle = styled.p`
@@ -34,6 +44,10 @@ export const BoxBS = styled.div`
   border-radius: 20px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   margin: auto;
+  @media screen and (max-width: 575px) {
+    padding: 24px 16px;
+    border-radius: 15px;
+  }
 `;
 
 export const BoxTitle = styled.h3`
@@ -41,6 +55,11 @@ export const BoxTitle = styled.h3`
   line-height: normal;
   color: #ffffff;
   margin-bottom: 32px;
+  @media screen and (max-width: 767px) {
+    font-size: 20px;
+    line-height: 28px;
+    margin-bottom: 21px;
+  }
 `;
 
 export const CardBox = styled.div`
@@ -48,6 +67,9 @@ export const CardBox = styled.div`
   background: #f3f3f3;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   margin-bottom: 25px;
+  @media screen and (max-width: 575px) {
+    margin-bottom: 16px;
+  }
 `;
 
 export const CardHead = styled.div`
@@ -71,6 +93,10 @@ export const CardBody = styled.div`
 export const RowInput = styled.div`
   display: flex;
   align-items: center;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 export const LForm = styled.label`
@@ -78,6 +104,10 @@ export const LForm = styled.label`
   min-width: 200px;
   color: ${color.fr};
   font-family: ${font.reguler};
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    margin-bottom: 4px;
+  }
 `;
 
 export const IText = styled.input`
@@ -93,10 +123,16 @@ export const IText = styled.input`
     font-size: 14px;
     font-style: italic;
   }
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 export const DropdownFull = styled.div`
   width: 70%;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 export const DropdownName = styled.div`
@@ -126,6 +162,13 @@ export const RowDoubleInput = styled.div`
   display: flex;
   gap: 12px;
   width: 70%;
+  .model,
+  .tahun {
+    width: calc((100% - 12px) / 2);
+  }
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 export const RowDoubleRadioBtn = styled.div`
@@ -155,6 +198,20 @@ export const RowServiceTime = styled.div`
   display: flex;
   width: 70%;
   gap: 35px;
+  .time {
+    width: 30%;
+  }
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    margin-bottom: -5px;
+  }
+  @media screen and (max-width: 575px) {
+    flex-direction: column;
+    gap: 9px;
+    .time {
+      width: 100%;
+    }
+  }
 `;
 
 export const ColInputDate = styled.span`
@@ -162,6 +219,11 @@ export const ColInputDate = styled.span`
   align-items: center;
   gap: 10px;
   width: 100%;
+  @media screen and (max-width: 575px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
 `;
 
 export const IDate = styled.input`
@@ -183,6 +245,9 @@ export const InfoTimeService = styled.p`
   font-size: 10px;
   line-height: normal;
   font-style: italic;
+  @media screen and (max-width: 767px) {
+    margin-bottom: 10px;
+  }
 `;
 
 export const InfoAccept = styled.div`
@@ -214,6 +279,10 @@ export const BtnSubmit = styled(Btn)`
 export const TextFooter = styled(Subtitle)`
   margin-top: 60px;
   color: ${color.fh};
+  @media screen and (max-width: 575px) {
+    margin-top: 40px;
+    margin-bottom: 30px;
+  }
 `;
 
 export const LogoGroup = styled.div`
@@ -221,4 +290,7 @@ export const LogoGroup = styled.div`
   justify-content: center;
   gap: 2%;
   margin: auto;
+  @media screen and (max-width: 575px) {
+    gap: 0;
+  }
 `;
