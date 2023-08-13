@@ -1,5 +1,9 @@
 "use client";
-import { FullContainer, color } from "@/styles/styledComponents/GlobalStyled";
+import {
+  FullContainer,
+  color,
+  font,
+} from "@/styles/styledComponents/GlobalStyled";
 import { styled } from "styled-components";
 
 interface IProps {
@@ -76,5 +80,30 @@ export const Togle = styled.div`
   border-radius: 0 12px 12px 0;
   @media screen and (min-width: 992px) {
     display: none;
+  }
+`;
+
+export const PopupMarkerContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+export const TitleMarker = styled.p`
+  font-family: ${font.heading};
+  font-size: 14px;
+  font-weight: 700;
+  color: ${color.fh};
+`;
+
+export const TextMarker = styled.p`
+  font-size: 12px;
+  line-height: 18px;
+  &.btn-open-map {
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: underline;
+    color: ${color.main};
+    width: fit-content;
   }
 `;
