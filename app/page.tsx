@@ -6,7 +6,6 @@ import Product from "./home/Product";
 import Service from "./home/Service";
 import Testimony from "./home/Testimony";
 import Value from "./home/Value";
-import ButtonHome from "@/components/ButtonHome";
 
 export default function Home() {
   return (
@@ -18,7 +17,6 @@ export default function Home() {
       <Value />
       <MyPartner />
       <Testimony />
-      <ButtonHome />
     </main>
   );
 }
