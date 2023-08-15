@@ -19,7 +19,7 @@ import ImgMap from "./img-map.png";
 import { RiArrowRightSFill, RiArrowLeftSFill } from "react-icons/ri";
 import mapboxgl from "mapbox-gl";
 mapboxgl.accessToken =
-  "pk.eyJ1IjoiamFzb25rYXJpbSIsImEiOiJja3p4bGM5NXgwMmxlMndwN3V1dzRiZjFrIn0.KRF4ylE3EPgIdfJQmbCgSw";
+  "pk.eyJ1IjoiYXJpZm51cnJvaG1hbiIsImEiOiJjbGw5azIzZW4weWlqM3B0anMyMzZ2a3puIn0.2pPasYXM60HfzFcFt7LJKQ";
 
 const TmsIsuzuNetworkPage = () => {
   const [isShow, setIsShow] = useState(false);
