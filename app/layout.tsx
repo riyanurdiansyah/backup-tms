@@ -8,6 +8,7 @@ import StyledComponentsRegistry from "./registry";
 import { GlobalStyle } from "../styles/styledComponents/GlobalStyled";
 import { FlickityStyle } from "@/styles/styledComponents/FlickityStyled";
 import ButtonHome from "@/components/ButtonHome";
+import Providers from "./Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <StyledComponentsRegistry>
+        <Providers>
         <GlobalStyle />
         <FlickityStyle />
         <body className={inter.className}>
@@ -32,6 +34,7 @@ export default function RootLayout({
           <ButtonHome />
           <Footer />
         </body>
+        </Providers>
       </StyledComponentsRegistry>
     </html>
   );

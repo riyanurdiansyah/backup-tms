@@ -17,8 +17,10 @@ import { usePathname } from "next/navigation";
 import BreadcrumbAdmin from "../Breadcrumb/BreadcrumbAdmin";
 import Image from "next/image";
 import ImgAvatarAdmin from "./img-avatar-admin.jpg";
+import { signOut, useSession } from "next-auth/react";
 
 const Topbar = () => {
+  const { data: session } = useSession();
   const pathname = usePathname();
   const dataArray = pathname
     .split("/")
@@ -34,11 +36,11 @@ const Topbar = () => {
         <BreadcrumbAdmin data={dataArray} />
       </Left>
       <Right>
-        <BtnLogout>
+        <BtnLogout onClick={() => signOut()}>
           <IconLogout />
         </BtnLogout>
         <Profile>
-          <Name>Administrator</Name>
+          <Name>{session?.user?.data?.username}</Name>
           <Avatar>
             <Image
               src={ImgAvatarAdmin}

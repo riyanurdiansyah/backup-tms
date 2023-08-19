@@ -30,7 +30,7 @@ const ButtonHome = () => {
   }
 
   const route = useRouter();
-  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [showMenu, setShowMenu] = useState(false);
   const sizeIconMenu = 30;
   const sizeIconMenuPopup = 25;
 

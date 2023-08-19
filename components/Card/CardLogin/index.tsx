@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   BodyCard,
@@ -9,6 +9,7 @@ import {
   FormLogin,
   HeadCard,
   InfoError,
+  Invalid,
   LabelCheckbox,
   Remember,
   Subtitle,
@@ -18,6 +19,8 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { classNames } from "primereact/utils";
 import { Checkbox } from "primereact/checkbox";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type FormData = {
   username: string;
@@ -25,7 +28,11 @@ type FormData = {
 };
 
 const CardLogin: FC<ICardLogin> = ({}) => {
+  const router = useRouter();
+  const { data, status } = useSession();
   const [remember, setRemember] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const {
     handleSubmit,
@@ -33,10 +40,30 @@ const CardLogin: FC<ICardLogin> = ({}) => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    // Handle login logic here using data.username and data.password
+  const onSubmit = async (data: FormData) => {
+    setLoading(true);
+    try {
+      await signIn("credentials", {
+        username: data.username,
+        password: data.password,
+        redirect: false,
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
   };
+
+  useEffect(() => {
+    if (loading) {
+      if (data != null && status == "authenticated") {
+        router.push("/admin");
+        setLoading(false);
+      } else {
+        setLoading(false);
+        setError(true);
+      }
+    }
+  }, [loading, status]);
 
   return (
     <Card>
@@ -58,8 +85,11 @@ const CardLogin: FC<ICardLogin> = ({}) => {
                     id={field.name}
                     value={field.value}
                     className={classNames({ "p-invalid": fieldState.error })}
-                    onChange={(e) => field.onChange(e.target.value)}
-                    placeholder="Email"
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                      setError(false);
+                    }}
+                    placeholder="Username"
                     style={{ width: "100%" }}
                   />
                   <InfoError className="p-error">
@@ -82,7 +112,10 @@ const CardLogin: FC<ICardLogin> = ({}) => {
                     type="password"
                     value={field.value}
                     className={classNames({ "p-invalid": fieldState.error })}
-                    onChange={(e) => field.onChange(e.target.value)}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                      setError(false);
+                    }}
                     placeholder="Password"
                     style={{ width: "100%" }}
                   />
@@ -96,12 +129,21 @@ const CardLogin: FC<ICardLogin> = ({}) => {
           <Remember>
             <Checkbox
               inputId="remember"
-              onChange={() => setRemember(!remember)}
+              onChange={() => {
+                setRemember(!remember);
+                setError(false);
+              }}
               checked={remember}
             />
             <LabelCheckbox htmlFor="remember">Remember me</LabelCheckbox>
           </Remember>
-          <Button label="Log in" type="submit" severity="danger" />
+          {error && <Invalid>* Akun tidak valid</Invalid>}
+          <Button
+            label="Log in"
+            type="submit"
+            severity="danger"
+            loading={loading}
+          />
         </FormLogin>
       </BodyCard>
     </Card>
