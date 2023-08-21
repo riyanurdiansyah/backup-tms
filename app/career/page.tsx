@@ -19,6 +19,7 @@ import { FiSearch } from "react-icons/fi";
 import Hover from "@/components/Hover";
 import DropdownMenu from "@/components/Hover/DropdownMenu";
 import useDimensiLayar from "@/utils/useDimensiLayar";
+import { useFetchUmum } from "@/utils/useFetchData";
 
 const CareerPage = () => {
   const [lebarLayar] = useDimensiLayar();
@@ -63,6 +64,9 @@ const CareerPage = () => {
   const handleClickDropdown = (e: any) => {
     console.log("menu", e);
   };
+
+  const [jobsData, loadingJobsData] = useFetchUmum("/api/career");
+  console.log("jobsData", jobsData);
 
   return (
     <div className="career-page-wrapper">

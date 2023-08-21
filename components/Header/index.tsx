@@ -51,7 +51,7 @@ const Header = () => {
     }
   };
 
-  if (pathname.startsWith("/admin")) {
+  if (pathname.startsWith("/admin") || pathname.startsWith("/auth")) {
     return <></>;
   }
   return (

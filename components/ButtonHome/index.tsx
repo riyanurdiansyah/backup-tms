@@ -25,7 +25,7 @@ const ButtonHome = () => {
   const pathname = usePathname();
   const [lebarLayar] = useDimensiLayar();
 
-  if (pathname.startsWith("/admin")) {
+  if (pathname.startsWith("/admin")|| pathname.startsWith("/auth")) {
     return <></>;
   }
 

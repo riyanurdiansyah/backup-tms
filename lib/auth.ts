@@ -1,5 +1,6 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEN;
 
 export const authOptions: NextAuthOptions = {
   //   session: {
@@ -32,7 +33,6 @@ export const authOptions: NextAuthOptions = {
           if (data.code === 404) {
             throw new Error(data.message || "Username not found");
           }
-
           const user = data; // assuming the user data is in the response
           return user;
         } catch (error: any) {
@@ -42,7 +42,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/admin/login",
+    signIn: "/auth/login",
   },
   session: {
     strategy: "jwt",

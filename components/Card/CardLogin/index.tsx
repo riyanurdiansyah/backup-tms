@@ -1,5 +1,4 @@
 "use client";
-
 import React, { FC, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
@@ -20,7 +19,7 @@ import { Button } from "primereact/button";
 import { classNames } from "primereact/utils";
 import { Checkbox } from "primereact/checkbox";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 type FormData = {
   username: string;
@@ -28,7 +27,6 @@ type FormData = {
 };
 
 const CardLogin: FC<ICardLogin> = ({}) => {
-  const router = useRouter();
   const { data, status } = useSession();
   const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -43,11 +41,15 @@ const CardLogin: FC<ICardLogin> = ({}) => {
   const onSubmit = async (data: FormData) => {
     setLoading(true);
     try {
-      await signIn("credentials", {
+      const resp = await signIn("credentials", {
         username: data.username,
         password: data.password,
         redirect: false,
       });
+      if (resp && resp.error != null) {
+        setLoading(false);
+        setError(true);
+      }
     } catch (error) {
       console.log("error", error);
     }
@@ -55,15 +57,14 @@ const CardLogin: FC<ICardLogin> = ({}) => {
 
   useEffect(() => {
     if (loading) {
-      if (data != null && status == "authenticated") {
-        router.push("/admin");
-        setLoading(false);
+      if (data && data.user.code == 200) {
+        redirect("/admin");
       } else {
         setLoading(false);
         setError(true);
       }
     }
-  }, [loading, status]);
+  }, [data, status]);
 
   return (
     <Card>

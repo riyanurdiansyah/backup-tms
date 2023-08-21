@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "../styles/global.scss";
+import "primeicons/primeicons.css";
+import "primereact/resources/primereact.min.css"; //core css
+import "primereact/resources/themes/lara-light-indigo/theme.css"; //theme
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Inter } from "next/font/google";
 import Header from "@/components/Header";
@@ -26,14 +29,14 @@ export default function RootLayout({
     <html lang="en">
       <StyledComponentsRegistry>
         <Providers>
-        <GlobalStyle />
-        <FlickityStyle />
-        <body className={inter.className}>
-          <Header />
-          {children}
-          <ButtonHome />
-          <Footer />
-        </body>
+          <GlobalStyle />
+          <FlickityStyle />
+          <body className={inter.className}>
+            <Header />
+            {children}
+            <ButtonHome />
+            <Footer />
+          </body>
         </Providers>
       </StyledComponentsRegistry>
     </html>

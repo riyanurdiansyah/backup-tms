@@ -1,12 +1,28 @@
-"use client";
-import "primeicons/primeicons.css";
-import "primereact/resources/primereact.min.css"; //core css
-import "primereact/resources/themes/lara-light-indigo/theme.css"; //theme
+import Sidebar from "@/components/Sidebar";
+import { BodyWrapper, ContentWrapper, LayoutContainer } from "./Styled";
+import Topbar from "@/components/Topbar";
+import { redirect } from "next/navigation";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+import { ReactNode } from "react";
 
-export default function AdminLayout({
-  children, // will be a page or nested layout
-}: {
-  children: React.ReactNode;
-}) {
-  return <>{children}</>;
+interface Props {
+  children: ReactNode;
+}
+
+export default async function AdminLayout({ children }: Props) {
+  const session = await getServerSession(authOptions);
+  if (session?.user?.code != 200) redirect("/auth/login");
+  return (
+    <>
+      <LayoutContainer>
+        <Sidebar />
+        <p>session</p>
+        <ContentWrapper>
+          <Topbar />
+          <BodyWrapper>{children}</BodyWrapper>
+        </ContentWrapper>
+      </LayoutContainer>
+    </>
+  );
 }
