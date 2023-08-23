@@ -49,11 +49,11 @@ export function useFetchUmum<T = any>(
         reqMicroservices
       );
       if (cancelFetch) {
-        setLoading(false);
         return;
       }
       if (hasilFetch.success && hasilFetch.data) {
         setDataJSON(hasilFetch.data);
+        setLoading(false);
       } else {
         setEror({
           error: true,

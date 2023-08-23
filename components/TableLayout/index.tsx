@@ -8,9 +8,11 @@ import { FC, useState } from "react";
 import { FilterMatchMode } from "primereact/api";
 import { Button } from "primereact/button";
 import { HeaderTableLayoutContainer } from "./Styled";
+import { ProgressBar } from "primereact/progressbar";
 
 const TableLayout: FC<ITableLayout> = ({
   data,
+  loading,
   columns,
   globalFilterFields,
   withSearchBar = true,
@@ -65,6 +67,7 @@ const TableLayout: FC<ITableLayout> = ({
         sortable={col.sortable}
         body={col.body}
         className={`truncate`}
+        style={col.style}
       />
     );
   });
@@ -116,7 +119,7 @@ const TableLayout: FC<ITableLayout> = ({
             rows={10}
             globalFilterFields={globalFilterFields}
             header={renderHeader}
-            emptyMessage="Tidak ada data."
+            emptyMessage={loading ? "Loading..." : "Tidak ada data."}
             filters={filters}
             tableClassName="datatable-homepage"
           >
@@ -130,6 +133,7 @@ const TableLayout: FC<ITableLayout> = ({
 
 interface ITableLayout {
   data: any;
+  loading: boolean;
   columns: any;
   globalFilterFields: any;
   withSearchBar: boolean;
