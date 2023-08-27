@@ -1,17 +1,38 @@
 "use client";
 import TableLayout from "@/components/TableLayout";
 import { CardAdmin } from "@/styles/styledComponents/GlobalStyled";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BoxAction } from "./Styled";
 import BtnEdit from "@/components/Buttons/BtnEdit";
 import BtnDelete from "@/components/Buttons/BtnDelete";
 import { useFetchUmum } from "@/utils/useFetchData";
 import { Dialog } from "primereact/dialog";
 import CreateDialog from "./CreateDialog";
+import { Toast } from "primereact/toast";
 
 const OwnersManualBookContent = () => {
+  const toast = useRef<any>(null);
+  const [dataManualBook, setDataManualBook] = useState(null);
+  const [loading, setloading] = useState(true);
+
   const [manualBookData, loadingManualBookData] = useFetchUmum("/api/book");
   const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (manualBookData && !loadingManualBookData) {
+      setDataManualBook(manualBookData?.data);
+      setloading(false);
+    }
+  }, [manualBookData, loadingManualBookData]);
+
+  const showToast = (data: any) => {
+    toast.current.show({
+      severity: data.type,
+      summary: data.title,
+      detail: data.message,
+      life: 3000,
+    });
+  };
 
   const actionBodyTemplate = (rowData: any) => {
     return (
@@ -33,9 +54,10 @@ const OwnersManualBookContent = () => {
   return (
     <>
       <CardAdmin>
+        <Toast ref={toast} />
         <TableLayout
-          data={manualBookData?.data}
-          loading={loadingManualBookData}
+          data={dataManualBook}
+          loading={loading}
           columns={columns}
           globalFilterFields={globalFilterFields}
           withSearchBar={true}
@@ -47,7 +69,11 @@ const OwnersManualBookContent = () => {
           style={{ width: "30vw" }}
           onHide={() => setVisible(false)}
         >
-          <CreateDialog setVisible={setVisible} />
+          <CreateDialog
+            setVisible={setVisible}
+            setDataManualBook={setDataManualBook}
+            showToast={showToast}
+          />
         </Dialog>
       </CardAdmin>
     </>

@@ -117,6 +117,66 @@ export const fetchUmum = async (
   }
 };
 
+export function useFetchTrigger<T = any>(
+  // jenisApi: TJenisAPI,
+  link: string | null,
+  denganToken = false
+): any {
+  const [loading, setLoading] = useState(true);
+  const [token] = useToken();
+  const [error, setEror] = useState({
+    error: false,
+    responseCode: -1,
+    data: null,
+    message: "",
+  });
+
+  const cancelTokenSebelumnya = useRef<CancelTokenSource | null>(null);
+  const linkSebelumnya = useRef<string | null>(null);
+  let cancelFetch = false;
+  const cancelToken = axios.CancelToken.source();
+
+  const fetch = async () => {
+    const apiTerpilih = api_backend;
+    const linkKosong = link === null || link === undefined;
+    if (linkKosong) return null;
+
+    cancelTokenSebelumnya.current?.cancel();
+    const fetchData = async () => {
+      setLoading(true);
+      cancelTokenSebelumnya.current = cancelToken;
+
+      const hasilFetch = await fetchUmum(
+        apiTerpilih,
+        link,
+        denganToken,
+        token,
+        cancelToken
+      );
+      if (cancelFetch) {
+        setLoading(false);
+        return null;
+      }
+      if (hasilFetch.success && hasilFetch.data) {
+        return hasilFetch.data as T;
+      }
+      setEror({
+        error: true,
+        data: hasilFetch.data,
+        responseCode: hasilFetch.responseCode,
+        message: "",
+      });
+      linkSebelumnya.current = link;
+      setLoading(false);
+      return null;
+    };
+    const hasilFetch = await fetchData();
+    return hasilFetch;
+  };
+
+  return [fetch, loading, error];
+}
+
 export function usePostUmum<T = any>(
   // jenisApi: any,
   link: string | null,

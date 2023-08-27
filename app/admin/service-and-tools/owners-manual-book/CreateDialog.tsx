@@ -14,19 +14,26 @@ import { classNames } from "primereact/utils";
 import { Button } from "primereact/button";
 import axios from "axios";
 import useToken from "@/utils/useToken";
+import { useFetchTrigger } from "@/utils/useFetchData";
+const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 type FormData = {
   title: string;
   file: File | null;
 };
 
-const CreateDialog: FC<ICreateDialog> = ({ setVisible }) => {
+const CreateDialog: FC<ICreateDialog> = ({
+  setVisible,
+  setDataManualBook,
+  showToast,
+}) => {
+  const [fetchTriggerManualBook] = useFetchTrigger<any>("/api/book");
   const [token] = useToken();
   const {
     handleSubmit,
     control,
     formState: { errors },
-    setValue, // Import setValue from react-hook-form
+    setValue,
   } = useForm<FormData>();
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,33 +42,42 @@ const CreateDialog: FC<ICreateDialog> = ({ setVisible }) => {
   };
 
   const onSubmit = async (data: FormData) => {
-    console.log(data);
     try {
       const formData = new FormData();
       formData.append("nama", data.title);
-      formData.append("file", data.file as File); // Pastikan data.file tidak null
+      formData.append("file", data.file as File);
 
-      const headers = {
-        "Content-Type": "multipart/form-data",
-        Authorization: token,
-      };
-
-      const response = await axios.post(
-        "http://174.138.27.68/api/book",
-        formData,
-        {
-          headers: headers,
-        }
-      );
+      const response = await axios.post(`${api_backend}/api/book`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: token,
+        },
+      });
 
       if (response.status === 201) {
-        console.log("Data uploaded successfully");
+        const fetchDataNew = await fetchTriggerManualBook();
+        await setDataManualBook(fetchDataNew?.data);
+        await showToast({
+          type: "success",
+          title: "Success",
+          message: "Berhasil Menambahkan Data",
+        });
         setVisible(false);
       } else {
-        console.error("Error uploading data to API");
+        await showToast({
+          type: "error",
+          title: "Error",
+          message: "Gagal Menambahkan Data",
+        });
+        setVisible(false);
       }
     } catch (error) {
-      console.error("Error:", error);
+      await showToast({
+        type: "error",
+        title: "Error",
+        message: "Gagal Menambahkan Data",
+      });
+      setVisible(false);
     }
 
     // Handle login logic here using data.title, data.link, and uploadedFiles
@@ -166,5 +182,14 @@ const CreateDialog: FC<ICreateDialog> = ({ setVisible }) => {
 
 interface ICreateDialog {
   setVisible: (e: boolean) => void;
+  setDataManualBook: (e: any) => void;
+  showToast: (data: ToastData) => void;
 }
+
+interface ToastData {
+  type: "success" | "error" | "info";
+  title: string;
+  message: string;
+}
+
 export default CreateDialog;
