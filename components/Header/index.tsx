@@ -216,7 +216,7 @@ const listMenu = [
   },
   {
     name: "Service",
-    url: "/warranty-and-ksg",
+    url: "/booking-service",
     child: [],
   },
   {
