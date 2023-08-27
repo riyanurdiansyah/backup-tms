@@ -1,4 +1,10 @@
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import {
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import axios, { CancelTokenSource } from "axios";
 import useIntersectionObserver from "./useIntersectionObserver";
 import useToken from "./useToken";
@@ -95,7 +101,6 @@ export const fetchUmum = async (
           : {},
       cancelToken: reqCancelToken.token,
     });
-    console.log(response, apiTerpilih, link);
     return {
       success: true,
       message: response?.data?.data?.message || "Error tidak diketahui",
@@ -107,6 +112,91 @@ export const fetchUmum = async (
       success: false,
       message: "Error tidak diketahui",
       data: null,
+      responseCode: 400,
+    };
+  }
+};
+
+export function usePostUmum<T = any>(
+  // jenisApi: any,
+  link: string | null,
+  denganToken = true
+): any {
+  const [loading, setLoading] = useState(true);
+  const [token] = useToken();
+
+  const cancelTokenSebelumnya = useRef<CancelTokenSource | null>(null);
+  const cancelToken = useRef(axios.CancelToken.source());
+
+  const linkSebelumnya = useRef<string | null>(null);
+
+  const post = useCallback(
+    async (dataPost: any) => {
+      const batalkan = {
+        success: false,
+        message: "link kosong",
+        data: null,
+        postedData: dataPost,
+        responseCode: 499,
+      } as any;
+      const apiTerpilih = api_backend;
+      const linkKosong = link === null || link === undefined;
+      if (linkKosong) return batalkan;
+      setLoading(true);
+      cancelTokenSebelumnya.current?.cancel();
+      cancelTokenSebelumnya.current = cancelToken.current;
+      cancelToken.current = axios.CancelToken.source();
+      const hasilFetch = await postUmum(
+        apiTerpilih,
+        dataPost,
+        link,
+        denganToken,
+        token,
+        cancelToken.current
+      );
+      linkSebelumnya.current = link;
+      setLoading(false);
+      return hasilFetch.data;
+    },
+    [link, token]
+  );
+
+  return [post, loading, cancelToken.current];
+}
+
+export const postUmum = async (
+  apiTerpilih: string | undefined,
+  postedData: any,
+  link: string,
+  denganToken: boolean,
+  token: string | null,
+  reqCancelToken: any
+) => {
+  try {
+    const response = await axios.post(`${apiTerpilih}${link}`, postedData, {
+      headers:
+        denganToken && token
+          ? {
+              Authorization: token,
+              "Access-Control-Allow-Origin": "*",
+              "Content-Type": "application/json",
+            }
+          : {},
+      cancelToken: reqCancelToken.token,
+    });
+    return {
+      success: true,
+      message: null,
+      data: response.data,
+      postedData: postedData,
+      responseCode: response.status,
+    };
+  } catch (e) {
+    return {
+      success: false,
+      message: JSON.stringify(e),
+      data: null,
+      postedData: postedData,
       responseCode: 400,
     };
   }
