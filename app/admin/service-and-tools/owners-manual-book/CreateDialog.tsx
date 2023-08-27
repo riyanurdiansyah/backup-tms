@@ -12,21 +12,58 @@ import { InputText } from "primereact/inputtext";
 import { Controller, useForm } from "react-hook-form";
 import { classNames } from "primereact/utils";
 import { Button } from "primereact/button";
+import axios from "axios";
+import useToken from "@/utils/useToken";
 
 type FormData = {
   title: string;
-  link: string;
+  file: File | null;
 };
 
 const CreateDialog: FC<ICreateDialog> = ({ setVisible }) => {
+  const [token] = useToken();
   const {
     handleSubmit,
     control,
     formState: { errors },
+    setValue, // Import setValue from react-hook-form
   } = useForm<FormData>();
 
-  const onSubmit = (data: FormData) => {
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    return file || null;
+  };
+
+  const onSubmit = async (data: FormData) => {
     console.log(data);
+    try {
+      const formData = new FormData();
+      formData.append("nama", data.title);
+      formData.append("file", data.file as File); // Pastikan data.file tidak null
+
+      const headers = {
+        "Content-Type": "multipart/form-data",
+        Authorization: token,
+      };
+
+      const response = await axios.post(
+        "http://174.138.27.68/api/book",
+        formData,
+        {
+          headers: headers,
+        }
+      );
+
+      if (response.status === 201) {
+        console.log("Data uploaded successfully");
+        setVisible(false);
+      } else {
+        console.error("Error uploading data to API");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
     // Handle login logic here using data.title, data.link, and uploadedFiles
   };
 
@@ -85,25 +122,20 @@ const CreateDialog: FC<ICreateDialog> = ({ setVisible }) => {
           )}
         />
         <Controller
-          name="link"
+          name="file"
           control={control}
-          rules={{ required: "Link File is required." }}
-          render={({ field, fieldState }) => (
-            <>
-              <FormGroup>
-                <label htmlFor="link">Link File</label>
-                <InputText
-                  id={field.name}
-                  value={field.value}
-                  className={classNames({ "p-invalid": fieldState.error })}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  style={{ width: "100%" }}
-                />
-                <InfoError className="p-error">
-                  {errors?.link?.message}
-                </InfoError>
-              </FormGroup>
-            </>
+          render={({ field }) => (
+            <FormGroup>
+              <label htmlFor="file">File</label>
+              <input
+                type="file"
+                name="file"
+                onChange={(e) => {
+                  const newFile = handleFileUpload(e);
+                  setValue("file", newFile);
+                }}
+              />
+            </FormGroup>
           )}
         />
 
