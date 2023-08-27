@@ -7,7 +7,7 @@ import BtnEdit from "@/components/Buttons/BtnEdit";
 import BtnDelete from "@/components/Buttons/BtnDelete";
 import { useFetchUmum } from "@/utils/useFetchData";
 import { Dialog } from "primereact/dialog";
-// import CreateDialog from "./CreateDialog";
+import CreateDialog from "./CreateDialog";
 import { Toast } from "primereact/toast";
 
 const TmsIsuzuNetworkContent = () => {
@@ -65,7 +65,7 @@ const TmsIsuzuNetworkContent = () => {
           withSearchBar={true}
           setVisible={setVisible}
         />
-        {/* <Dialog
+        <Dialog
           header="Add New Brochure"
           visible={visible}
           style={{ width: "30vw" }}
@@ -73,10 +73,10 @@ const TmsIsuzuNetworkContent = () => {
         >
           <CreateDialog
             setVisible={setVisible}
-            setDataNetwork={setDataNetwork}
+            setDataNew={setDataNetwork}
             showToast={showToast}
           />
-        </Dialog> */}
+        </Dialog>
       </CardAdmin>
     </>
   );
