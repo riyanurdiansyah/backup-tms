@@ -8,7 +8,7 @@ import BtnDelete from "@/components/Buttons/BtnDelete";
 import { useFetchUmum } from "@/utils/useFetchData";
 
 const OwnersManualBookContent = () => {
-  const [jobsData, loadingJobsData] = useFetchUmum("/api/book");
+  const [manualBookData, loadingManualBookData] = useFetchUmum("/api/book");
   const [visible, setVisible] = useState(false);
 
   const actionBodyTemplate = (rowData: any) => {
@@ -32,8 +32,8 @@ const OwnersManualBookContent = () => {
     <>
       <CardAdmin>
         <TableLayout
-          data={jobsData?.data}
-          loading={loadingJobsData}
+          data={manualBookData?.data}
+          loading={loadingManualBookData}
           columns={columns}
           globalFilterFields={globalFilterFields}
           withSearchBar={true}
