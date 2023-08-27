@@ -55,6 +55,7 @@ const BrochureContent = () => {
       <CardAdmin>
         <TableLayout
           data={brochureDummy}
+          loading={false}
           columns={columns}
           globalFilterFields={globalFilterFields}
           withSearchBar={true}

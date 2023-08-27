@@ -6,6 +6,8 @@ import { BoxAction } from "./Styled";
 import BtnEdit from "@/components/Buttons/BtnEdit";
 import BtnDelete from "@/components/Buttons/BtnDelete";
 import { useFetchUmum } from "@/utils/useFetchData";
+import { Dialog } from "primereact/dialog";
+import CreateDialog from "./CreateDialog";
 
 const OwnersManualBookContent = () => {
   const [manualBookData, loadingManualBookData] = useFetchUmum("/api/book");
@@ -39,6 +41,14 @@ const OwnersManualBookContent = () => {
           withSearchBar={true}
           setVisible={setVisible}
         />
+        <Dialog
+          header="Add New Brochure"
+          visible={visible}
+          style={{ width: "30vw" }}
+          onHide={() => setVisible(false)}
+        >
+          <CreateDialog setVisible={setVisible} />
+        </Dialog>
       </CardAdmin>
     </>
   );
