@@ -9,6 +9,10 @@ module.exports = {
     includePaths: [path.join(__dirname, "styles")],
   },
   images: {
-    domains: ["blog-media.lifepal.co.id", "isuzu-astra.com"],
+    domains: [
+      "blog-media.lifepal.co.id",
+      "isuzu-astra.com",
+      "storage-x.sgp1.cdn.digitaloceanspaces.com",
+    ],
   },
 };

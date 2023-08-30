@@ -12,21 +12,78 @@ import { InputText } from "primereact/inputtext";
 import { Controller, useForm } from "react-hook-form";
 import { classNames } from "primereact/utils";
 import { Button } from "primereact/button";
+import { useFetchTrigger } from "@/utils/useFetchData";
+import axios from "axios";
+import useToken from "@/utils/useToken";
+const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 type FormData = {
   title: string;
-  link: string;
+  thumbnail: File | null;
+  brochure: File | null;
 };
 
-const CreateDialog: FC<ICreateDialog> = ({ setVisible }) => {
+const CreateDialog: FC<ICreateDialog> = ({
+  setVisible,
+  setDataNew,
+  showToast,
+}) => {
+  const [fetchTriggerBrochure] = useFetchTrigger<any>("/api/brochure");
+  const [token] = useToken();
   const {
     handleSubmit,
     control,
     formState: { errors },
+    setValue,
   } = useForm<FormData>();
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    return file || null;
+  };
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      const formData = new FormData();
+      formData.append("title", data.title);
+      formData.append("thumbnail", data.thumbnail as File);
+      formData.append("brochure", data.brochure as File);
+
+      const response = await axios.post(
+        `${api_backend}/api/brochure`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: token,
+          },
+        }
+      );
+      if (response.status === 201) {
+        const fetchDataNew = await fetchTriggerBrochure();
+        await setDataNew(fetchDataNew?.data);
+        await showToast({
+          type: "success",
+          title: "Success",
+          message: "Berhasil Menambahkan Data",
+        });
+        setVisible(false);
+      } else {
+        await showToast({
+          type: "error",
+          title: "Error",
+          message: "Gagal Menambahkan Data",
+        });
+        setVisible(false);
+      }
+    } catch (error) {
+      await showToast({
+        type: "error",
+        title: "Error",
+        message: "Gagal Menambahkan Data",
+      });
+      setVisible(false);
+    }
     // Handle login logic here using data.title, data.link, and uploadedFiles
   };
 
@@ -85,25 +142,37 @@ const CreateDialog: FC<ICreateDialog> = ({ setVisible }) => {
           )}
         />
         <Controller
-          name="link"
+          name="thumbnail"
           control={control}
-          rules={{ required: "Link File is required." }}
-          render={({ field, fieldState }) => (
-            <>
-              <FormGroup>
-                <label htmlFor="link">Link File</label>
-                <InputText
-                  id={field.name}
-                  value={field.value}
-                  className={classNames({ "p-invalid": fieldState.error })}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  style={{ width: "100%" }}
-                />
-                <InfoError className="p-error">
-                  {errors?.link?.message}
-                </InfoError>
-              </FormGroup>
-            </>
+          render={({ field }) => (
+            <FormGroup>
+              <label htmlFor="thumbnail">Thumbnail</label>
+              <input
+                type="file"
+                name="thumbnail"
+                onChange={(e) => {
+                  const newFile = handleFileUpload(e);
+                  setValue("thumbnail", newFile);
+                }}
+              />
+            </FormGroup>
+          )}
+        />
+        <Controller
+          name="brochure"
+          control={control}
+          render={({ field }) => (
+            <FormGroup>
+              <label htmlFor="file">Brochure</label>
+              <input
+                type="file"
+                name="brochure"
+                onChange={(e) => {
+                  const newFile = handleFileUpload(e);
+                  setValue("brochure", newFile);
+                }}
+              />
+            </FormGroup>
           )}
         />
 
@@ -134,5 +203,13 @@ const CreateDialog: FC<ICreateDialog> = ({ setVisible }) => {
 
 interface ICreateDialog {
   setVisible: (e: boolean) => void;
+  setDataNew: (e: any) => void;
+  showToast: (data: ToastData) => void;
 }
+interface ToastData {
+  type: "success" | "error" | "info";
+  title: string;
+  message: string;
+}
+
 export default CreateDialog;
