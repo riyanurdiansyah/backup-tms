@@ -60,6 +60,8 @@ const BookingServicePage = () => {
     "Teknik Mesin",
   ];
 
+  const listJenisService = ["Perawatan Berkala", "Perawatan Non-Berkala"];
+
   const timeOperational = genrateTimeOperational();
 
   const handleClickDropdown = (e: any) => {
@@ -88,7 +90,7 @@ const BookingServicePage = () => {
               </RowInput>
               <RowInput>
                 <LForm>No. Handphone</LForm>
-                <IText type="text" placeholder="628xxxxxxxxxx" />
+                <IText type="number" placeholder="628xxxxxxxxxx" />
               </RowInput>
               <RowInput>
                 <LForm>Email</LForm>
@@ -191,7 +193,9 @@ const BookingServicePage = () => {
               <RowInput>
                 <LForm>Model & Tahun Kendaraan</LForm>
                 <RowDoubleInput>
-                  <DropdownFull className="model">
+                  <IText type="text" placeholder="Model" />
+                  <IText type="number" placeholder="Tahun" />
+                  {/* <DropdownFull className="model">
                     <Hover
                       paddingTop={5}
                       topHover={40}
@@ -232,7 +236,7 @@ const BookingServicePage = () => {
                         </p>
                       </DropdownName>
                     </Hover>
-                  </DropdownFull>
+                  </DropdownFull> */}
                 </RowDoubleInput>
               </RowInput>
               <RowInput>
@@ -245,7 +249,7 @@ const BookingServicePage = () => {
                     kiriHover={0}
                     onHover={
                       <DropdownMenu
-                        dataMenu={listOutlet}
+                        dataMenu={listJenisService}
                         handleClickDropdown={handleClickDropdown}
                       />
                     }
