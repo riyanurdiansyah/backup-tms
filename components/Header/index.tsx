@@ -29,10 +29,12 @@ import { FaSortDown } from "react-icons/fa";
 import { FaSortUp } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
+import useDimensiLayar from "@/utils/useDimensiLayar";
 
 const Header = () => {
   const route = useRouter();
   const pathname = usePathname();
+  const [lebarLayar] = useDimensiLayar();
   const [isShowNavbarMobile, setIsShowNavbarMobile] = useState(false);
 
   const handleClickDropdown = (e: any) => {
@@ -61,7 +63,7 @@ const Header = () => {
           <HeaderLogoColab>
             <Link href="/">
               <Image
-                src="/logo-tms.png"
+                src={lebarLayar > 766 ? `/logo-tms.png` : `/logo-colab.png`}
                 alt={""}
                 width="0"
                 height="0"
