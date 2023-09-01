@@ -9,14 +9,20 @@ import Image from "next/image";
 import { Dialog } from "primereact/dialog";
 import CreateDialog from "./CreateDialog";
 import { Toast } from "primereact/toast";
-import { useFetchUmum } from "@/utils/useFetchData";
+import { useFetchTrigger, useFetchUmum } from "@/utils/useFetchData";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import axios from "axios";
+import useToken from "@/utils/useToken";
+const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 const BrochureContent = () => {
   const toast = useRef<any>(null);
+  const [token] = useToken();
   const [dataBrochure, setDataBrochure] = useState(null);
   const [loading, setloading] = useState(true);
 
   const [brochurekData, loadingBrochureData] = useFetchUmum("/api/brochure");
+  const [fetchTrigger] = useFetchTrigger<any>("/api/brochure");
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -32,6 +38,44 @@ const BrochureContent = () => {
       summary: data.title,
       detail: data.message,
       life: 3000,
+    });
+  };
+
+  const accept = async (id: any) => {
+    const response = await axios.delete(`${api_backend}/api/brochure/${id}`, {
+      headers: {
+        Authorization: token,
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+    });
+    if (response && response.data.code == 200) {
+      const fetchDataNew = await fetchTrigger();
+      await setDataBrochure(fetchDataNew?.data);
+      showToast({
+        type: "success",
+        title: "Success",
+        message: `${response.data.message}`,
+      });
+    }
+  };
+
+  const reject = () => {
+    showToast({
+      type: "warn",
+      title: "Rejected",
+      message: "You have rejected",
+    });
+  };
+
+  const confirmDeleteData = (id: any) => {
+    confirmDialog({
+      message: "Do you want to delete this record?",
+      header: "Delete Confirmation",
+      icon: "pi pi-info-circle",
+      acceptClassName: "p-button-danger",
+      accept: () => accept(id),
+      reject,
     });
   };
 
@@ -59,7 +103,10 @@ const BrochureContent = () => {
     return (
       <BoxAction>
         <BtnEdit />
-        <BtnDelete />
+        <BtnDelete
+          confirmDeleteData={confirmDeleteData}
+          id={rowData.brochure_id}
+        />
       </BoxAction>
     );
   };
@@ -77,6 +124,7 @@ const BrochureContent = () => {
     <>
       <CardAdmin>
         <Toast ref={toast} />
+        <ConfirmDialog />
         <TableLayout
           data={dataBrochure}
           loading={loading}
