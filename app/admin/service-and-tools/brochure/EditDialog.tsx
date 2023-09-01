@@ -53,12 +53,15 @@ const EditDialog: FC<IEditDialog> = ({
   const onSubmit = async (data: FormData) => {
     try {
       const formData = new FormData();
+      formData.append("brochure_id", id);
       formData.append("title", data.title);
-      formData.append("thumbnail", data.thumbnail as File);
-      formData.append("brochure", data.brochure as File);
+      data.thumbnail != null &&
+        formData.append("thumbnail", data.thumbnail as File);
+      data.brochure != null &&
+        formData.append("brochure", data.brochure as File);
 
       const response = await axios.put(
-        `${api_backend}/api/brochure/${id}`,
+        `${api_backend}/api/brochure`,
         formData,
         {
           headers: {
@@ -67,7 +70,7 @@ const EditDialog: FC<IEditDialog> = ({
           },
         }
       );
-      if (response.status === 201) {
+      if (response.status === 200) {
         const fetchDataNew = await fetchTriggerBrochure();
         await setDataNew(fetchDataNew?.data);
         await showToast({
