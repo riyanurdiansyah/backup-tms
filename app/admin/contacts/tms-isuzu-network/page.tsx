@@ -12,6 +12,7 @@ import { Toast } from "primereact/toast";
 import useToken from "@/utils/useToken";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import axios from "axios";
+import EditDialog from "./EditDialog";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 const TmsIsuzuNetworkContent = () => {
@@ -120,7 +121,7 @@ const TmsIsuzuNetworkContent = () => {
           setVisible={setVisible}
         />
         <Dialog
-          header="Add New Brochure"
+          header="Add New TMS Isuzu Network"
           visible={visible}
           style={{ width: "30vw" }}
           onHide={() => setVisible(false)}
@@ -129,6 +130,19 @@ const TmsIsuzuNetworkContent = () => {
             setVisible={setVisible}
             setDataNew={setDataNetwork}
             showToast={showToast}
+          />
+        </Dialog>
+        <Dialog
+          header="Edit TMS Isuzu Network"
+          visible={visibleEdit}
+          style={{ width: "30vw" }}
+          onHide={() => setVisibleEdit(false)}
+        >
+          <EditDialog
+            setVisible={setVisibleEdit}
+            setDataNew={setDataNetwork}
+            showToast={showToast}
+            id={idSelected}
           />
         </Dialog>
       </CardAdmin>
