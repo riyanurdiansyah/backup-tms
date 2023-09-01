@@ -13,6 +13,7 @@ import { useFetchTrigger, useFetchUmum } from "@/utils/useFetchData";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import axios from "axios";
 import useToken from "@/utils/useToken";
+import EditDialog from "./EditDialog";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 const BrochureContent = () => {
@@ -24,6 +25,8 @@ const BrochureContent = () => {
   const [brochurekData, loadingBrochureData] = useFetchUmum("/api/brochure");
   const [fetchTrigger] = useFetchTrigger<any>("/api/brochure");
   const [visible, setVisible] = useState(false);
+  const [visibleEdit, setVisibleEdit] = useState(false);
+  const [idSelected, setIdSelected] = useState<any>(null);
 
   useEffect(() => {
     if (brochurekData && !loadingBrochureData) {
@@ -102,7 +105,11 @@ const BrochureContent = () => {
   const actionBodyTemplate = (rowData: any) => {
     return (
       <BoxAction>
-        <BtnEdit />
+        <BtnEdit
+          setVisibleEdit={setVisibleEdit}
+          setIdSelected={setIdSelected}
+          id={rowData.brochure_id}
+        />
         <BtnDelete
           confirmDeleteData={confirmDeleteData}
           id={rowData.brochure_id}
@@ -143,6 +150,19 @@ const BrochureContent = () => {
             setVisible={setVisible}
             setDataNew={setDataBrochure}
             showToast={showToast}
+          />
+        </Dialog>
+        <Dialog
+          header="Edit Brochure"
+          visible={visibleEdit}
+          style={{ width: "30vw" }}
+          onHide={() => setVisibleEdit(false)}
+        >
+          <EditDialog
+            setVisible={setVisibleEdit}
+            setDataNew={setDataBrochure}
+            showToast={showToast}
+            id={idSelected}
           />
         </Dialog>
       </CardAdmin>
