@@ -15,24 +15,25 @@ import { Toast } from "primereact/toast";
 import EditDialog from "./EditDialog";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
-const VehicleContent = () => {
+const ContentVehicleContent = () => {
   const toast = useRef<any>(null);
   const [token] = useToken();
-  const [dataVehicle, setDataVehicle] = useState(null);
+  const [dataContentVehicle, setDataContentVehicle] = useState(null);
   const [loading, setloading] = useState(true);
 
-  const [vehicleData, loadingVehicleData] = useFetchUmum("/api/product");
-  const [fetchTrigger] = useFetchTrigger<any>("/api/product");
+  const [contentVehicleData, loadingContentVehicleData] =
+    useFetchUmum("/api/content");
+  const [fetchTrigger] = useFetchTrigger<any>("/api/content");
   const [visible, setVisible] = useState(false);
   const [visibleEdit, setVisibleEdit] = useState(false);
   const [idSelected, setIdSelected] = useState<any>(null);
 
   useEffect(() => {
-    if (vehicleData && !loadingVehicleData) {
-      setDataVehicle(vehicleData?.data);
+    if (contentVehicleData && !loadingContentVehicleData) {
+      setDataContentVehicle(contentVehicleData?.data);
       setloading(false);
     }
-  }, [vehicleData, loadingVehicleData]);
+  }, [contentVehicleData, loadingContentVehicleData]);
 
   const showToast = (data: any) => {
     toast.current.show({
@@ -44,7 +45,7 @@ const VehicleContent = () => {
   };
 
   const accept = async (id: any) => {
-    const response = await axios.delete(`${api_backend}/api/product/${id}`, {
+    const response = await axios.delete(`${api_backend}/api/content/${id}`, {
       headers: {
         Authorization: token,
         "Access-Control-Allow-Origin": "*",
@@ -53,7 +54,7 @@ const VehicleContent = () => {
     });
     if (response && response.data.code == 200) {
       const fetchDataNew = await fetchTrigger();
-      await setDataVehicle(fetchDataNew?.data);
+      await setDataContentVehicle(fetchDataNew?.data);
       showToast({
         type: "success",
         title: "Success",
@@ -111,7 +112,7 @@ const VehicleContent = () => {
         <Toast ref={toast} />
         <ConfirmDialog />
         <TableLayout
-          data={dataVehicle}
+          data={dataContentVehicle}
           loading={loading}
           columns={columns}
           globalFilterFields={globalFilterFields}
@@ -119,26 +120,26 @@ const VehicleContent = () => {
           setVisible={setVisible}
         />
         <Dialog
-          header="Add New Vehicle"
+          header="Add Content Vehicle"
           visible={visible}
           style={{ width: "50vw" }}
           onHide={() => setVisible(false)}
         >
           <CreateDialog
             setVisible={setVisible}
-            setDataNew={setDataVehicle}
+            setDataNew={setDataContentVehicle}
             showToast={showToast}
           />
         </Dialog>
         <Dialog
-          header="Edit Vehicle"
+          header="Edit Content Vehicle"
           visible={visibleEdit}
           style={{ width: "30vw" }}
           onHide={() => setVisibleEdit(false)}
         >
           <EditDialog
             setVisible={setVisibleEdit}
-            setDataNew={setDataVehicle}
+            setDataNew={setDataContentVehicle}
             showToast={showToast}
             id={idSelected}
           />
@@ -148,4 +149,4 @@ const VehicleContent = () => {
   );
 };
 
-export default VehicleContent;
+export default ContentVehicleContent;

@@ -73,8 +73,16 @@ const MenuAdmin = [
         url: "/admin/products/vehicle",
       },
       {
-        nameChild: "Detail",
-        url: "/admin/products/detail",
+        nameChild: "Category Vehicle",
+        url: "/admin/products/category-vehicle",
+      },
+      {
+        nameChild: "Content Vehicle",
+        url: "/admin/products/content-vehicle",
+      },
+      {
+        nameChild: "Detail Vehicle",
+        url: "/admin/products/detail-vehicle",
       },
     ],
   },
