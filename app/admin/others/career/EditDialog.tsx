@@ -24,7 +24,7 @@ type FormData = {
   title: string;
   subtitle: string;
   published: string;
-  expired: string;
+  expired: Date | string;
   link: string;
   location: string;
   status: string;
@@ -53,7 +53,10 @@ const EditDialog: FC<IEditDialog> = ({
       setValue("title", dataOld?.data?.title);
       setValue("subtitle", dataOld?.data?.subtitle);
       setValue("published", dataOld?.data?.published);
-      setValue("expired", parseStringToDate(dataOld?.data?.expired));
+      const parsedDate: Date | null = parseStringToDate(dataOld?.data?.expired);
+      if (parsedDate !== null) {
+        setValue("expired", parsedDate);
+      }
       setValue("link", dataOld?.data?.link);
       setValue("location", dataOld?.data?.location);
       setValue("status", dataOld?.data?.status);
