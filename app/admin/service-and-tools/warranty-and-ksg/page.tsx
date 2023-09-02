@@ -12,6 +12,7 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import axios from "axios";
 import useToken from "@/utils/useToken";
 import { Toast } from "primereact/toast";
+import EditDialog from "./EditDialog";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 const WarrantyAndKsgContent = () => {
@@ -127,6 +128,19 @@ const WarrantyAndKsgContent = () => {
             setVisible={setVisible}
             setDataNew={setDataWarranty}
             showToast={showToast}
+          />
+        </Dialog>
+        <Dialog
+          header="Edit Warranty"
+          visible={visibleEdit}
+          style={{ width: "30vw" }}
+          onHide={() => setVisibleEdit(false)}
+        >
+          <EditDialog
+            setVisible={setVisibleEdit}
+            setDataNew={setDataWarranty}
+            showToast={showToast}
+            id={idSelected}
           />
         </Dialog>
       </CardAdmin>
