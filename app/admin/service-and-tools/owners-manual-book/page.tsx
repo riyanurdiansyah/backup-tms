@@ -5,18 +5,26 @@ import React, { useEffect, useRef, useState } from "react";
 import { BoxAction } from "./Styled";
 import BtnEdit from "@/components/Buttons/BtnEdit";
 import BtnDelete from "@/components/Buttons/BtnDelete";
-import { useFetchUmum } from "@/utils/useFetchData";
+import { useFetchTrigger, useFetchUmum } from "@/utils/useFetchData";
 import { Dialog } from "primereact/dialog";
 import CreateDialog from "./CreateDialog";
 import { Toast } from "primereact/toast";
+import axios from "axios";
+import useToken from "@/utils/useToken";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 const OwnersManualBookContent = () => {
   const toast = useRef<any>(null);
+  const [token] = useToken();
   const [dataManualBook, setDataManualBook] = useState(null);
   const [loading, setloading] = useState(true);
 
   const [manualBookData, loadingManualBookData] = useFetchUmum("/api/book");
+  const [fetchTrigger] = useFetchTrigger<any>("/api/dealer");
   const [visible, setVisible] = useState(false);
+  const [visibleEdit, setVisibleEdit] = useState(false);
+  const [idSelected, setIdSelected] = useState<any>(null);
 
   useEffect(() => {
     if (manualBookData && !loadingManualBookData) {
@@ -34,11 +42,53 @@ const OwnersManualBookContent = () => {
     });
   };
 
+  const accept = async (id: any) => {
+    const response = await axios.delete(`${api_backend}/api/dealer/${id}`, {
+      headers: {
+        Authorization: token,
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+    });
+    if (response && response.data.code == 200) {
+      const fetchDataNew = await fetchTrigger();
+      await setDataManualBook(fetchDataNew?.data);
+      showToast({
+        type: "success",
+        title: "Success",
+        message: `${response.data.message}`,
+      });
+    }
+  };
+
+  const reject = () => {
+    showToast({
+      type: "warn",
+      title: "Rejected",
+      message: "You have rejected",
+    });
+  };
+
+  const confirmDeleteData = (id: any) => {
+    confirmDialog({
+      message: "Do you want to delete this record?",
+      header: "Delete Confirmation",
+      icon: "pi pi-info-circle",
+      acceptClassName: "p-button-danger",
+      accept: () => accept(id),
+      reject,
+    });
+  };
+
   const actionBodyTemplate = (rowData: any) => {
     return (
       <BoxAction>
-        <BtnEdit />
-        <BtnDelete />
+        <BtnEdit
+          setVisibleEdit={setVisibleEdit}
+          setIdSelected={setIdSelected}
+          id={rowData.book_id}
+        />
+        <BtnDelete confirmDeleteData={confirmDeleteData} id={rowData.book_id} />
       </BoxAction>
     );
   };
@@ -55,6 +105,7 @@ const OwnersManualBookContent = () => {
     <>
       <CardAdmin>
         <Toast ref={toast} />
+        <ConfirmDialog />
         <TableLayout
           data={dataManualBook}
           loading={loading}
@@ -64,7 +115,7 @@ const OwnersManualBookContent = () => {
           setVisible={setVisible}
         />
         <Dialog
-          header="Add New Brochure"
+          header="Add New Manual Book"
           visible={visible}
           style={{ width: "30vw" }}
           onHide={() => setVisible(false)}

@@ -86,11 +86,11 @@ const WarrantyAndKsgContent = () => {
         <BtnEdit
           setVisibleEdit={setVisibleEdit}
           setIdSelected={setIdSelected}
-          id={rowData.dealer_id}
+          id={rowData.service_id}
         />
         <BtnDelete
           confirmDeleteData={confirmDeleteData}
-          id={rowData.dealer_id}
+          id={rowData.service_id}
         />
       </BoxAction>
     );
@@ -99,7 +99,7 @@ const WarrantyAndKsgContent = () => {
   const columns = [
     { field: "title", header: "Title", style: { width: "20%" } },
     { field: "description", header: "Description" },
-    { body: actionBodyTemplate, header: "" },
+    { body: actionBodyTemplate, header: "", style: { width: "10%" } },
   ];
 
   const globalFilterFields = ["title"];
