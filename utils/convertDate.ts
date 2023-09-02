@@ -12,3 +12,37 @@ export const convertDateV1 = (unixTimestamp: number): string => {
   const formattedDate = formattedDay + "/" + formattedMonth + "/" + year;
   return formattedDate;
 };
+
+export const formatTimestampToDate = (timestampString: string): string => {
+  const timestamp = parseInt(timestampString, 10);
+  if (isNaN(timestamp)) {
+    return "-";
+  }
+
+  const date = new Date(timestamp);
+
+  if (isNaN(date.getTime())) {
+    return "-";
+  }
+
+  const month = date.toLocaleString("id-ID", { month: "long" });
+  const year = date.getFullYear().toString();
+
+  return `${date.getDate()} ${month} ${year}`;
+};
+
+export const parseStringToDate = (timestampString: string): Date | null => {
+  const timestamp = parseInt(timestampString, 10);
+
+  if (isNaN(timestamp)) {
+    return null;
+  }
+
+  const date = new Date(timestamp);
+
+  if (isNaN(date.getTime())) {
+    return null;
+  }
+
+  return date;
+};

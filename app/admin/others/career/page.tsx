@@ -6,11 +6,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { BoxAction } from "./Styled";
 import BtnEdit from "@/components/Buttons/BtnEdit";
 import BtnDelete from "@/components/Buttons/BtnDelete";
-import { convertDateV1 } from "@/utils/convertDate";
+import { convertDateV1, formatTimestampToDate } from "@/utils/convertDate";
 import useToken from "@/utils/useToken";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import axios from "axios";
+import { Dialog } from "primereact/dialog";
+import CreateDialog from "./CreateDialog";
+import EditDialog from "./EditDialog";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 const CareerContent = () => {
@@ -85,23 +88,23 @@ const CareerContent = () => {
         <BtnEdit
           setVisibleEdit={setVisibleEdit}
           setIdSelected={setIdSelected}
-          id={rowData.dealer_id}
+          id={rowData.career_id}
         />
         <BtnDelete
           confirmDeleteData={confirmDeleteData}
-          id={rowData.dealer_id}
+          id={rowData.career_id}
         />
       </BoxAction>
     );
   };
 
   const bodyPublished = (rowData: any) => {
-    const formatDate = convertDateV1(rowData.published);
+    const formatDate = formatTimestampToDate(rowData.published);
     return formatDate;
   };
 
   const bodyExpired = (rowData: any) => {
-    const formatDate = convertDateV1(rowData.expired);
+    const formatDate = formatTimestampToDate(rowData.expired);
     return formatDate;
   };
 
@@ -110,8 +113,8 @@ const CareerContent = () => {
     { field: "subtitle", header: "Subtitle" },
     { field: "status", header: "Status" },
     { field: "location", header: "Location" },
-    { field: "published", header: "Published" },
-    { field: "expired", header: "Expired" },
+    { field: "published", header: "Published", body: bodyPublished },
+    { field: "expired", header: "Expired", body: bodyExpired },
     { body: actionBodyTemplate, header: "" },
   ];
 
@@ -137,6 +140,31 @@ const CareerContent = () => {
           withSearchBar={true}
           setVisible={setVisible}
         />
+        <Dialog
+          header="Add New Career"
+          visible={visible}
+          style={{ width: "50vw" }}
+          onHide={() => setVisible(false)}
+        >
+          <CreateDialog
+            setVisible={setVisible}
+            setDataNew={setDataCareer}
+            showToast={showToast}
+          />
+        </Dialog>
+        <Dialog
+          header="Edit Career"
+          visible={visibleEdit}
+          style={{ width: "30vw" }}
+          onHide={() => setVisibleEdit(false)}
+        >
+          <EditDialog
+            setVisible={setVisibleEdit}
+            setDataNew={setDataCareer}
+            showToast={showToast}
+            id={idSelected}
+          />
+        </Dialog>
       </CardAdmin>
     </>
   );
