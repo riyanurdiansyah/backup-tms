@@ -22,8 +22,8 @@ const DetailVehicleContent = () => {
   const [loading, setloading] = useState(true);
 
   const [detailVehicleData, loadingDetailVehicleData] =
-    useFetchUmum("/api/spec");
-  const [fetchTrigger] = useFetchTrigger<any>("/api/spec");
+    useFetchUmum("/api/product/spec");
+  const [fetchTrigger] = useFetchTrigger<any>("/api/product/spec");
   const [visible, setVisible] = useState(false);
   const [visibleEdit, setVisibleEdit] = useState(false);
   const [idSelected, setIdSelected] = useState<any>(null);
@@ -45,13 +45,16 @@ const DetailVehicleContent = () => {
   };
 
   const accept = async (id: any) => {
-    const response = await axios.delete(`${api_backend}/api/spec/${id}`, {
-      headers: {
-        Authorization: token,
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axios.delete(
+      `${api_backend}/api/product/spec/${id}`,
+      {
+        headers: {
+          Authorization: token,
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (response && response.data.code == 200) {
       const fetchDataNew = await fetchTrigger();
       await setDataDetailVehicle(fetchDataNew?.data);
@@ -99,8 +102,11 @@ const DetailVehicleContent = () => {
   };
 
   const columns = [
-    { field: "title", header: "Title", style: { width: "20%" } },
-    { field: "description", header: "Description" },
+    { field: "product_id", header: "Product ID" },
+    { field: "category", header: "Category" },
+    { field: "title", header: "Title" },
+    { field: "satuan", header: "Satuan" },
+    { field: "keterangan", header: "Keterangan" },
     { body: actionBodyTemplate, header: "", style: { width: "10%" } },
   ];
 

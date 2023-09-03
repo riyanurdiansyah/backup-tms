@@ -19,9 +19,12 @@ import { Editor } from "primereact/editor";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 type FormData = {
+  product_id: string;
+  category: string;
   title: string;
-  description: string;
-  service_id: any;
+  satuan: string;
+  keterangan: string;
+  product_spesification_id: any;
 };
 
 const EditDialog: FC<IEditDialog> = ({
@@ -30,8 +33,8 @@ const EditDialog: FC<IEditDialog> = ({
   showToast,
   id,
 }) => {
-  const [dataOld, loadingDataOld] = useFetchUmum(`/api/spec/${id}`);
-  const [fetchTrigger] = useFetchTrigger<any>("/api/spec");
+  const [dataOld, loadingDataOld] = useFetchUmum(`/api/product/spec/${id}`);
+  const [fetchTrigger] = useFetchTrigger<any>("/api/product/spec");
   const [token] = useToken();
   const {
     handleSubmit,
@@ -42,20 +45,31 @@ const EditDialog: FC<IEditDialog> = ({
 
   useEffect(() => {
     if (dataOld) {
+      setValue("product_id", dataOld?.data?.product_id);
+      setValue("category", dataOld?.data?.category);
       setValue("title", dataOld?.data?.title);
-      setValue("description", dataOld?.data?.description);
+      setValue("satuan", dataOld?.data?.satuan);
+      setValue("keterangan", dataOld?.data?.keterangan);
+      setValue(
+        "product_spesification_id",
+        dataOld?.data?.product_spesification_id
+      );
     }
   }, [dataOld]);
 
   const onSubmit = async (data: FormData) => {
     try {
-      data.service_id = id;
-      const response = await axios.put(`${api_backend}/api/spec`, data, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      });
+      data.product_spesification_id = id;
+      const response = await axios.put(
+        `${api_backend}/api/product/spec`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
       if (response.status === 200) {
         const fetchDataNew = await fetchTrigger();
         await setDataNew(fetchDataNew?.data);
@@ -87,6 +101,50 @@ const EditDialog: FC<IEditDialog> = ({
     <CreateDialogContainer>
       <FormInput onSubmit={handleSubmit(onSubmit)}>
         <Controller
+          name="product_id"
+          control={control}
+          rules={{ required: "Vehicle is required." }}
+          render={({ field, fieldState }) => (
+            <>
+              <FormGroup>
+                <label htmlFor="product_id">Vehicle</label>
+                <InputText
+                  id={field.name}
+                  value={field.value}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  style={{ width: "100%" }}
+                />
+                <InfoError className="p-error">
+                  {errors?.product_id?.message}
+                </InfoError>
+              </FormGroup>
+            </>
+          )}
+        />
+        <Controller
+          name="category"
+          control={control}
+          rules={{ required: "Category is required." }}
+          render={({ field, fieldState }) => (
+            <>
+              <FormGroup>
+                <label htmlFor="category">Category</label>
+                <InputText
+                  id={field.name}
+                  value={field.value}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  style={{ width: "100%" }}
+                />
+                <InfoError className="p-error">
+                  {errors?.category?.message}
+                </InfoError>
+              </FormGroup>
+            </>
+          )}
+        />
+        <Controller
           name="title"
           control={control}
           rules={{ required: "Title is required." }}
@@ -109,21 +167,44 @@ const EditDialog: FC<IEditDialog> = ({
           )}
         />
         <Controller
-          name="description"
+          name="satuan"
           control={control}
-          rules={{ required: "Description is required." }}
+          rules={{ required: "Satuan is required." }}
           render={({ field, fieldState }) => (
             <>
               <FormGroup>
-                <label htmlFor="description">Description</label>
-                <Editor
+                <label htmlFor="satuan">Satuan</label>
+                <InputText
                   id={field.name}
                   value={field.value}
-                  onTextChange={(e) => field.onChange(e.textValue)}
-                  style={{ height: "320px" }}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
-                  {errors?.description?.message}
+                  {errors?.satuan?.message}
+                </InfoError>
+              </FormGroup>
+            </>
+          )}
+        />
+        <Controller
+          name="keterangan"
+          control={control}
+          rules={{ required: "Keterangan is required." }}
+          render={({ field, fieldState }) => (
+            <>
+              <FormGroup>
+                <label htmlFor="keterangan">Keterangan</label>
+                <InputText
+                  id={field.name}
+                  value={field.value}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  style={{ width: "100%" }}
+                />
+                <InfoError className="p-error">
+                  {errors?.keterangan?.message}
                 </InfoError>
               </FormGroup>
             </>

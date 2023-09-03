@@ -18,8 +18,11 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Editor } from "primereact/editor";
 
 type FormData = {
+  product_id: string;
+  category: string;
   title: string;
-  description: string;
+  satuan: string;
+  keterangan: string;
 };
 
 const CreateDialog: FC<ICreateDialog> = ({
@@ -27,8 +30,8 @@ const CreateDialog: FC<ICreateDialog> = ({
   setDataNew,
   showToast,
 }) => {
-  const [postData] = usePostUmum("/api/spec");
-  const [fetchTrigger] = useFetchTrigger<any>("/api/spec");
+  const [postData] = usePostUmum("/api/product/spec");
+  const [fetchTrigger] = useFetchTrigger<any>("/api/product/spec");
   const {
     handleSubmit,
     control,
@@ -70,6 +73,50 @@ const CreateDialog: FC<ICreateDialog> = ({
     <CreateDialogContainer>
       <FormInput onSubmit={handleSubmit(onSubmit)}>
         <Controller
+          name="product_id"
+          control={control}
+          rules={{ required: "Vehicle is required." }}
+          render={({ field, fieldState }) => (
+            <>
+              <FormGroup>
+                <label htmlFor="product_id">Vehicle</label>
+                <InputText
+                  id={field.name}
+                  value={field.value}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  style={{ width: "100%" }}
+                />
+                <InfoError className="p-error">
+                  {errors?.product_id?.message}
+                </InfoError>
+              </FormGroup>
+            </>
+          )}
+        />
+        <Controller
+          name="category"
+          control={control}
+          rules={{ required: "Category is required." }}
+          render={({ field, fieldState }) => (
+            <>
+              <FormGroup>
+                <label htmlFor="category">Category</label>
+                <InputText
+                  id={field.name}
+                  value={field.value}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  style={{ width: "100%" }}
+                />
+                <InfoError className="p-error">
+                  {errors?.category?.message}
+                </InfoError>
+              </FormGroup>
+            </>
+          )}
+        />
+        <Controller
           name="title"
           control={control}
           rules={{ required: "Title is required." }}
@@ -92,21 +139,44 @@ const CreateDialog: FC<ICreateDialog> = ({
           )}
         />
         <Controller
-          name="description"
+          name="satuan"
           control={control}
-          rules={{ required: "Description is required." }}
+          rules={{ required: "Satuan is required." }}
           render={({ field, fieldState }) => (
             <>
               <FormGroup>
-                <label htmlFor="description">Description</label>
-                <Editor
+                <label htmlFor="satuan">Satuan</label>
+                <InputText
                   id={field.name}
                   value={field.value}
-                  onTextChange={(e) => field.onChange(e.textValue)}
-                  style={{ height: "320px" }}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
-                  {errors?.description?.message}
+                  {errors?.satuan?.message}
+                </InfoError>
+              </FormGroup>
+            </>
+          )}
+        />
+        <Controller
+          name="keterangan"
+          control={control}
+          rules={{ required: "Keterangan is required." }}
+          render={({ field, fieldState }) => (
+            <>
+              <FormGroup>
+                <label htmlFor="keterangan">Keterangan</label>
+                <InputText
+                  id={field.name}
+                  value={field.value}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  style={{ width: "100%" }}
+                />
+                <InfoError className="p-error">
+                  {errors?.keterangan?.message}
                 </InfoError>
               </FormGroup>
             </>
