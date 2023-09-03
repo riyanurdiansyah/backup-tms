@@ -22,8 +22,8 @@ const CategoryVehicleContent = () => {
   const [loading, setloading] = useState(true);
 
   const [categoryVehicleData, loadingCategoryVehicleData] =
-    useFetchUmum("/api/spec");
-  const [fetchTrigger] = useFetchTrigger<any>("/api/spec");
+    useFetchUmum("/api/product/type");
+  const [fetchTrigger] = useFetchTrigger<any>("/api/product/type");
   const [visible, setVisible] = useState(false);
   const [visibleEdit, setVisibleEdit] = useState(false);
   const [idSelected, setIdSelected] = useState<any>(null);
@@ -45,13 +45,16 @@ const CategoryVehicleContent = () => {
   };
 
   const accept = async (id: any) => {
-    const response = await axios.delete(`${api_backend}/api/spec/${id}`, {
-      headers: {
-        Authorization: token,
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axios.delete(
+      `${api_backend}/api/product/type/${id}`,
+      {
+        headers: {
+          Authorization: token,
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (response && response.data.code == 200) {
       const fetchDataNew = await fetchTrigger();
       await setDataCategoryVehicle(fetchDataNew?.data);
@@ -88,19 +91,18 @@ const CategoryVehicleContent = () => {
         <BtnEdit
           setVisibleEdit={setVisibleEdit}
           setIdSelected={setIdSelected}
-          id={rowData.service_id}
+          id={rowData.product_type_id}
         />
         <BtnDelete
           confirmDeleteData={confirmDeleteData}
-          id={rowData.service_id}
+          id={rowData.product_type_id}
         />
       </BoxAction>
     );
   };
 
   const columns = [
-    { field: "title", header: "Title", style: { width: "20%" } },
-    { field: "description", header: "Description" },
+    { field: "product_type_name", header: "Category Vehicle" },
     { body: actionBodyTemplate, header: "", style: { width: "10%" } },
   ];
 

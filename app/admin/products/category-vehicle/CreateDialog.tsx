@@ -13,13 +13,9 @@ import { Controller, useForm } from "react-hook-form";
 import { classNames } from "primereact/utils";
 import { Button } from "primereact/button";
 import { useFetchTrigger, usePostUmum } from "@/utils/useFetchData";
-import { InputNumber } from "primereact/inputnumber";
-import { InputTextarea } from "primereact/inputtextarea";
-import { Editor } from "primereact/editor";
 
 type FormData = {
-  title: string;
-  description: string;
+  product_type_name: string;
 };
 
 const CreateDialog: FC<ICreateDialog> = ({
@@ -27,8 +23,8 @@ const CreateDialog: FC<ICreateDialog> = ({
   setDataNew,
   showToast,
 }) => {
-  const [postData] = usePostUmum("/api/spec");
-  const [fetchTrigger] = useFetchTrigger<any>("/api/spec");
+  const [postData] = usePostUmum("/api/product/type");
+  const [fetchTrigger] = useFetchTrigger<any>("/api/product/type");
   const {
     handleSubmit,
     control,
@@ -70,13 +66,13 @@ const CreateDialog: FC<ICreateDialog> = ({
     <CreateDialogContainer>
       <FormInput onSubmit={handleSubmit(onSubmit)}>
         <Controller
-          name="title"
+          name="product_type_name"
           control={control}
-          rules={{ required: "Title is required." }}
+          rules={{ required: "Name Category is required." }}
           render={({ field, fieldState }) => (
             <>
               <FormGroup>
-                <label htmlFor="title">Title</label>
+                <label htmlFor="product_type_name">Name category</label>
                 <InputText
                   id={field.name}
                   value={field.value}
@@ -85,28 +81,7 @@ const CreateDialog: FC<ICreateDialog> = ({
                   style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
-                  {errors?.title?.message}
-                </InfoError>
-              </FormGroup>
-            </>
-          )}
-        />
-        <Controller
-          name="description"
-          control={control}
-          rules={{ required: "Description is required." }}
-          render={({ field, fieldState }) => (
-            <>
-              <FormGroup>
-                <label htmlFor="description">Description</label>
-                <Editor
-                  id={field.name}
-                  value={field.value}
-                  onTextChange={(e) => field.onChange(e.textValue)}
-                  style={{ height: "320px" }}
-                />
-                <InfoError className="p-error">
-                  {errors?.description?.message}
+                  {errors?.product_type_name?.message}
                 </InfoError>
               </FormGroup>
             </>

@@ -15,13 +15,11 @@ import { Button } from "primereact/button";
 import { useFetchTrigger, useFetchUmum } from "@/utils/useFetchData";
 import axios from "axios";
 import useToken from "@/utils/useToken";
-import { Editor } from "primereact/editor";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 type FormData = {
-  title: string;
-  description: string;
-  service_id: any;
+  product_type_name: string;
+  product_type_id: any;
 };
 
 const EditDialog: FC<IEditDialog> = ({
@@ -30,8 +28,8 @@ const EditDialog: FC<IEditDialog> = ({
   showToast,
   id,
 }) => {
-  const [dataOld, loadingDataOld] = useFetchUmum(`/api/spec/${id}`);
-  const [fetchTrigger] = useFetchTrigger<any>("/api/spec");
+  const [dataOld, loadingDataOld] = useFetchUmum(`/api/product/type/${id}`);
+  const [fetchTrigger] = useFetchTrigger<any>("/api/product/type");
   const [token] = useToken();
   const {
     handleSubmit,
@@ -42,15 +40,15 @@ const EditDialog: FC<IEditDialog> = ({
 
   useEffect(() => {
     if (dataOld) {
-      setValue("title", dataOld?.data?.title);
-      setValue("description", dataOld?.data?.description);
+      setValue("product_type_name", dataOld?.data?.product_type_name);
+      setValue("product_type_id", dataOld?.data?.product_type_id);
     }
   }, [dataOld]);
 
   const onSubmit = async (data: FormData) => {
     try {
-      data.service_id = id;
-      const response = await axios.put(`${api_backend}/api/spec`, data, {
+      data.product_type_id = id;
+      const response = await axios.put(`${api_backend}/api/type`, data, {
         headers: {
           "Content-Type": "application/json",
           Authorization: token,
@@ -87,13 +85,13 @@ const EditDialog: FC<IEditDialog> = ({
     <CreateDialogContainer>
       <FormInput onSubmit={handleSubmit(onSubmit)}>
         <Controller
-          name="title"
+          name="product_type_name"
           control={control}
-          rules={{ required: "Title is required." }}
+          rules={{ required: "Name category is required." }}
           render={({ field, fieldState }) => (
             <>
               <FormGroup>
-                <label htmlFor="title">Title</label>
+                <label htmlFor="product_type_name">Name Category</label>
                 <InputText
                   id={field.name}
                   value={field.value}
@@ -102,28 +100,7 @@ const EditDialog: FC<IEditDialog> = ({
                   style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
-                  {errors?.title?.message}
-                </InfoError>
-              </FormGroup>
-            </>
-          )}
-        />
-        <Controller
-          name="description"
-          control={control}
-          rules={{ required: "Description is required." }}
-          render={({ field, fieldState }) => (
-            <>
-              <FormGroup>
-                <label htmlFor="description">Description</label>
-                <Editor
-                  id={field.name}
-                  value={field.value}
-                  onTextChange={(e) => field.onChange(e.textValue)}
-                  style={{ height: "320px" }}
-                />
-                <InfoError className="p-error">
-                  {errors?.description?.message}
+                  {errors?.product_type_name?.message}
                 </InfoError>
               </FormGroup>
             </>
