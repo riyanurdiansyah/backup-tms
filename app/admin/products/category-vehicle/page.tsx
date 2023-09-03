@@ -93,10 +93,6 @@ const CategoryVehicleContent = () => {
           setIdSelected={setIdSelected}
           id={rowData.product_type_id}
         />
-        <BtnDelete
-          confirmDeleteData={confirmDeleteData}
-          id={rowData.product_type_id}
-        />
       </BoxAction>
     );
   };

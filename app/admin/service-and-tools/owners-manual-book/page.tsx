@@ -43,7 +43,7 @@ const OwnersManualBookContent = () => {
   };
 
   const accept = async (id: any) => {
-    const response = await axios.delete(`${api_backend}/api/dealer/${id}`, {
+    const response = await axios.delete(`${api_backend}/api/book/${id}`, {
       headers: {
         Authorization: token,
         "Access-Control-Allow-Origin": "*",

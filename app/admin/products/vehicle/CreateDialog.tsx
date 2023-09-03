@@ -12,14 +12,20 @@ import { InputText } from "primereact/inputtext";
 import { Controller, useForm } from "react-hook-form";
 import { classNames } from "primereact/utils";
 import { Button } from "primereact/button";
-import { useFetchTrigger, usePostUmum } from "@/utils/useFetchData";
-import { InputNumber } from "primereact/inputnumber";
-import { InputTextarea } from "primereact/inputtextarea";
-import { Editor } from "primereact/editor";
+import { useFetchTrigger } from "@/utils/useFetchData";
+import axios from "axios";
+import useToken from "@/utils/useToken";
+const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 type FormData = {
-  title: string;
-  description: string;
+  image: File | null;
+  image_bg: File | null;
+  name: string;
+  product_type_id: string;
+  gvw: string;
+  cabin: string;
+  max_power: string;
+  max_torque: string;
 };
 
 const CreateDialog: FC<ICreateDialog> = ({
@@ -27,7 +33,7 @@ const CreateDialog: FC<ICreateDialog> = ({
   setDataNew,
   showToast,
 }) => {
-  const [postData] = usePostUmum("/api/product");
+  const [token] = useToken();
   const [fetchTrigger] = useFetchTrigger<any>("/api/product");
   const {
     handleSubmit,
@@ -36,10 +42,33 @@ const CreateDialog: FC<ICreateDialog> = ({
     setValue,
   } = useForm<FormData>();
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    return file || null;
+  };
+
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await postData(data);
-      if (response && response.code === 201) {
+      const formData = new FormData();
+      formData.append("image", data.image as File);
+      formData.append("image_bg", data.image_bg as File);
+      formData.append("name", data.name);
+      formData.append("product_type_id", data.product_type_id);
+      formData.append("gvw", data.gvw);
+      formData.append("cabin", data.cabin);
+      formData.append("max_power", data.max_torque);
+
+      const response = await axios.post(
+        `${api_backend}/api/product`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: token,
+          },
+        }
+      );
+      if (response.status === 201) {
         const fetchDataNew = await fetchTrigger();
         await setDataNew(fetchDataNew?.data);
         await showToast({
@@ -70,13 +99,13 @@ const CreateDialog: FC<ICreateDialog> = ({
     <CreateDialogContainer>
       <FormInput onSubmit={handleSubmit(onSubmit)}>
         <Controller
-          name="title"
+          name="name"
           control={control}
-          rules={{ required: "Title is required." }}
+          rules={{ required: "Name is required." }}
           render={({ field, fieldState }) => (
             <>
               <FormGroup>
-                <label htmlFor="title">Title</label>
+                <label htmlFor="name">Name</label>
                 <InputText
                   id={field.name}
                   value={field.value}
@@ -85,28 +114,151 @@ const CreateDialog: FC<ICreateDialog> = ({
                   style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
-                  {errors?.title?.message}
+                  {errors?.name?.message}
                 </InfoError>
               </FormGroup>
             </>
           )}
         />
         <Controller
-          name="description"
+          name="image"
           control={control}
-          rules={{ required: "Description is required." }}
+          render={({ field }) => (
+            <FormGroup>
+              <label htmlFor="image">Image</label>
+              <input
+                type="file"
+                name="image"
+                onChange={(e) => {
+                  const newFile = handleFileUpload(e);
+                  setValue("image", newFile);
+                }}
+              />
+            </FormGroup>
+          )}
+        />
+        <Controller
+          name="image_bg"
+          control={control}
+          render={({ field }) => (
+            <FormGroup>
+              <label htmlFor="image_bg">Background</label>
+              <input
+                type="file"
+                name="image_bg"
+                onChange={(e) => {
+                  const newFile = handleFileUpload(e);
+                  setValue("image_bg", newFile);
+                }}
+              />
+            </FormGroup>
+          )}
+        />
+        <Controller
+          name="product_type_id"
+          control={control}
+          rules={{ required: "Category is required." }}
           render={({ field, fieldState }) => (
             <>
               <FormGroup>
-                <label htmlFor="description">Description</label>
-                <Editor
+                <label htmlFor="product_type_id">Category</label>
+                <InputText
                   id={field.name}
                   value={field.value}
-                  onTextChange={(e) => field.onChange(e.textValue)}
-                  style={{ height: "320px" }}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
-                  {errors?.description?.message}
+                  {errors?.product_type_id?.message}
+                </InfoError>
+              </FormGroup>
+            </>
+          )}
+        />
+        <Controller
+          name="gvw"
+          control={control}
+          rules={{ required: "GWV is required." }}
+          render={({ field, fieldState }) => (
+            <>
+              <FormGroup>
+                <label htmlFor="name">GWV</label>
+                <InputText
+                  id={field.name}
+                  value={field.value}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  style={{ width: "100%" }}
+                />
+                <InfoError className="p-error">
+                  {errors?.gvw?.message}
+                </InfoError>
+              </FormGroup>
+            </>
+          )}
+        />
+        <Controller
+          name="cabin"
+          control={control}
+          rules={{ required: "Cabin to end is required." }}
+          render={({ field, fieldState }) => (
+            <>
+              <FormGroup>
+                <label htmlFor="cabin">Cabin to end</label>
+                <InputText
+                  id={field.name}
+                  value={field.value}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  style={{ width: "100%" }}
+                />
+                <InfoError className="p-error">
+                  {errors?.cabin?.message}
+                </InfoError>
+              </FormGroup>
+            </>
+          )}
+        />
+        <Controller
+          name="max_power"
+          control={control}
+          rules={{ required: "Max. Power is required." }}
+          render={({ field, fieldState }) => (
+            <>
+              <FormGroup>
+                <label htmlFor="max_power">Max. Power</label>
+                <InputText
+                  id={field.name}
+                  value={field.value}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  style={{ width: "100%" }}
+                />
+                <InfoError className="p-error">
+                  {errors?.max_power?.message}
+                </InfoError>
+              </FormGroup>
+            </>
+          )}
+        />
+        <Controller
+          name="max_torque"
+          control={control}
+          rules={{ required: "Max Torque is required." }}
+          render={({ field, fieldState }) => (
+            <>
+              <FormGroup>
+                <label htmlFor="max_torque">Max Torque</label>
+                <InputText
+                  id={field.name}
+                  value={field.value}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  style={{ width: "100%" }}
+                />
+                <InfoError className="p-error">
+                  {errors?.max_torque?.message}
                 </InfoError>
               </FormGroup>
             </>

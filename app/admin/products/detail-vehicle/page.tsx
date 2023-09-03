@@ -91,11 +91,11 @@ const DetailVehicleContent = () => {
         <BtnEdit
           setVisibleEdit={setVisibleEdit}
           setIdSelected={setIdSelected}
-          id={rowData.service_id}
+          id={rowData.product_spesification_id}
         />
         <BtnDelete
           confirmDeleteData={confirmDeleteData}
-          id={rowData.service_id}
+          id={rowData.product_spesification_id}
         />
       </BoxAction>
     );

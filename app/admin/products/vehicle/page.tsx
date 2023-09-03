@@ -13,6 +13,7 @@ import axios from "axios";
 import useToken from "@/utils/useToken";
 import { Toast } from "primereact/toast";
 import EditDialog from "./EditDialog";
+import Image from "next/image";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 const VehicleContent = () => {
@@ -81,25 +82,67 @@ const VehicleContent = () => {
     });
   };
 
+  const imageBodyVehicle = (rowData: any) => {
+    return (
+      <Image
+        src={rowData.image || "/no-image.png"}
+        alt={rowData.image}
+        layout="responsive"
+        objectFit="cover"
+        loading="lazy"
+        width="0"
+        height="0"
+        style={{
+          maxWidth: "100px",
+          height: "auto",
+          boxShadow:
+            "0 4px 10px rgba(0,0,0,.03),0 0 2px rgba(0,0,0,.06),0 2px 6px rgba(0, 0, 0, 0.081)",
+        }}
+      />
+    );
+  };
+
+  const imageBodyBg = (rowData: any) => {
+    return (
+      <Image
+        src={rowData.image_bg || "/no-image.png"}
+        alt={rowData.image_bg}
+        layout="responsive"
+        objectFit="cover"
+        loading="lazy"
+        width="0"
+        height="0"
+        style={{
+          maxWidth: "100px",
+          height: "auto",
+          boxShadow:
+            "0 4px 10px rgba(0,0,0,.03),0 0 2px rgba(0,0,0,.06),0 2px 6px rgba(0, 0, 0, 0.081)",
+        }}
+      />
+    );
+  };
+
   const actionBodyTemplate = (rowData: any) => {
     return (
       <BoxAction>
         <BtnEdit
           setVisibleEdit={setVisibleEdit}
           setIdSelected={setIdSelected}
-          id={rowData.service_id}
+          id={rowData.product_id}
         />
         <BtnDelete
           confirmDeleteData={confirmDeleteData}
-          id={rowData.service_id}
+          id={rowData.product_id}
         />
       </BoxAction>
     );
   };
 
   const columns = [
-    { field: "title", header: "Title", style: { width: "20%" } },
-    { field: "description", header: "Description" },
+    { field: "name", header: "Name vehicle", style: { width: "30%" } },
+    { body: imageBodyVehicle, header: "Image", style: { width: "12%" } },
+    { body: imageBodyBg, header: "Background", style: { width: "12%" } },
+    { field: "product_type.product_type_name", header: "Category" },
     { body: actionBodyTemplate, header: "", style: { width: "10%" } },
   ];
 
