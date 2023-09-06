@@ -14,8 +14,11 @@ import {
   TextInfo,
   TextQ,
 } from "./Styled";
+import { useFetchUmum } from "@/utils/useFetchData";
 
 const WarrantyPage = () => {
+  const [warrantyData, loadingWarrantyData] = useFetchUmum("/api/service");
+
   const [activeIndices, setActiveIndices] = useState<any>([0]);
 
   const toggleAnswer = (index: any) => {
@@ -30,35 +33,39 @@ const WarrantyPage = () => {
     <div className="warranty-and-ksg-page-wrapper">
       <HeroBanner title={"Warranty And KSG"} />
       <BodyContent>
-        <ListQNA>
-          {warrantyDummy?.map((item: any, index: number) => (
-            <ItemQNA
-              key={index}
-              active={activeIndices.includes(index) ? true : false}
-              onClick={() =>
-                activeIndices.includes(index) ? toggleAnswer(index) : ""
-              }
-            >
-              <Q onClick={() => toggleAnswer(index)}>
-                {activeIndices.includes(index) ? (
-                  <IconArrowUp />
-                ) : (
-                  <IconArrowDown />
-                )}
-                <TextQ>{item.Q}</TextQ>
-              </Q>
-              <A
-                active={activeIndices.includes(index) ? true : false}
-                dangerouslySetInnerHTML={{ __html: item.A }}
-              />
-            </ItemQNA>
-          ))}
-        </ListQNA>
-        <TextInfo>
-          <IconInfo />
-          Silahkan merujuk pada Buku Servis & Garansi untuk melihat sepenuhnya
-          syarat dan ketentuan Warranty Claim.
-        </TextInfo>
+        {!loadingWarrantyData && warrantyData && (
+          <>
+            <ListQNA>
+              {warrantyData?.data?.map((item: any, index: number) => (
+                <ItemQNA
+                  key={index}
+                  active={activeIndices.includes(index) ? true : false}
+                  onClick={() =>
+                    activeIndices.includes(index) ? toggleAnswer(index) : ""
+                  }
+                >
+                  <Q onClick={() => toggleAnswer(index)}>
+                    {activeIndices.includes(index) ? (
+                      <IconArrowUp />
+                    ) : (
+                      <IconArrowDown />
+                    )}
+                    <TextQ>{item.title}</TextQ>
+                  </Q>
+                  <A
+                    active={activeIndices.includes(index) ? true : false}
+                    dangerouslySetInnerHTML={{ __html: item.description }}
+                  />
+                </ItemQNA>
+              ))}
+            </ListQNA>
+            <TextInfo>
+              <IconInfo />
+              Silahkan merujuk pada Buku Servis & Garansi untuk melihat
+              sepenuhnya syarat dan ketentuan Warranty Claim.
+            </TextInfo>
+          </>
+        )}
       </BodyContent>
     </div>
   );
