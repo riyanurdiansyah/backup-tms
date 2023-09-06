@@ -11,8 +11,10 @@ import {
 import { FiSearch } from "react-icons/fi";
 import { Container } from "../../styles/styledComponents/GlobalStyled";
 import CardBook from "@/components/Card/CardBook";
+import { useFetchUmum } from "@/utils/useFetchData";
 
 const OwnersManual = () => {
+  const [manualBookData, loadingManualBookData] = useFetchUmum("/api/book");
   return (
     <div className="owners-manual-page-wrapper">
       <HeroBanner title={"Owners Manual Book"} />
@@ -26,19 +28,21 @@ const OwnersManual = () => {
           </Search>
         </SearchBox>
       </SearchContainer>
-      <Container>
-        <ListBook>
-          {bookDummy?.map((item: any, index: number) => {
-            return (
-              <CardBook
-                id={item.id || index}
-                title={item.title}
-                link={item.link}
-              />
-            );
-          })}
-        </ListBook>
-      </Container>
+      {!loadingManualBookData && manualBookData && (
+        <Container>
+          <ListBook>
+            {manualBookData?.data?.map((item: any, index: number) => {
+              return (
+                <CardBook
+                  id={item.book_id || index}
+                  title={item.nama}
+                  link={item.file}
+                />
+              );
+            })}
+          </ListBook>
+        </Container>
+      )}
     </div>
   );
 };
