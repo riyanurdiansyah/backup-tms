@@ -18,6 +18,7 @@ import Image from "next/image";
 import ImgMap from "./img-map.png";
 import { RiArrowRightSFill, RiArrowLeftSFill } from "react-icons/ri";
 import mapboxgl from "mapbox-gl";
+import { useFetchUmum } from "@/utils/useFetchData";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXJpZm51cnJvaG1hbiIsImEiOiJjbGw5azIzZW4weWlqM3B0anMyMzZ2a3puIn0.2pPasYXM60HfzFcFt7LJKQ";
 
@@ -25,6 +26,8 @@ const TmsIsuzuNetworkPage = () => {
   const [isShow, setIsShow] = useState(false);
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const markers = useRef<mapboxgl.Marker[]>([]);
+
+  const [networkData, loadingNetworkData] = useFetchUmum("/api/dealer");
 
   useEffect(() => {
     if (mapContainer.current) {
@@ -38,9 +41,9 @@ const TmsIsuzuNetworkPage = () => {
 
       map.addControl(new mapboxgl.NavigationControl());
 
-      dummyNetwork.forEach((data: any) => {
+      networkData?.data?.forEach((data: any) => {
         const marker = new mapboxgl.Marker({ draggable: false, color: "red" })
-          .setLngLat(data.coordinates)
+          .setLngLat([data.latitude, data.longitude])
           .addTo(map);
 
         const popupContent = document.createElement("div");
@@ -56,7 +59,7 @@ const TmsIsuzuNetworkPage = () => {
 
           // Zoom ke marker yang di klik
           map.flyTo({
-            center: data.coordinates,
+            center: [data.latitude, data.longitude],
             zoom: 12,
             essential: true,
           });
@@ -76,11 +79,11 @@ const TmsIsuzuNetworkPage = () => {
         <Left isShow={isShow}>
           <Title>Lokasi Kami</Title>
           <ListNetwork>
-            {dummyNetwork?.map((item: any, index: number) => (
+            {networkData?.data?.map((item: any, index: number) => (
               <CardNetwork
                 name={item?.name}
-                jenis={item?.jenis}
-                address={item?.address}
+                jenis={item?.subtitle}
+                address={item?.location}
                 phone={item?.phone}
               />
             ))}
