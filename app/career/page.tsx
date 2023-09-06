@@ -23,36 +23,37 @@ import { useFetchUmum } from "@/utils/useFetchData";
 
 const CareerPage = () => {
   const [lebarLayar] = useDimensiLayar();
-  const jobDummy = [
-    {
-      id: 1,
-      title: "Admin Staff (Bandung Area)",
-      category: "Sistem Informasi",
-      rank: "Lulusan Baru",
-      expired: "10 Agustus 2023",
-    },
-    {
-      id: 2,
-      title: "Admin Staff (Bandung Area)",
-      category: "Sistem Informasi",
-      rank: "Lulusan Baru",
-      expired: "10 Agustus 2023",
-    },
-    {
-      id: 3,
-      title: "Admin Staff (Bandung Area)",
-      category: "Sistem Informasi",
-      rank: "Lulusan Baru",
-      expired: "10 Agustus 2023",
-    },
-    {
-      id: 4,
-      title: "Admin Staff (Bandung Area)",
-      category: "Sistem Informasi",
-      rank: "Lulusan Baru",
-      expired: "10 Agustus 2023",
-    },
-  ];
+  const [careerData, loadingCareerData] = useFetchUmum("/api/career");
+  // const jobDummy = [
+  //   {
+  //     id: 1,
+  //     title: "Admin Staff (Bandung Area)",
+  //     category: "Sistem Informasi",
+  //     rank: "Lulusan Baru",
+  //     expired: "10 Agustus 2023",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Admin Staff (Bandung Area)",
+  //     category: "Sistem Informasi",
+  //     rank: "Lulusan Baru",
+  //     expired: "10 Agustus 2023",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Admin Staff (Bandung Area)",
+  //     category: "Sistem Informasi",
+  //     rank: "Lulusan Baru",
+  //     expired: "10 Agustus 2023",
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Admin Staff (Bandung Area)",
+  //     category: "Sistem Informasi",
+  //     rank: "Lulusan Baru",
+  //     expired: "10 Agustus 2023",
+  //   },
+  // ];
   const listMenuFungsi = [
     "Akutansi",
     "Sistem Informasi",
@@ -123,14 +124,16 @@ const CareerPage = () => {
       </SearchContainer>
       <Container className="body-career-page">
         <ListJob>
-          {jobDummy?.map((item: any, index: number) => {
+          {careerData?.data?.map((item: any, index: number) => {
             return (
               <CardJob
-                id={item.id || index}
+                id={item.career_id || index}
                 title={item.title}
-                category={item.category}
-                rank={item.rank}
+                category={item.subtitle}
+                rank={item.status}
                 expired={item.expired}
+                location={item.location}
+                link={item.link}
               />
             );
           })}

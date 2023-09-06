@@ -19,8 +19,17 @@ import { BiTime } from "react-icons/bi";
 import { GoDotFill } from "react-icons/go";
 import { MdWorkOutline } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import { formatTimestampToDate } from "@/utils/convertDate";
 
-const CardJob: FC<ICardJob> = ({ id, title, category, rank, expired }) => {
+const CardJob: FC<ICardJob> = ({
+  id,
+  title,
+  category,
+  rank,
+  expired,
+  location,
+  link,
+}) => {
   const router = useRouter();
 
   return (
@@ -29,7 +38,7 @@ const CardJob: FC<ICardJob> = ({ id, title, category, rank, expired }) => {
         <CardImgBrand />
       </HeadCard>
       <BodyCard>
-        <JobTitle>{title}</JobTitle>
+        <JobTitle>{`${title} (${location})`}</JobTitle>
         <JobQualification>
           <Jobcategory>
             <MdWorkOutline color="#e7cccc" /> {category}
@@ -40,14 +49,14 @@ const CardJob: FC<ICardJob> = ({ id, title, category, rank, expired }) => {
         </JobQualification>
         <JobExpired>
           <BiTime color="#e7cccc" />
-          {expired}
+          {formatTimestampToDate(expired)}
         </JobExpired>
       </BodyCard>
       <FooterCard>
         <BtnDetail onClick={() => router.push(`/career/${id}`)}>
           Lihat Detail
         </BtnDetail>
-        <BtnApply>Lamar</BtnApply>
+        <BtnApply onClick={() => window.open(link, "_blank")}>Lamar</BtnApply>
       </FooterCard>
     </Card>
   );
@@ -59,5 +68,7 @@ interface ICardJob {
   category: string;
   rank: string;
   expired: any;
+  location: string;
+  link: string;
 }
 export default CardJob;
