@@ -1,3 +1,4 @@
+"use client";
 import HeroBanner from "@/components/HeroBanner";
 import React from "react";
 import {
@@ -10,8 +11,10 @@ import {
 import { FiSearch } from "react-icons/fi";
 import { Container } from "../../styles/styledComponents/GlobalStyled";
 import CardBrochure from "@/components/Card/CardBrochure";
+import { useFetchUmum } from "@/utils/useFetchData";
 
 const BrochuresPage = () => {
+  const [brochurekData, loadingBrochureData] = useFetchUmum("/api/brochure");
   return (
     <div className="brochures-page-wrapper">
       <HeroBanner title={"Brochures"} />
@@ -26,48 +29,50 @@ const BrochuresPage = () => {
         </SearchBox>
       </SearchContainer>
       <Container>
-        <ListBrochures>
-          {brochureDummy?.map((item: any, index: number) => {
-            return (
-              <CardBrochure
-                id={item.id || index}
-                title={item.title}
-                thumbnail={item.thumbnail}
-                link={item.link}
-              />
-            );
-          })}
-        </ListBrochures>
+        {!loadingBrochureData && brochurekData && (
+          <ListBrochures>
+            {brochurekData?.data?.map((item: any, index: number) => {
+              return (
+                <CardBrochure
+                  id={item.brochure_id || index}
+                  title={item.title}
+                  thumbnail={item.thumbnail}
+                  link={item.brochure}
+                />
+              );
+            })}
+          </ListBrochures>
+        )}
       </Container>
     </div>
   );
 };
 
-const brochureDummy = [
-  {
-    title: "ISUZU GIGA TRACTOR HEAD",
-    thumbnail: "/img-brochure.png",
-    linkBrochure:
-      "https://isuzu-astra.com/wp-content/uploads/2023/04/2023_ELF_Brosur_NLR-NLR-L_Maret.pdf",
-  },
-  {
-    title: "ISUZU GIGA TRACTOR HEAD",
-    thumbnail: "",
-    linkBrochure:
-      "https://isuzu-astra.com/wp-content/uploads/2023/04/2023_ELF_Brosur_NLR-NLR-L_Maret.pdf",
-  },
-  {
-    title: "ISUZU GIGA TRACTOR HEAD",
-    thumbnail: "/img-brochure.png",
-    linkBrochure:
-      "https://isuzu-astra.com/wp-content/uploads/2023/04/2023_ELF_Brosur_NLR-NLR-L_Maret.pdf",
-  },
-  {
-    title: "ISUZU GIGA TRACTOR HEAD",
-    thumbnail: "/img-brochure.png",
-    linkBrochure:
-      "https://isuzu-astra.com/wp-content/uploads/2023/04/2023_ELF_Brosur_NLR-NLR-L_Maret.pdf",
-  },
-];
+// const brochureDummy = [
+//   {
+//     title: "ISUZU GIGA TRACTOR HEAD",
+//     thumbnail: "/img-brochure.png",
+//     linkBrochure:
+//       "https://isuzu-astra.com/wp-content/uploads/2023/04/2023_ELF_Brosur_NLR-NLR-L_Maret.pdf",
+//   },
+//   {
+//     title: "ISUZU GIGA TRACTOR HEAD",
+//     thumbnail: "",
+//     linkBrochure:
+//       "https://isuzu-astra.com/wp-content/uploads/2023/04/2023_ELF_Brosur_NLR-NLR-L_Maret.pdf",
+//   },
+//   {
+//     title: "ISUZU GIGA TRACTOR HEAD",
+//     thumbnail: "/img-brochure.png",
+//     linkBrochure:
+//       "https://isuzu-astra.com/wp-content/uploads/2023/04/2023_ELF_Brosur_NLR-NLR-L_Maret.pdf",
+//   },
+//   {
+//     title: "ISUZU GIGA TRACTOR HEAD",
+//     thumbnail: "/img-brochure.png",
+//     linkBrochure:
+//       "https://isuzu-astra.com/wp-content/uploads/2023/04/2023_ELF_Brosur_NLR-NLR-L_Maret.pdf",
+//   },
+// ];
 
 export default BrochuresPage;
