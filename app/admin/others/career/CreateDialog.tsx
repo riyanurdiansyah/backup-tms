@@ -15,16 +15,29 @@ import { Button } from "primereact/button";
 import { useFetchTrigger, usePostUmum } from "@/utils/useFetchData";
 import { Editor } from "primereact/editor";
 import { Calendar } from "primereact/calendar";
+import { listDataFunction, listDataJenjang } from "@/utils/craeerDataList";
+import { Dropdown } from "primereact/dropdown";
+
+type Subtitle = {
+  name: string;
+};
+
+type Status = {
+  name: string;
+};
 
 type FormData = {
   title: string;
-  subtitle: string;
+  subtitle: Subtitle | null;
   published: string;
   expired: string;
   link: string;
   location: string;
-  status: string;
+  status: Status | null;
   description: string;
+  kualifikasi: string;
+  persyaratan: string;
+  benefit: string;
 };
 
 const CreateDialog: FC<ICreateDialog> = ({
@@ -61,14 +74,14 @@ const CreateDialog: FC<ICreateDialog> = ({
   //   );
   //   return formattedDate;
   // };
-
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: any) => {
     try {
       data.published = Date.now().toString();
       const date = new Date(data.expired);
       const timestampString = date.getTime().toString();
       data.expired = timestampString;
-      // data.description = editorValue;
+      data.subtitle = data?.subtitle?.name;
+      data.status = data?.status?.name;
 
       const response = await postData(data);
       if (response && response.code === 201) {
@@ -126,20 +139,48 @@ const CreateDialog: FC<ICreateDialog> = ({
         <Controller
           name="subtitle"
           control={control}
-          rules={{ required: "Subtitle is required." }}
+          rules={{ required: "Function/Role is required." }}
           render={({ field, fieldState }) => (
             <>
               <FormGroup>
-                <label htmlFor="subtitle">Subtitle</label>
-                <InputText
+                <label htmlFor="subtitle">Function/Role</label>
+                <Dropdown
                   id={field.name}
                   value={field.value}
+                  optionLabel="name"
+                  placeholder="Pilih Function/Role"
+                  options={listDataFunction.map((item) => ({ name: item }))}
+                  focusInputRef={field.ref}
+                  onChange={(e) => field.onChange(e.value)}
                   className={classNames({ "p-invalid": fieldState.error })}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
                   {errors?.subtitle?.message}
+                </InfoError>
+              </FormGroup>
+            </>
+          )}
+        />
+        <Controller
+          name="status"
+          control={control}
+          rules={{ required: "Level is required." }}
+          render={({ field, fieldState }) => (
+            <>
+              <FormGroup>
+                <label htmlFor="status">Level</label>
+                <Dropdown
+                  id={field.name}
+                  value={field.value}
+                  optionLabel="name"
+                  placeholder="Pilih Level"
+                  options={listDataJenjang.map((item) => ({ name: item }))}
+                  focusInputRef={field.ref}
+                  onChange={(e) => field.onChange(e.value)}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                />
+                <InfoError className="p-error">
+                  {errors?.status?.message}
                 </InfoError>
               </FormGroup>
             </>
@@ -211,28 +252,6 @@ const CreateDialog: FC<ICreateDialog> = ({
           )}
         />
         <Controller
-          name="status"
-          control={control}
-          rules={{ required: "Status is required." }}
-          render={({ field, fieldState }) => (
-            <>
-              <FormGroup>
-                <label htmlFor="status">Status</label>
-                <InputText
-                  id={field.name}
-                  value={field.value}
-                  className={classNames({ "p-invalid": fieldState.error })}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  style={{ width: "100%" }}
-                />
-                <InfoError className="p-error">
-                  {errors?.status?.message}
-                </InfoError>
-              </FormGroup>
-            </>
-          )}
-        />
-        <Controller
           name="description"
           control={control}
           rules={{ required: "Description is required." }}
@@ -244,14 +263,73 @@ const CreateDialog: FC<ICreateDialog> = ({
                   id={field.name}
                   value={field.value}
                   onTextChange={(e) => field.onChange(e.textValue)}
-                  // onTextChange={(e) => {
-                  //   setEditorValue(e.textValue);
-                  //   setValue("description", e.textValue);
-                  // }}
                   style={{ height: "320px" }}
                 />
                 <InfoError className="p-error">
                   {errors?.description?.message}
+                </InfoError>
+              </FormGroup>
+            </>
+          )}
+        />
+        <Controller
+          name="kualifikasi"
+          control={control}
+          rules={{ required: "Qualification is required." }}
+          render={({ field, fieldState }) => (
+            <>
+              <FormGroup>
+                <label htmlFor="kualifikasi">Qualification</label>
+                <Editor
+                  id={field.name}
+                  value={field.value}
+                  onTextChange={(e) => field.onChange(e.textValue)}
+                  style={{ height: "320px" }}
+                />
+                <InfoError className="p-error">
+                  {errors?.kualifikasi?.message}
+                </InfoError>
+              </FormGroup>
+            </>
+          )}
+        />
+        <Controller
+          name="persyaratan"
+          control={control}
+          rules={{ required: "Requirements is required." }}
+          render={({ field, fieldState }) => (
+            <>
+              <FormGroup>
+                <label htmlFor="persyaratan">Requirement</label>
+                <Editor
+                  id={field.name}
+                  value={field.value}
+                  onTextChange={(e) => field.onChange(e.textValue)}
+                  style={{ height: "320px" }}
+                />
+                <InfoError className="p-error">
+                  {errors?.persyaratan?.message}
+                </InfoError>
+              </FormGroup>
+            </>
+          )}
+        />
+        <Controller
+          name="benefit"
+          control={control}
+          rules={{ required: "Benefit is required." }}
+          render={({ field, fieldState }) => (
+            <>
+              <FormGroup>
+                <label htmlFor="benefit">Benefit</label>
+                <Editor
+                  id={field.name}
+                  value={field.value}
+                  onTextChange={(e) => field.onChange(e.textValue)}
+                  style={{ height: "320px" }}
+                />
+                <InfoError className="p-error">
+                  {errors?.benefit?.message}
                 </InfoError>
               </FormGroup>
             </>
