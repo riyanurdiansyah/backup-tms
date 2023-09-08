@@ -1,6 +1,6 @@
 "use client";
 import HeroBanner from "@/components/HeroBanner";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "../../styles/styledComponents/GlobalStyled";
 import CardJob from "@/components/Card/CardJob";
 import {
@@ -20,9 +20,13 @@ import Hover from "@/components/Hover";
 import DropdownMenu from "@/components/Hover/DropdownMenu";
 import useDimensiLayar from "@/utils/useDimensiLayar";
 import { useFetchUmum } from "@/utils/useFetchData";
+import { listDataFunction, listDataJenjang } from "@/utils/craeerDataList";
 
 const CareerPage = () => {
   const [lebarLayar] = useDimensiLayar();
+  const [dataNew, setDataNew] = useState<any>(null);
+  const [functionTerpilih, setFunctionTerpilih] = useState(null);
+  const [levelTerpilih, setLevelTerpilih] = useState(null);
   const [careerData, loadingCareerData] = useFetchUmum("/api/career");
   // const jobDummy = [
   //   {
@@ -54,20 +58,39 @@ const CareerPage = () => {
   //     expired: "10 Agustus 2023",
   //   },
   // ];
-  const listMenuFungsi = [
-    "Akutansi",
-    "Sistem Informasi",
-    "Informatika",
-    "Teknik Mesin",
-  ];
-  const listMenuJenjang = ["Lulusan Baru", "Profesional"];
+  useEffect(() => {
+    if (!loadingCareerData && careerData) {
+      setDataNew(careerData?.data);
+    }
+  }, [careerData, loadingCareerData]);
 
-  const handleClickDropdown = (e: any) => {
-    console.log("menu", e);
+  useEffect(() => {
+    if (functionTerpilih !== null || levelTerpilih !== null) {
+      const filteredData = careerData.data.filter((item: any) => {
+        if (functionTerpilih !== null && levelTerpilih !== null) {
+          return (
+            item.subtitle === functionTerpilih && item.status === levelTerpilih
+          );
+        } else if (functionTerpilih !== null) {
+          return item.subtitle === functionTerpilih;
+        } else if (levelTerpilih !== null) {
+          return item.status === levelTerpilih;
+        }
+        return true;
+      });
+      setDataNew(filteredData);
+    } else {
+      setDataNew(careerData?.data);
+    }
+  }, [functionTerpilih, levelTerpilih]);
+
+  const handleClickDropdownFunction = (e: any) => {
+    setFunctionTerpilih(e);
   };
 
-  const [jobsData, loadingJobsData] = useFetchUmum("/api/career");
-  console.log("jobsData", jobsData);
+  const handleClickDropdownLevel = (e: any) => {
+    setLevelTerpilih(e);
+  };
 
   return (
     <div className="career-page-wrapper">
@@ -88,14 +111,20 @@ const CareerPage = () => {
               kiriHover={lebarLayar > 576 ? "auto" : 0}
               onHover={
                 <DropdownMenu
-                  dataMenu={listMenuJenjang}
-                  handleClickDropdown={handleClickDropdown}
+                  dataMenu={listDataFunction}
+                  handleClickDropdown={handleClickDropdownFunction}
                 />
               }
             >
               <FilterCategory>
                 <p className="text">
-                  Pilih Fungsi <FaSortDown />
+                  {functionTerpilih ? (
+                    functionTerpilih
+                  ) : (
+                    <>
+                      Pilih Fungsi <FaSortDown />
+                    </>
+                  )}
                 </p>
               </FilterCategory>
             </Hover>
@@ -108,14 +137,20 @@ const CareerPage = () => {
               kiriHover="auto"
               onHover={
                 <DropdownMenu
-                  dataMenu={listMenuFungsi}
-                  handleClickDropdown={handleClickDropdown}
+                  dataMenu={listDataJenjang}
+                  handleClickDropdown={handleClickDropdownLevel}
                 />
               }
             >
               <FilterRank>
                 <p className="text">
-                  Pilih Jenjang <FaSortDown />
+                  {levelTerpilih ? (
+                    levelTerpilih
+                  ) : (
+                    <>
+                      Pilih Jenjang <FaSortDown />
+                    </>
+                  )}
                 </p>
               </FilterRank>
             </Hover>
@@ -124,7 +159,7 @@ const CareerPage = () => {
       </SearchContainer>
       <Container className="body-career-page">
         <ListJob>
-          {careerData?.data?.map((item: any, index: number) => {
+          {dataNew?.map((item: any, index: number) => {
             return (
               <CardJob
                 id={item.career_id || index}
