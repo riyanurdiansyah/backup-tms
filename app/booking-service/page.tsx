@@ -1,6 +1,7 @@
 "use client";
+
 import HeroBanner from "@/components/HeroBanner";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   BoxBS,
   BoxTitle,
@@ -38,38 +39,113 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import ImgLogo1 from "./logo-bengkel-1.png";
 import ImgLogo2 from "./logo-bengkel-2.png";
 import Image from "next/image";
+import { generateTimeOperation } from "@/utils/serviceDataList";
+import { useFetchUmum, usePostUmum } from "@/utils/useFetchData";
+import DropdownMenuV2 from "@/components/Hover/DropdownMenuV2";
+import { Toast } from "primereact/toast";
 
 const BookingServicePage = () => {
-  const [data, setData] = useState({
-    name: "",
-    no_hp: "",
-    email: "",
-    jadwal_service: "",
-    lokasi_service: "",
-    outlet: "",
-    no_kendaraan: "",
-    model_kendaraan: "",
-    tahun_kendaraan: "",
-    jenis_service: "",
-  });
+  const toast = useRef<any>(null);
+  const [listDealer, setListDealer] = useState<DealerInfo[]>([]);
 
-  const listOutlet = [
-    "Akutansi",
-    "Sistem Informasi",
-    "Informatika",
-    "Teknik Mesin",
-  ];
-
+  const [networkData, loadingNetworkData] = useFetchUmum("/api/dealer");
+  const [postData] = usePostUmum("/api/booking");
+  const timeOperation = generateTimeOperation();
   const listJenisService = ["Perawatan Berkala", "Perawatan Non-Berkala"];
 
-  const timeOperational = genrateTimeOperational();
+  const [data, setData] = useState<any>({
+    date: "",
+    email: "",
+    jenis_service: "",
+    location: "",
+    model: "",
+    no_hp: "",
+    no_kendaraan: "",
+    outlet_id: "",
+    tahun: "",
+    time: "",
+  });
 
-  const handleClickDropdown = (e: any) => {
-    console.log("menu", e);
+  useEffect(() => {
+    if (!loadingNetworkData && networkData) {
+      const result = extractDealerInfo(networkData);
+      setListDealer(result);
+    }
+  }, [networkData, loadingNetworkData]);
+
+  const handleClickDropdownTime = (e: any) => {
+    setData({ ...data, time: e });
+  };
+
+  const handleClickDropdownOutlet = (e: any) => {
+    setData({ ...data, outlet_id: e.id, location: e.location });
+  };
+
+  const handleClickDropdownJenisService = (e: any) => {
+    setData({ ...data, jenis_service: e });
+  };
+
+  const handleChangeInput = (e: any) => {
+    const { name, value } = e.target;
+    setData({ ...data, [name]: value });
+  };
+
+  const showToast = (data: any) => {
+    toast.current.show({
+      severity: data.type,
+      summary: data.title,
+      detail: data.message,
+      life: 3000,
+    });
+  };
+
+  const handleSubmit = async () => {
+    const hasEmptyStringValues = Object.values(data).some(
+      (value) => value === ""
+    );
+    if (hasEmptyStringValues) {
+      await showToast({
+        type: "error",
+        title: "Error",
+        message: "Form Harus Diisi semua",
+      });
+      console.log("Terdapat nilai string kosong dalam data.");
+    } else {
+      try {
+        const response = await postData(data);
+        if (response && response.code === 201) {
+          await showToast({
+            type: "success",
+            title: "Success",
+            message: "Berhasil Mengirimkan Data",
+          });
+          const newData: Record<string, string> = {};
+          for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+              newData[key] = "";
+            }
+          }
+          setData(newData);
+        } else {
+          await showToast({
+            type: "error",
+            title: "Error",
+            message: "Gagal Mengirimkan Data",
+          });
+        }
+      } catch (error) {
+        await showToast({
+          type: "error",
+          title: "Error",
+          message: "Gagal Mengirimkan Data",
+        });
+      }
+    }
   };
 
   return (
     <div className="booking-service-page-wrapper">
+      <Toast ref={toast} />
       <HeroBanner title={"Booking Service"} />
       <ContainerBS>
         <Title>KAMI MENYEDIAKAN BOOKING SERVICE UNTUK KENDARAAN ANDA</Title>
@@ -84,17 +160,35 @@ const BookingServicePage = () => {
               <CardTitle>Data Pemilik Kendaraan</CardTitle>
             </CardHead>
             <CardBody>
-              <RowInput>
+              {/* <RowInput>
                 <LForm>Nama Lengkap</LForm>
-                <IText type="text" placeholder="Nama Lengkap Anda" />
+                <IText
+                  type="text"
+                  placeholder="Nama Lengkap Anda"
+                  name="name"
+                  value={data.name}
+                  onChange={handleChangeInput}
+                />
+              </RowInput> */}
+              <RowInput>
+                <LForm>Email</LForm>
+                <IText
+                  type="text"
+                  placeholder="name@example.com"
+                  name="email"
+                  value={data.email}
+                  onChange={handleChangeInput}
+                />
               </RowInput>
               <RowInput>
                 <LForm>No. Handphone</LForm>
-                <IText type="number" placeholder="628xxxxxxxxxx" />
-              </RowInput>
-              <RowInput>
-                <LForm>Email</LForm>
-                <IText type="text" placeholder="name@example.com" />
+                <IText
+                  type="number"
+                  placeholder="628xxxxxxxxxx"
+                  name="no_hp"
+                  value={data.no_hp}
+                  onChange={handleChangeInput}
+                />
               </RowInput>
             </CardBody>
           </CardBox>
@@ -114,14 +208,21 @@ const BookingServicePage = () => {
                       kiriHover={0}
                       onHover={
                         <DropdownMenu
-                          dataMenu={listOutlet}
-                          handleClickDropdown={handleClickDropdown}
+                          dataMenu={timeOperation}
+                          handleClickDropdown={handleClickDropdownTime}
                         />
                       }
                     >
                       <DropdownName>
                         <p className="text">
-                          Pilih Jam <FaSortDown style={{ marginTop: "-4px" }} />
+                          {data.time != "" ? (
+                            data.time
+                          ) : (
+                            <>
+                              Pilih Jam{" "}
+                              <FaSortDown style={{ marginTop: "-4px" }} />
+                            </>
+                          )}
                         </p>
                       </DropdownName>
                     </Hover>
@@ -130,7 +231,12 @@ const BookingServicePage = () => {
                     <LForm style={{ width: "fit-content", minWidth: 0 }}>
                       Tgl
                     </LForm>
-                    <IDate type="date" />
+                    <IDate
+                      type="date"
+                      name="date"
+                      value={data.date}
+                      onChange={handleChangeInput}
+                    />
                   </ColInputDate>
                 </RowServiceTime>
               </RowInput>
@@ -143,6 +249,48 @@ const BookingServicePage = () => {
                 </InfoTimeService>
               </RowInput>
               <RowInput>
+                <LForm>Outlet</LForm>
+                <DropdownFull>
+                  <Hover
+                    paddingTop={5}
+                    topHover={40}
+                    kananHover={0}
+                    kiriHover={0}
+                    onHover={
+                      <DropdownMenuV2
+                        dataMenu={listDealer}
+                        handleClickDropdown={handleClickDropdownOutlet}
+                      />
+                    }
+                  >
+                    <DropdownName>
+                      <p className="text">
+                        {data.outlet_id != "" ? (
+                          listDealer?.find(
+                            (item: DealerInfo) => item.id == data.outlet_id
+                          )?.name
+                        ) : (
+                          <>
+                            Pilih Outlet{" "}
+                            <FaSortDown style={{ marginTop: "-4px" }} />
+                          </>
+                        )}
+                      </p>
+                    </DropdownName>
+                  </Hover>
+                </DropdownFull>
+              </RowInput>
+              <RowInput>
+                <LForm>Lokasi Service</LForm>
+                <IText
+                  type="text"
+                  placeholder=""
+                  name="location"
+                  value={data.location}
+                  disabled
+                />
+              </RowInput>
+              {/* <RowInput>
                 <LForm>Lokasi Service</LForm>
                 <RowDoubleRadioBtn>
                   <RadioBtn>
@@ -154,31 +302,7 @@ const BookingServicePage = () => {
                     <LRadioBtn>Rumah</LRadioBtn>
                   </RadioBtn>
                 </RowDoubleRadioBtn>
-              </RowInput>
-              <RowInput>
-                <LForm>Outlet</LForm>
-                <DropdownFull>
-                  <Hover
-                    paddingTop={5}
-                    topHover={40}
-                    kananHover={0}
-                    kiriHover={0}
-                    onHover={
-                      <DropdownMenu
-                        dataMenu={listOutlet}
-                        handleClickDropdown={handleClickDropdown}
-                      />
-                    }
-                  >
-                    <DropdownName>
-                      <p className="text">
-                        Pilih Outlet{" "}
-                        <FaSortDown style={{ marginTop: "-4px" }} />
-                      </p>
-                    </DropdownName>
-                  </Hover>
-                </DropdownFull>
-              </RowInput>
+              </RowInput> */}
             </CardBody>
           </CardBox>
           <CardBox>
@@ -188,13 +312,31 @@ const BookingServicePage = () => {
             <CardBody>
               <RowInput>
                 <LForm>Nomor Kendaraan</LForm>
-                <IText type="text" placeholder="B12345XYZ" />
+                <IText
+                  type="text"
+                  placeholder="B12345XYZ"
+                  name="no_kendaraan"
+                  value={data.no_kendaraan}
+                  onChange={handleChangeInput}
+                />
               </RowInput>
               <RowInput>
                 <LForm>Model & Tahun Kendaraan</LForm>
                 <RowDoubleInput>
-                  <IText type="text" placeholder="Model" />
-                  <IText type="number" placeholder="Tahun" />
+                  <IText
+                    type="text"
+                    placeholder="Model"
+                    name="model"
+                    value={data.model}
+                    onChange={handleChangeInput}
+                  />
+                  <IText
+                    type="number"
+                    placeholder="Tahun"
+                    name="tahun"
+                    value={data.tahun}
+                    onChange={handleChangeInput}
+                  />
                   {/* <DropdownFull className="model">
                     <Hover
                       paddingTop={5}
@@ -250,14 +392,20 @@ const BookingServicePage = () => {
                     onHover={
                       <DropdownMenu
                         dataMenu={listJenisService}
-                        handleClickDropdown={handleClickDropdown}
+                        handleClickDropdown={handleClickDropdownJenisService}
                       />
                     }
                   >
                     <DropdownName>
                       <p className="text">
-                        Pilih Jenis Service{" "}
-                        <FaSortDown style={{ marginTop: "-4px" }} />
+                        {data.jenis_service != "" ? (
+                          data.jenis_service
+                        ) : (
+                          <>
+                            Pilih Jenis Service{" "}
+                            <FaSortDown style={{ marginTop: "-4px" }} />
+                          </>
+                        )}
                       </p>
                     </DropdownName>
                   </Hover>
@@ -278,7 +426,7 @@ const BookingServicePage = () => {
             </TextInfoAccept>
           </InfoAccept>
 
-          <BtnSubmit>
+          <BtnSubmit onClick={handleSubmit}>
             Booking Sekarang{" "}
             <MdKeyboardArrowRight
               size={21}
@@ -312,22 +460,23 @@ const BookingServicePage = () => {
   );
 };
 
-const genrateTimeOperational = () => {
-  const startTime = 8 * 60; // Convert 08:00 to minutes (8 hours * 60 minutes)
-  const endTime = 15 * 60; // Convert 15:00 to minutes (15 hours * 60 minutes)
+interface DealerInfo {
+  id: string;
+  name: string;
+  location: string;
+}
 
-  const timeSlotInterval = 30; // 30 minutes interval
-
-  const timeSlots = [];
-  for (let time = startTime; time <= endTime; time += timeSlotInterval) {
-    const hours = Math.floor(time / 60);
-    const minutes = time % 60;
-    const formattedTime = `${String(hours).padStart(2, "0")}:${String(
-      minutes
-    ).padStart(2, "0")}`;
-    timeSlots.push(formattedTime);
+const extractDealerInfo = (data: any): DealerInfo[] => {
+  const listData: DealerInfo[] = [];
+  for (const item of data.data) {
+    const dealerInfo: DealerInfo = {
+      id: item.dealer_id,
+      name: item.name,
+      location: item.location,
+    };
+    listData.push(dealerInfo);
   }
-  return timeSlots;
+  return listData;
 };
 
 export default BookingServicePage;

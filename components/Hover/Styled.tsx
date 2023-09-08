@@ -48,6 +48,8 @@ export const ListMenuDropdown = styled.div`
   border: 1px solid ${color.border};
   min-width: max-content;
   width: 200px;
+  max-height: 280px;
+  overflow: scroll;
   padding: 10px;
   display: flex;
   flex-direction: column;
