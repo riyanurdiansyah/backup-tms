@@ -127,6 +127,10 @@ const MenuAdmin = [
         nameChild: "Slider Homepage",
         url: "/admin/others/slider-homepage",
       },
+      {
+        nameChild: "My Partner",
+        url: "/admin/others/my-partner",
+      },
     ],
   },
 ];
