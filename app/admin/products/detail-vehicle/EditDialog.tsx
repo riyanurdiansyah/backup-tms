@@ -15,11 +15,11 @@ import { Button } from "primereact/button";
 import { useFetchTrigger, useFetchUmum } from "@/utils/useFetchData";
 import axios from "axios";
 import useToken from "@/utils/useToken";
-import { Editor } from "primereact/editor";
+import { Dropdown } from "primereact/dropdown";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 type FormData = {
-  product_id: string;
+  product_id: string | null;
   category: string;
   title: string;
   satuan: string;
@@ -35,6 +35,7 @@ const EditDialog: FC<IEditDialog> = ({
 }) => {
   const [dataOld, loadingDataOld] = useFetchUmum(`/api/product/spec/${id}`);
   const [fetchTrigger] = useFetchTrigger<any>("/api/product/spec");
+  const [vehicleData] = useFetchUmum("/api/product");
   const [token] = useToken();
   const {
     handleSubmit,
@@ -45,7 +46,12 @@ const EditDialog: FC<IEditDialog> = ({
 
   useEffect(() => {
     if (dataOld) {
-      setValue("product_id", dataOld?.data?.product_id);
+      setValue(
+        "product_id",
+        vehicleData?.data?.find(
+          (item: any) => item.product_id === dataOld?.data?.product_id
+        )
+      );
       setValue("category", dataOld?.data?.category);
       setValue("title", dataOld?.data?.title);
       setValue("satuan", dataOld?.data?.satuan);
@@ -57,9 +63,11 @@ const EditDialog: FC<IEditDialog> = ({
     }
   }, [dataOld]);
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: any) => {
     try {
+      data.product_id = data.product_id.product_id;
       data.product_spesification_id = id;
+
       const response = await axios.put(
         `${api_backend}/api/product/spec`,
         data,
@@ -108,12 +116,15 @@ const EditDialog: FC<IEditDialog> = ({
             <>
               <FormGroup>
                 <label htmlFor="product_id">Vehicle</label>
-                <InputText
+                <Dropdown
                   id={field.name}
                   value={field.value}
+                  placeholder="Pilih Vehicle"
+                  options={vehicleData?.data}
+                  optionLabel="name"
+                  focusInputRef={field.ref}
+                  onChange={(e) => field.onChange(e.value)}
                   className={classNames({ "p-invalid": fieldState.error })}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
                   {errors?.product_id?.message}

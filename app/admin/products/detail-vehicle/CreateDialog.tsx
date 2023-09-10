@@ -12,13 +12,15 @@ import { InputText } from "primereact/inputtext";
 import { Controller, useForm } from "react-hook-form";
 import { classNames } from "primereact/utils";
 import { Button } from "primereact/button";
-import { useFetchTrigger, usePostUmum } from "@/utils/useFetchData";
-import { InputNumber } from "primereact/inputnumber";
-import { InputTextarea } from "primereact/inputtextarea";
-import { Editor } from "primereact/editor";
+import {
+  useFetchTrigger,
+  useFetchUmum,
+  usePostUmum,
+} from "@/utils/useFetchData";
+import { Dropdown } from "primereact/dropdown";
 
 type FormData = {
-  product_id: string;
+  product_id: string | null;
   category: string;
   title: string;
   satuan: string;
@@ -32,6 +34,7 @@ const CreateDialog: FC<ICreateDialog> = ({
 }) => {
   const [postData] = usePostUmum("/api/product/spec");
   const [fetchTrigger] = useFetchTrigger<any>("/api/product/spec");
+  const [vehicleData] = useFetchUmum("/api/product");
   const {
     handleSubmit,
     control,
@@ -39,8 +42,9 @@ const CreateDialog: FC<ICreateDialog> = ({
     setValue,
   } = useForm<FormData>();
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: any) => {
     try {
+      data.product_id = data.product_id.product_id;
       const response = await postData(data);
       if (response && response.code === 201) {
         const fetchDataNew = await fetchTrigger();
@@ -80,12 +84,15 @@ const CreateDialog: FC<ICreateDialog> = ({
             <>
               <FormGroup>
                 <label htmlFor="product_id">Vehicle</label>
-                <InputText
+                <Dropdown
                   id={field.name}
                   value={field.value}
+                  placeholder="Pilih Vehicle"
+                  options={vehicleData?.data}
+                  optionLabel="name"
+                  focusInputRef={field.ref}
+                  onChange={(e) => field.onChange(e.value)}
                   className={classNames({ "p-invalid": fieldState.error })}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
                   {errors?.product_id?.message}
