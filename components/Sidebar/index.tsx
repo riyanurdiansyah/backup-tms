@@ -131,6 +131,10 @@ const MenuAdmin = [
         nameChild: "My Partner",
         url: "/admin/others/my-partner",
       },
+      {
+        nameChild: "Interest Rate",
+        url: "/admin/others/interest-rate",
+      },
     ],
   },
 ];
