@@ -16,12 +16,18 @@ import { useFetchTrigger, useFetchUmum } from "@/utils/useFetchData";
 import axios from "axios";
 import useToken from "@/utils/useToken";
 import { Editor } from "primereact/editor";
+import { Dropdown } from "primereact/dropdown";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
+type Position = {
+  name: string;
+};
+
 type FormData = {
-  title: string;
-  description: string;
-  service_id: any;
+  product_id: string | null;
+  position: Position | null;
+  text: string;
+  image: File | null;
 };
 
 const EditDialog: FC<IEditDialog> = ({
@@ -30,8 +36,9 @@ const EditDialog: FC<IEditDialog> = ({
   showToast,
   id,
 }) => {
-  const [dataOld, loadingDataOld] = useFetchUmum(`/api/content/${id}`);
-  const [fetchTrigger] = useFetchTrigger<any>("/api/content");
+  const [dataOld, loadingDataOld] = useFetchUmum(`/api/product/content/${id}`);
+  const [vehicleData, loadingVehicleData] = useFetchUmum("/api/product");
+  const [fetchTrigger] = useFetchTrigger<any>("/api/product/content");
   const [token] = useToken();
   const {
     handleSubmit,
@@ -40,22 +47,48 @@ const EditDialog: FC<IEditDialog> = ({
     setValue,
   } = useForm<FormData>();
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    return file || null;
+  };
+
+  const listPosition = ["Text Left", "Text Right"];
+
   useEffect(() => {
     if (dataOld) {
-      setValue("title", dataOld?.data?.title);
-      setValue("description", dataOld?.data?.description);
+      setValue(
+        "product_id",
+        vehicleData?.data?.find(
+          (item: any) => item.product_id === dataOld?.data?.product_id
+        )
+      );
+      setValue("position", { name: dataOld?.data?.position });
+      setValue("text", dataOld?.data?.text);
     }
-  }, [dataOld]);
+  }, [dataOld, vehicleData]);
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: any) => {
     try {
-      data.service_id = id;
-      const response = await axios.put(`${api_backend}/api/content`, data, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      });
+      const formData = new FormData();
+      formData.append("product_content_id", id);
+      formData.append("product_id", data?.product_id?.product_id);
+      formData.append("position", data?.position?.name);
+      data.image != null && formData.append("image", data.image as File);
+      formData.append("text", data.text);
+
+      console.log(data);
+
+      const response = await axios.put(
+        `${api_backend}/api/product/content`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: token,
+          },
+        }
+      );
+      console.log(response);
       if (response.status === 200) {
         const fetchDataNew = await fetchTrigger();
         await setDataNew(fetchDataNew?.data);
@@ -87,35 +120,80 @@ const EditDialog: FC<IEditDialog> = ({
     <CreateDialogContainer>
       <FormInput onSubmit={handleSubmit(onSubmit)}>
         <Controller
-          name="title"
+          name="product_id"
           control={control}
-          rules={{ required: "Title is required." }}
+          rules={{ required: "Vehicle is required." }}
           render={({ field, fieldState }) => (
             <>
               <FormGroup>
-                <label htmlFor="title">Title</label>
-                <InputText
+                <label htmlFor="product_id">Vehicle</label>
+                <Dropdown
                   id={field.name}
                   value={field.value}
+                  placeholder="Pilih Vehicle"
+                  options={vehicleData?.data}
+                  optionLabel="name"
+                  focusInputRef={field.ref}
+                  onChange={(e) => field.onChange(e.value)}
                   className={classNames({ "p-invalid": fieldState.error })}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
-                  {errors?.title?.message}
+                  {errors?.product_id?.message}
                 </InfoError>
               </FormGroup>
             </>
           )}
         />
         <Controller
-          name="description"
+          name="image"
           control={control}
-          rules={{ required: "Description is required." }}
+          render={({ field }) => (
+            <FormGroup>
+              <label htmlFor="image">Image Content</label>
+              <input
+                type="file"
+                name="image"
+                onChange={(e) => {
+                  const newFile = handleFileUpload(e);
+                  setValue("image", newFile);
+                }}
+              />
+            </FormGroup>
+          )}
+        />
+        <Controller
+          name="position"
+          control={control}
+          rules={{ required: "Text Position is required." }}
           render={({ field, fieldState }) => (
             <>
               <FormGroup>
-                <label htmlFor="description">Description</label>
+                <label htmlFor="position">Pilih Text Position</label>
+                <Dropdown
+                  id={field.name}
+                  value={field.value}
+                  optionLabel="name"
+                  placeholder="Pilih Text Position"
+                  options={listPosition.map((item) => ({ name: item }))}
+                  focusInputRef={field.ref}
+                  onChange={(e) => field.onChange(e.value)}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                />
+                <InfoError className="p-error">
+                  {errors?.position?.message}
+                </InfoError>
+              </FormGroup>
+            </>
+          )}
+        />
+        <Controller
+          name="text"
+          control={control}
+          rules={{ required: "Text is required." }}
+          render={({ field, fieldState }) => (
+            <>
+              <FormGroup>
+                <label htmlFor="text">Text Content</label>
                 <Editor
                   id={field.name}
                   value={field.value}
@@ -123,7 +201,7 @@ const EditDialog: FC<IEditDialog> = ({
                   style={{ height: "320px" }}
                 />
                 <InfoError className="p-error">
-                  {errors?.description?.message}
+                  {errors?.text?.message}
                 </InfoError>
               </FormGroup>
             </>

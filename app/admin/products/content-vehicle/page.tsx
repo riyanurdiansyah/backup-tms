@@ -13,6 +13,7 @@ import axios from "axios";
 import useToken from "@/utils/useToken";
 import { Toast } from "primereact/toast";
 import EditDialog from "./EditDialog";
+import Image from "next/image";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 const ContentVehicleContent = () => {
@@ -21,9 +22,10 @@ const ContentVehicleContent = () => {
   const [dataContentVehicle, setDataContentVehicle] = useState(null);
   const [loading, setloading] = useState(true);
 
-  const [contentVehicleData, loadingContentVehicleData] =
-    useFetchUmum("/api/content");
-  const [fetchTrigger] = useFetchTrigger<any>("/api/content");
+  const [contentVehicleData, loadingContentVehicleData] = useFetchUmum(
+    "/api/product/content"
+  );
+  const [fetchTrigger] = useFetchTrigger<any>("/api/product/content");
   const [visible, setVisible] = useState(false);
   const [visibleEdit, setVisibleEdit] = useState(false);
   const [idSelected, setIdSelected] = useState<any>(null);
@@ -45,13 +47,16 @@ const ContentVehicleContent = () => {
   };
 
   const accept = async (id: any) => {
-    const response = await axios.delete(`${api_backend}/api/content/${id}`, {
-      headers: {
-        Authorization: token,
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axios.delete(
+      `${api_backend}/api/product/content/${id}`,
+      {
+        headers: {
+          Authorization: token,
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (response && response.data.code == 200) {
       const fetchDataNew = await fetchTrigger();
       await setDataContentVehicle(fetchDataNew?.data);
@@ -88,19 +93,41 @@ const ContentVehicleContent = () => {
         <BtnEdit
           setVisibleEdit={setVisibleEdit}
           setIdSelected={setIdSelected}
-          id={rowData.service_id}
+          id={rowData.product_content_id}
         />
         <BtnDelete
           confirmDeleteData={confirmDeleteData}
-          id={rowData.service_id}
+          id={rowData.product_content_id}
         />
       </BoxAction>
     );
   };
 
+  const imageBodyImage = (rowData: any) => {
+    return (
+      <Image
+        src={rowData.image || "/no-image.png"}
+        alt={rowData.image}
+        layout="responsive"
+        objectFit="cover"
+        loading="lazy"
+        width="0"
+        height="0"
+        style={{
+          maxWidth: "100px",
+          height: "auto",
+          boxShadow:
+            "0 4px 10px rgba(0,0,0,.03),0 0 2px rgba(0,0,0,.06),0 2px 6px rgba(0, 0, 0, 0.081)",
+        }}
+      />
+    );
+  };
+
   const columns = [
-    { field: "title", header: "Title", style: { width: "20%" } },
-    { field: "description", header: "Description" },
+    { field: "product_id", header: "Product Id" },
+    { body: imageBodyImage, header: "Image Content" },
+    { field: "position", header: "Text Position" },
+    { field: "text", header: "Text Content" },
     { body: actionBodyTemplate, header: "", style: { width: "10%" } },
   ];
 
