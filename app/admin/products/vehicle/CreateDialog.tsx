@@ -12,16 +12,18 @@ import { InputText } from "primereact/inputtext";
 import { Controller, useForm } from "react-hook-form";
 import { classNames } from "primereact/utils";
 import { Button } from "primereact/button";
-import { useFetchTrigger } from "@/utils/useFetchData";
+import { useFetchTrigger, useFetchUmum } from "@/utils/useFetchData";
 import axios from "axios";
 import useToken from "@/utils/useToken";
+import { Dropdown } from "primereact/dropdown";
+import { DateSchema } from "yup";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 type FormData = {
   image: File | null;
   image_bg: File | null;
   name: string;
-  product_type_id: string;
+  product_type_id: string | null;
   gvw: string;
   cabin: string;
   max_power: string;
@@ -35,6 +37,8 @@ const CreateDialog: FC<ICreateDialog> = ({
 }) => {
   const [token] = useToken();
   const [fetchTrigger] = useFetchTrigger<any>("/api/product");
+  const [categoryVehicleData] = useFetchUmum("/api/product/type");
+
   const {
     handleSubmit,
     control,
@@ -47,16 +51,17 @@ const CreateDialog: FC<ICreateDialog> = ({
     return file || null;
   };
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: any) => {
     try {
       const formData = new FormData();
       formData.append("image", data.image as File);
       formData.append("image_bg", data.image_bg as File);
       formData.append("name", data.name);
-      formData.append("product_type_id", data.product_type_id);
+      formData.append("product_type_id", data.product_type_id.product_type_id);
       formData.append("gvw", data.gvw);
       formData.append("cabin", data.cabin);
-      formData.append("max_power", data.max_torque);
+      formData.append("max_power", data.max_power);
+      formData.append("max_torque", data.max_torque);
 
       const response = await axios.post(
         `${api_backend}/api/product`,
@@ -162,13 +167,23 @@ const CreateDialog: FC<ICreateDialog> = ({
             <>
               <FormGroup>
                 <label htmlFor="product_type_id">Category</label>
-                <InputText
+                <Dropdown
+                  id={field.name}
+                  value={field.value}
+                  placeholder="Pilih Category"
+                  options={categoryVehicleData?.data}
+                  optionLabel="product_type_name"
+                  focusInputRef={field.ref}
+                  onChange={(e) => field.onChange(e.value)}
+                  className={classNames({ "p-invalid": fieldState.error })}
+                />
+                {/* <InputText
                   id={field.name}
                   value={field.value}
                   className={classNames({ "p-invalid": fieldState.error })}
                   onChange={(e) => field.onChange(e.target.value)}
                   style={{ width: "100%" }}
-                />
+                /> */}
                 <InfoError className="p-error">
                   {errors?.product_type_id?.message}
                 </InfoError>

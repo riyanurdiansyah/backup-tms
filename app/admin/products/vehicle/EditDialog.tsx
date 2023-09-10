@@ -15,17 +15,24 @@ import { Button } from "primereact/button";
 import { useFetchTrigger, useFetchUmum } from "@/utils/useFetchData";
 import axios from "axios";
 import useToken from "@/utils/useToken";
+import { Dropdown } from "primereact/dropdown";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
+
+type Type = {
+  product_type_id: string;
+  product_type_name: string;
+};
 
 type FormData = {
   image: File | null;
   image_bg: File | null;
   name: string;
-  product_type_id: string;
+  product_type_id: Type | null;
   gvw: string;
   cabin: string;
   max_power: string;
   max_torque: string;
+  product_id: any;
 };
 
 const EditDialog: FC<IEditDialog> = ({
@@ -36,7 +43,9 @@ const EditDialog: FC<IEditDialog> = ({
 }) => {
   const [dataOld, loadingDataOld] = useFetchUmum(`/api/product/${id}`);
   const [fetchTrigger] = useFetchTrigger<any>("/api/product");
+  const [categoryVehicleData] = useFetchUmum("/api/product/type");
   const [token] = useToken();
+
   const {
     handleSubmit,
     control,
@@ -47,29 +56,40 @@ const EditDialog: FC<IEditDialog> = ({
   useEffect(() => {
     if (dataOld) {
       setValue("name", dataOld?.data?.name);
-      setValue("product_type_id", dataOld?.data?.product_type_id);
+      setValue(
+        "product_type_id",
+        categoryVehicleData?.data?.find(
+          (item: Type) =>
+            item.product_type_id === dataOld?.data?.product_type_id
+        )
+      );
       setValue("gvw", dataOld?.data?.gvw);
       setValue("cabin", dataOld?.data?.cabin);
       setValue("max_power", dataOld?.data?.max_power);
+      setValue("max_torque", dataOld?.data?.max_torque);
+      setValue("product_id", dataOld?.data?.product_id);
     }
-  }, [dataOld]);
+  }, [dataOld, categoryVehicleData]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
     return file || null;
   };
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: any) => {
     try {
+      console.log(data);
       const formData = new FormData();
+      formData.append("product_id", id);
       data.image != null && formData.append("image", data.image as File);
       data.image_bg != null &&
         formData.append("image_bg", data.image_bg as File);
       formData.append("name", data.name);
-      formData.append("product_type_id", data.product_type_id);
+      formData.append("product_type_id", data.product_type_id.product_type_id);
       formData.append("gvw", data.gvw);
       formData.append("cabin", data.cabin);
-      formData.append("max_power", data.max_torque);
+      formData.append("max_power", data.max_power);
+      formData.append("max_torque", data.max_torque);
 
       const response = await axios.put(`${api_backend}/api/product`, formData, {
         headers: {
@@ -172,12 +192,15 @@ const EditDialog: FC<IEditDialog> = ({
             <>
               <FormGroup>
                 <label htmlFor="product_type_id">Category</label>
-                <InputText
+                <Dropdown
                   id={field.name}
                   value={field.value}
+                  placeholder="Pilih Category"
+                  options={categoryVehicleData?.data}
+                  optionLabel="product_type_name"
+                  focusInputRef={field.ref}
+                  onChange={(e) => field.onChange(e.value)}
                   className={classNames({ "p-invalid": fieldState.error })}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
                   {errors?.product_type_id?.message}
