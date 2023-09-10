@@ -123,6 +123,10 @@ const MenuAdmin = [
         nameChild: "Career",
         url: "/admin/others/career",
       },
+      {
+        nameChild: "Slider Homepage",
+        url: "/admin/others/slider-homepage",
+      },
     ],
   },
 ];
