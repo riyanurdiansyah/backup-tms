@@ -39,6 +39,9 @@ CREATE TABLE `tb_career` (
     `status` VARCHAR(32) NOT NULL,
     `location` VARCHAR(255) NOT NULL,
     `description` VARCHAR(510) NOT NULL,
+    `kualifikasi` VARCHAR(510) NOT NULL,
+    `benefit` VARCHAR(510) NOT NULL,
+    `persyaratan` VARCHAR(510) NOT NULL,
 
     PRIMARY KEY (`career_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci Engine innoDB;
@@ -233,7 +236,7 @@ CREATE TABLE `tb_booking_service` (
     `email` VARCHAR(255) NOT NULL,
     `date` VARCHAR(64) NOT NULL,
     `time` VARCHAR(64) NOT NULL,
-    `location` VARCHAR(32) NOT NULL,
+    `location` VARCHAR(255) NOT NULL,
     `outlet_id` VARCHAR(64) NOT NULL,
     `no_kendaraan` VARCHAR(64) NOT NULL,
     `model` VARCHAR(128) NOT NULL,
