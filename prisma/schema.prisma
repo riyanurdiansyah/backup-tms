@@ -1,0 +1,253 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id  String @id @db.VarChar(64)
+  username String @unique @db.VarChar(64)
+  password String @db.VarChar(255)
+  email    String @db.VarChar(255)
+
+  @@map("tb_user")
+}
+
+model Slider {
+  slider_id String @id @db.VarChar(64)
+  nama      String @db.VarChar(128)
+  image     String @db.VarChar(255)
+  video     String @db.VarChar(255)
+
+  @@map("tb_slider")
+}
+
+model Book {
+  book_id String @id @db.VarChar(64)
+  nama    String @db.VarChar(128)
+  file    String @db.VarChar(255)
+
+  @@map("tb_owner_manual_book")
+}
+
+model Career {
+  career_id     String          @id @db.VarChar(64)
+  title         String          @db.VarChar(255)
+  subtitle      String          @db.VarChar(255)
+  published     String          @db.VarChar(128)
+  expired       String          @db.VarChar(128)
+  link          String          @db.VarChar(255)
+  status        String          @db.VarChar(32)
+  location      String          @db.VarChar(255)
+  description   String          @db.VarChar(510)
+  kualifikasi   String          @db.VarChar(510)
+  benefit       String          @db.VarChar(510)
+  persyaratan   String          @db.VarChar(510)
+  ranks         CareerRank[]
+  levels        CareerLevel[]
+  CareerContent CareerContent[]
+
+  @@map("tb_career")
+}
+
+model CareerContent {
+  id                Int    @id @default(autoincrement())
+  career_content_id String @db.VarChar(64)
+  career_id         String @db.VarChar(64)
+  title             String @db.VarChar(128)
+  description       String @db.VarChar(255)
+  careers           Career @relation(fields: [career_id], references: [career_id])
+
+  @@index([career_id], name: "career_id")
+  @@map("tb_career_content")
+}
+
+model CareerRank {
+  id             Int            @id @default(autoincrement())
+  career_rank_id String         @db.VarChar(64)
+  career_id      String         @db.VarChar(64)
+  careers        Career         @relation(fields: [career_id], references: [career_id])
+  base           CareerRankBase @relation(fields: [career_rank_id], references: [career_rank_id])
+
+  @@map("tb_career_rank")
+}
+
+model CareerLevel {
+  id              Int             @id @default(autoincrement())
+  career_level_id String          @db.VarChar(64)
+  career_id       String          @db.VarChar(64)
+  careers         Career          @relation(fields: [career_id], references: [career_id])
+  base            CareerLevelBase @relation(fields: [career_level_id], references: [career_level_id])
+
+  @@map("tb_career_level")
+}
+
+model CareerRankBase {
+  career_rank_id String       @id @db.VarChar(64)
+  rank           String       @db.VarChar(64)
+  ranks          CareerRank[]
+
+  @@map("tb_career_rank_base")
+}
+
+model CareerLevelBase {
+  career_level_id String        @id @db.VarChar(64)
+  level           String        @db.VarChar(64)
+  levels          CareerLevel[]
+
+  @@map("tb_career_level_base")
+}
+
+model CareerListCategory {
+  category_list_id String @id @db.VarChar(64)
+  category_id      String @db.VarChar(64)
+  career_id        String @db.VarChar(64)
+
+  @@map("tb_career_list_category")
+}
+
+model CareerCategory {
+  category_id String @id @db.VarChar(64)
+  name        String @db.VarChar(64)
+
+  @@map("tb_career_category")
+}
+
+model ProductType {
+  product_type_id   String    @id @db.VarChar(64)
+  product_type_name String    @db.VarChar(64)
+  products          Product[]
+
+  @@map("tb_product_type")
+}
+
+model Product {
+  product_id      String                 @id @db.VarChar(64)
+  name            String                 @db.VarChar(64)
+  image           String                 @db.VarChar(255)
+  image_bg        String                 @db.VarChar(255)
+  cabin           String                 @db.VarChar(255)
+  gvw             String                 @db.VarChar(255)
+  max_power       String                 @db.VarChar(255)
+  max_torque      String                 @db.VarChar(255)
+  product_type_id String                 @db.VarChar(64)
+  product_type    ProductType            @relation(fields: [product_type_id], references: [product_type_id])
+  contents        ProductContent[]
+  specifications  ProductSpecification[]
+
+  @@map("tb_product")
+}
+
+model ProductContent {
+  product_content_id String  @id @db.VarChar(64)
+  product            Product @relation(fields: [product_id], references: [product_id])
+  product_id         String  @db.VarChar(64)
+  text               String  @db.VarChar(128)
+  image              String  @db.VarChar(255)
+  position           String  @db.VarChar(64)
+
+  @@index([product_id], name: "product_id")
+  @@map("tb_product_content")
+}
+
+model ProductSpecification {
+  product_spesification_id String  @id @db.VarChar(64)
+  product                  Product @relation(fields: [product_id], references: [product_id])
+  product_id               String  @db.VarChar(64)
+  category                 String  @db.VarChar(128)
+  title                    String  @db.VarChar(255)
+  satuan                   String  @db.VarChar(16)
+  keterangan               String  @db.VarChar(255)
+
+  @@index([product_id], name: "product_id")
+  @@map("tb_product_spesification")
+}
+
+model ManualBook {
+  manual_book_id String @id @db.VarChar(64)
+  nama           String @db.VarChar(128)
+  file           String @db.VarChar(255)
+
+  @@map("tb_manual_book")
+}
+
+model DealerCabang {
+  cabang_id String   @id @db.VarChar(64)
+  name      String   @db.VarChar(128)
+  dealers   Dealer[]
+
+  @@map("tb_dealer_cabang")
+}
+
+model Dealer {
+  dealer_id String       @id @db.VarChar(64)
+  cabang_id String       @db.VarChar(64)
+  name      String       @db.VarChar(128)
+  subtitle  String       @db.VarChar(128)
+  phone     String       @db.VarChar(16)
+  location  String       @db.VarChar(255)
+  latitude  Float
+  longitude Float
+  cabang    DealerCabang @relation(fields: [cabang_id], references: [cabang_id])
+
+  @@map("tb_dealer")
+}
+
+model Service {
+  service_id  String @id @db.VarChar(64)
+  title       String @db.VarChar(128)
+  description String @db.VarChar(255)
+
+  @@map("tb_service")
+}
+
+model Partner {
+  partner_id String @id @db.VarChar(64)
+  nama       String @db.VarChar(128)
+  image      String @db.VarChar(128)
+  video      String @db.VarChar(128)
+
+  @@map("tb_patner")
+}
+
+model Brochure {
+  brochure_id String @id @db.VarChar(64)
+  title       String @db.VarChar(128)
+  thumbnail   String @db.VarChar(255)
+  brochure    String @db.VarChar(255)
+
+  @@map("tb_brochure")
+}
+
+model Sosmed {
+  sosmed_id String @id @db.VarChar(64)
+  facebook  String @db.VarChar(255)
+  twitter   String @db.VarChar(255)
+  instagram String @db.VarChar(255)
+  whatsapp  String @db.VarChar(255)
+  email     String @db.VarChar(255)
+
+  @@map("tb_sosmed")
+}
+
+model Booking {
+  booking_id    String @id @db.VarChar(64)
+  no_hp         String @db.VarChar(64)
+  email         String @db.VarChar(255)
+  date          String @db.VarChar(64)
+  time          String @db.VarChar(64)
+  location      String @db.VarChar(255)
+  outlet_id     String @db.VarChar(64)
+  no_kendaraan  String @db.VarChar(64)
+  model         String @db.VarChar(128)
+  tahun         String @db.VarChar(64)
+  jenis_service String @db.VarChar(128)
+
+  @@map("tb_booking_service")
+}
