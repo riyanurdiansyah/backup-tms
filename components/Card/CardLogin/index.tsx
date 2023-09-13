@@ -127,7 +127,7 @@ const CardLogin: FC<ICardLogin> = ({}) => {
               </>
             )}
           />
-          <Remember>
+          {/* <Remember>
             <Checkbox
               inputId="remember"
               onChange={() => {
@@ -137,7 +137,7 @@ const CardLogin: FC<ICardLogin> = ({}) => {
               checked={remember}
             />
             <LabelCheckbox htmlFor="remember">Remember me</LabelCheckbox>
-          </Remember>
+          </Remember> */}
           {error && <Invalid>* Akun tidak valid</Invalid>}
           <Button
             label="Log in"
