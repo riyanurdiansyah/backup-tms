@@ -33,7 +33,7 @@ const addValidation = async (request: Request, formData: FormData) => {
     };
   }
 
-  if (formData.get("image") !== null) {
+  if (formData.get("image") !== null && formData.get("image") !== undefined) {
     const image = formData.get("image") as unknown as Blob;
     if (
       !image.name.includes("jpg") &&
@@ -48,7 +48,7 @@ const addValidation = async (request: Request, formData: FormData) => {
     }
   }
 
-  if (formData.get("video") !== null) {
+  if (formData.get("video") !== null && formData.get("video") !== undefined) {
     const video = formData.get("video") as unknown as Blob;
     if (!video.name.includes("gif")) {
       return {
@@ -86,7 +86,7 @@ const updateValidation = async (request: Request, formData: FormData) => {
     };
   }
 
-  if (formData.get("image") !== null) {
+  if (formData.get("image") !== null && formData.get("image") !== undefined)  {
     const image = formData.get("image") as unknown as Blob;
     if (
       !image.name.includes("jpg") &&
@@ -101,7 +101,7 @@ const updateValidation = async (request: Request, formData: FormData) => {
     }
   }
 
-  if (formData.get("video") !== null) {
+  if (formData.get("video") !== null && formData.get("video") !== undefined) {
     const video = formData.get("video") as unknown as Blob;
     if (!video.name.includes("gif")) {
       return {
