@@ -17,7 +17,7 @@ export const authOptions: NextAuthOptions = {
             password: string;
           };
 
-          const res = await fetch("http://157.230.255.204/api/signin", {
+          const res = await fetch("http://157.230.255.204:3000/api/signin", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

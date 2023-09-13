@@ -22,18 +22,18 @@ const PartnerHomepageContent = () => {
   const [dataPartner, setDataPartner] = useState(null);
   const [loading, setloading] = useState(true);
 
-  const [brochurekData, loadingBrochureData] = useFetchUmum("/api/partner");
+  const [myPartner, loadingMyPartner] = useFetchUmum("/api/partner");
   const [fetchTrigger] = useFetchTrigger<any>("/api/partner");
   const [visible, setVisible] = useState(false);
   const [visibleEdit, setVisibleEdit] = useState(false);
   const [idSelected, setIdSelected] = useState<any>(null);
 
   useEffect(() => {
-    if (brochurekData && !loadingBrochureData) {
-      setDataPartner(brochurekData?.data);
+    if (myPartner && !loadingMyPartner) {
+      setDataPartner(myPartner?.data);
       setloading(false);
     }
-  }, [brochurekData, loadingBrochureData]);
+  }, [myPartner, loadingMyPartner]);
 
   const showToast = (data: any) => {
     toast.current.show({

@@ -22,18 +22,18 @@ const SliderHomepageContent = () => {
   const [dataSlider, setDataSlider] = useState(null);
   const [loading, setloading] = useState(true);
 
-  const [brochurekData, loadingBrochureData] = useFetchUmum("/api/slider");
+  const [sliderData, loadingSliderData] = useFetchUmum("/api/slider");
   const [fetchTrigger] = useFetchTrigger<any>("/api/slider");
   const [visible, setVisible] = useState(false);
   const [visibleEdit, setVisibleEdit] = useState(false);
   const [idSelected, setIdSelected] = useState<any>(null);
 
   useEffect(() => {
-    if (brochurekData && !loadingBrochureData) {
-      setDataSlider(brochurekData?.data);
+    if (sliderData && !loadingSliderData) {
+      setDataSlider(sliderData?.data);
       setloading(false);
     }
-  }, [brochurekData, loadingBrochureData]);
+  }, [sliderData, loadingSliderData]);
 
   const showToast = (data: any) => {
     toast.current.show({

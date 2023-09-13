@@ -22,18 +22,18 @@ const InterestRateContent = () => {
   const [dataBank, setDataBank] = useState(null);
   const [loading, setloading] = useState(true);
 
-  const [brochurekData, loadingBrochureData] = useFetchUmum("/api/bank");
+  const [rateData, loadingRateData] = useFetchUmum("/api/bank");
   const [fetchTrigger] = useFetchTrigger<any>("/api/bank");
   const [visible, setVisible] = useState(false);
   const [visibleEdit, setVisibleEdit] = useState(false);
   const [idSelected, setIdSelected] = useState<any>(null);
 
   useEffect(() => {
-    if (brochurekData && !loadingBrochureData) {
-      setDataBank(brochurekData?.data);
+    if (rateData && !loadingRateData) {
+      setDataBank(rateData?.data);
       setloading(false);
     }
-  }, [brochurekData, loadingBrochureData]);
+  }, [rateData, loadingRateData]);
 
   const showToast = (data: any) => {
     toast.current.show({

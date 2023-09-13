@@ -47,7 +47,7 @@ const CreateDialog: FC<ICreateDialog> = ({
       const formData = new FormData();
       formData.append("nama", data.nama);
       formData.append("image", data.image as File);
-      formData.append("video", data.video as File);
+      formData.append("video", (data.video as File) || null);
 
       const response = await axios.post(`${api_backend}/api/slider`, formData, {
         headers: {

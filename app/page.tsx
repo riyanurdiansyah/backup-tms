@@ -4,7 +4,6 @@ import Hero from "./home/Hero";
 import MyPartner from "./home/MyPartner";
 import Product from "./home/Product";
 import Service from "./home/Service";
-import Testimony from "./home/Testimony";
 import Value from "./home/Value";
 
 export default function Home() {
@@ -16,7 +15,7 @@ export default function Home() {
       <Service />
       <Value />
       <MyPartner />
-      <Testimony />
+      {/* <Testimony /> */}
     </main>
   );
 }

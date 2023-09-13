@@ -6,8 +6,11 @@ import Image from "next/image";
 
 import ImageSleder1 from "./assets/img-slider-1.png";
 import ImageSleder2 from "./assets/img-slider-2.png";
+import { useFetchUmum } from "@/utils/useFetchData";
 
 const Hero = () => {
+  const [dataSlider, loadingDataSlider] = useFetchUmum<any>("/api/slider");
+  console.log(dataSlider);
   return (
     <HeroWrapper>
       <Flickity
@@ -18,7 +21,21 @@ const Hero = () => {
           draggable: true,
         }}
       >
-        <Image
+        {!loadingDataSlider &&
+          dataSlider?.data?.map((item: any, key: number) => {
+            return (
+              <Image
+                src={item.image}
+                alt=""
+                width={100}
+                height={100}
+                loading="lazy"
+                layout="responsive"
+                objectFit="contain"
+              />
+            );
+          })}
+        {/* <Image
           src={ImageSleder1}
           alt=""
           loading="lazy"
@@ -31,7 +48,7 @@ const Hero = () => {
           loading="lazy"
           layout="responsive"
           objectFit="contain"
-        />
+        /> */}
       </Flickity>
     </HeroWrapper>
   );
