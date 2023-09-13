@@ -2,16 +2,14 @@ import AuthService from "@/services/auth-service";
 import SigninValidation from "@/validation/signin-validation";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import { User } from "@prisma/client";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const username = body["username"];
-    const password = body["password"];
+    const body : User = await req.json();
 
     const errorValidation = await SigninValidation.loginValidation(
-      username,
-      password
+      body
     );
 
     if (errorValidation != null) {
@@ -20,7 +18,8 @@ export async function POST(req: Request) {
       });
     }
 
-    const user = await AuthService.getUserByUsername(username);
+    const userWithoutPassword = await AuthService.getUserByUsernameWithoutPassword(body.username);
+    const user = await AuthService.getUserByUsername(body.username);
 
     if (user === null) {
       return NextResponse.json(
@@ -33,8 +32,8 @@ export async function POST(req: Request) {
     }
 
     const checkPassword = await AuthService.decryptPassword(
-      password,
-      user.password
+      body.password,
+      user.password,
     );
 
     if (!checkPassword) {
@@ -49,6 +48,8 @@ export async function POST(req: Request) {
 
     const secretKey = process.env.JWT_SECRET_KEY as string;
 
+    const username = body.username;
+
     const timezone = "Asia/Jakarta";
     const token = jwt.sign({ username, timezone }, secretKey, {
       expiresIn: "24h",
@@ -58,7 +59,7 @@ export async function POST(req: Request) {
       {
         code: 200,
         message: "Data has been created",
-        data: user,
+        data: userWithoutPassword,
         accessToken: token,
       },
       { status: 200 }

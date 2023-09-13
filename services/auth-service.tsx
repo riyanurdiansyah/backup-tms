@@ -14,6 +14,24 @@ const getUserByUsername = async (username: string) => {
   return result;
 };
 
+const getUserByUsernameWithoutPassword = async (username: string) => {
+  const result = await prismaClient.user.findUnique({
+    where: {
+      username: username,
+    },
+    select: {
+      user_id: true,
+      username: true,
+      email: true,
+      role: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  },);
+
+  return result;
+};
+
 const register = async (user: User) => {
   const result = await prismaClient.user.create({
     data: user,
@@ -56,10 +74,26 @@ const verifyJWT = async (token: string) => {
   }
 };
 
+const reformatDate = (date: Date, target: string) => {
+  return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("id-ID", {timeZone: target}));  
+}
+
+const convertToISO8601 = (input: string) => {
+  const [datePart, timePart] = input.split(', ');
+  const [day, month, year] = datePart.split('/').map(Number);
+  const [hour, minute, second] = timePart.split('.').map(Number);
+  const isoDate = new Date(year, month - 1, day, hour, minute, second).toISOString();
+
+  return isoDate;
+}
+
 export default {
   getUserByUsername,
   encryptPassword,
   decryptPassword,
   register,
   verifyJWT,
+  getUserByUsernameWithoutPassword,
+  reformatDate,
+  convertToISO8601,
 };

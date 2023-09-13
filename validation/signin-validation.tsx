@@ -1,37 +1,45 @@
+import { User } from "@prisma/client";
 
-const registValidation = async (username: string, password: string, email: string) => {
-    if (username === undefined) {
+const registValidation = async (user: User) => {
+    if (user.username === undefined) {
         return {
             code: 400,
             message: "username is required",
         };
     }
 
-    if (password === undefined) {
+    if (user.password === undefined) {
         return {
             code: 400,
             message: "password is required",
         };
     }
 
-    if (email === undefined) {
+    if (user.email === undefined) {
         return {
             code: 400,
             message: "email is required",
         };
     }
+
+    if (user.role_id === undefined) {
+        return {
+            code: 400,
+            message: "role_id is required",
+        };
+    }
     return null;
 }
 
-const loginValidation = async (username: string, password: string) => {
-    if (username === undefined) {
+const loginValidation = async (user: User) => {
+    if (user.username === undefined) {
         return {
             code: 400,
             message: "username is required",
         };
     }
 
-    if (password === undefined) {
+    if (user.password === undefined) {
         return {
             code: 400,
             message: "password is required",

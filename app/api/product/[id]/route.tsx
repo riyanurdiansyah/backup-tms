@@ -1,4 +1,5 @@
 import productService from "@/services/product-service";
+import s3Service from "@/services/s3-service";
 import errorValidation from "@/validation/error-validation";
 import productValidation from "@/validation/product-validation";
 import { NextResponse } from "next/server";
@@ -62,6 +63,8 @@ export async function DELETE(req: Request) {
       }
 
       await productService.deleteById(id);
+      await s3Service.deleteFile(product.image);
+      await s3Service.deleteFile(product.image_bg);
 
       return NextResponse.json(
         {

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import PartnerService from "@/services/partner-service";
 import authService from "@/services/auth-service";
+import s3Service from "@/services/s3-service";
 
 export async function GET(req: Request) {
   const id = req.url.slice(req.url.lastIndexOf("/") + 1);
@@ -72,20 +73,11 @@ export async function DELETE(req: Request) {
         },
         { status: 404 }
       );
-    }
-
-    if (partner === null) {
-      return NextResponse.json(
-        {
-          code: 404,
-          message: "partner_id is not found",
-        },
-        { status: 404 }
-      );
     } else {
       await PartnerService.deleteById(id);
-
-      fs.unlink(process.cwd() + "/public" + partner.image);
+      await s3Service.deleteFile(partner.image);
+      await s3Service.deleteFile(partner.video);
+      
       return NextResponse.json(
         {
           code: 200,

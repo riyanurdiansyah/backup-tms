@@ -1,5 +1,6 @@
 import bookService from "@/services/book-service";
 import brochureService from "@/services/brochure-service";
+import s3Service from "@/services/s3-service";
 import bookValidation from "@/validation/book-validation";
 import brochureValidation from "@/validation/brochure-validation";
 import errorValidation from "@/validation/error-validation";
@@ -58,6 +59,7 @@ export async function DELETE(req: Request) {
       );
     } else {
       await bookService.deleteById(id);
+      await s3Service.deleteFile(service.file);
 
       return NextResponse.json(
         {

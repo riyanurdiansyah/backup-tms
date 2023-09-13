@@ -1,4 +1,5 @@
 import brochureService from "@/services/brochure-service";
+import s3Service from "@/services/s3-service";
 import brochureValidation from "@/validation/brochure-validation";
 import errorValidation from "@/validation/error-validation";
 import { NextResponse } from "next/server";
@@ -43,9 +44,9 @@ export async function DELETE(req: Request) {
         return NextResponse.json(errorValidation, { status: errorValidation.code });
       }
   
-      const service = await brochureService.getById(id);
+      const brochure = await brochureService.getById(id);
   
-      if (service === null) {
+      if (brochure === null) {
         return NextResponse.json(
           {
             code: 404,
@@ -55,6 +56,8 @@ export async function DELETE(req: Request) {
         );
       } else {
         await brochureService.deleteById(id);
+        await s3Service.deleteFile(brochure.brochure);
+        await s3Service.deleteFile(brochure.thumbnail);
   
         return NextResponse.json(
           {

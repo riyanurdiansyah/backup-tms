@@ -1,5 +1,6 @@
 import authService from "@/services/auth-service";
 import DealerService from "@/services/dealer-service";
+import s3Service from "@/services/s3-service";
 import errorValidation from "@/validation/error-validation";
 import { NextResponse } from "next/server";
 

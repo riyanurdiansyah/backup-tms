@@ -6,6 +6,7 @@ import { promises as fs } from "fs";
 import authService from "@/services/auth-service";
 import sliderService from "@/services/slider-service";
 import sliderValidation from "@/validation/slider-validation";
+import s3Service from "@/services/s3-service";
 
 export async function GET(req: Request) {
   const id = req.url.slice(req.url.lastIndexOf("/") + 1);
@@ -60,7 +61,8 @@ export async function DELETE(req: Request) {
       );
     } else {
       await sliderService.deleteById(id);
-
+      await s3Service.deleteFile(slider.image);
+      await s3Service.deleteFile(slider.video);
       return NextResponse.json(
         {
           code: 200,

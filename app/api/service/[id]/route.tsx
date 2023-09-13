@@ -1,7 +1,5 @@
-import productService from "@/services/product-service";
 import serviceService from "@/services/service-service";
 import errorValidation from "@/validation/error-validation";
-import productValidation from "@/validation/product-validation";
 import serviceValidation from "@/validation/service-validation";
 import { NextResponse } from "next/server";
 

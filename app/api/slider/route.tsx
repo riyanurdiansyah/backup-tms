@@ -11,11 +11,13 @@ import s3Service from "@/services/s3-service";
 export async function GET() {
   try {
     const slider = await sliderService.get();
+    const result = await s3Service.deleteFile();
     return NextResponse.json(
       {
         code: 200,
         message: "Data has been listed",
         data: slider,
+        cek : result,
       },
       { status: 200 }
     );

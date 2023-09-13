@@ -1,4 +1,5 @@
 import bookingService from "@/services/booking-service";
+import s3Service from "@/services/s3-service";
 import brochureValidation from "@/validation/brochure-validation";
 import errorValidation from "@/validation/error-validation";
 import { NextResponse } from "next/server";

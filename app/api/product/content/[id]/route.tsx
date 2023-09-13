@@ -1,4 +1,5 @@
 import productService from "@/services/product-service";
+import s3Service from "@/services/s3-service";
 import errorValidation from "@/validation/error-validation";
 import productValidation from "@/validation/product-validation";
 import { NextResponse } from "next/server";
@@ -44,9 +45,9 @@ export async function DELETE(req: Request) {
       });
     }
 
-    const slider = await productService.getByIdContent(id);
+    const content = await productService.getByIdContent(id);
 
-    if (slider === null) {
+    if (content === null) {
       return NextResponse.json(
         {
           code: 404,
@@ -56,6 +57,7 @@ export async function DELETE(req: Request) {
       );
     } else {
       await productService.deleteByIdContent(id);
+      await s3Service.deleteFile(content.image);
 
       return NextResponse.json(
         {

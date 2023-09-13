@@ -1,4 +1,5 @@
 import productService from "@/services/product-service";
+import s3Service from "@/services/s3-service";
 import errorValidation from "@/validation/error-validation";
 import productValidation from "@/validation/product-validation";
 import { NextResponse } from "next/server";
@@ -42,9 +43,9 @@ export async function DELETE(req: Request) {
       return NextResponse.json(errorValidation, { status: errorValidation.code });
     }
 
-    const slider = await productService.getByIdSpesification(id);
+    const spec = await productService.getByIdSpesification(id);
 
-    if (slider === null) {
+    if (spec === null) {
       return NextResponse.json(
         {
           code: 404,
