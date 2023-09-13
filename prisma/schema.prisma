@@ -8,10 +8,6 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-
-  providerOptions = {
-    timezone = "Asia/Jakarta"
-  }
 }
 
 model User {
@@ -266,4 +262,19 @@ model Booking {
   jenis_service String @db.VarChar(128)
 
   @@map("tb_booking_service")
+}
+
+model Bank {
+  bank_id String @id @db.VarChar(64)
+  nama    String @db.VarChar(255)
+  bunga   Float  @default(0)
+  bunga12 Float  @default(0)
+  bunga24 Float  @default(0)
+  bunga36 Float  @default(0)
+  bunga48 Float  @default(0)
+  bunga60 Float  @default(0)
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  @@map("tb_bank")
 }
