@@ -15,6 +15,7 @@ export interface IProps {
 
 export const HeroWrapper = styled.div`
   width: 100%;
+  height: calc(100vh - 60px);
   max-height: calc(100vh - 60px);
   margin: auto;
   overflow: hidden;
@@ -362,6 +363,7 @@ export const MyPartnerWrapper = styled.div`
   width: 100%;
   position: relative;
   background: transparent;
+  margin-bottom: -100px;
   &::before {
     width: 100%;
     height: 100%;
@@ -390,10 +392,24 @@ export const MyPartnerTitle = styled(ProductTitle)`
 `;
 
 export const ListMyPartner = styled.div`
-  display: flex;
+  /* display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
+  width: 100%;
+  max-height: calc(100vh - 60px);
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  .flickity-button {
+    display: none;
+  }
+  .flickity-page-dots {
+    bottom: 10%;
+    @media screen and (max-width: 767px) {
+      bottom: 5%;
+    }
+  }
 `;
 
 export const ItemMyPartner = styled.div`
@@ -403,6 +419,42 @@ export const ItemMyPartner = styled.div`
     width: calc(100% / 2);
     display: flex;
     align-items: center;
+  }
+`;
+
+export const CardMyPartner = styled.div`
+  width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+  }
+`;
+
+export const LeftContentCard = styled.div`
+  width: 50%;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
+`;
+
+export const RightContentCard = styled.div`
+  width: 50%;
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    padding: 20px 0;
+  }
+  /* justify-content: center; */
+`;
+
+export const TextContentRight = styled.h4`
+  padding-left: 35px;
+  font-weight: 600;
+  @media screen and (max-width: 767px) {
+    text-align: center;
   }
 `;
 
