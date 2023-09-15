@@ -6,7 +6,6 @@ import { Dealer, DealerCabang } from "@prisma/client";
 const get = async () => {
   const result = await prismaClient.dealer.findMany({
     select: {
-      cabang_id: false,
       dealer_id: true,
       latitude: true,
       location: true,
@@ -14,7 +13,6 @@ const get = async () => {
       name: true,
       phone: true,
       subtitle: true,
-      cabang: true,
     },
   });
 

@@ -53,7 +53,6 @@ export async function PUT(req: Request) {
 
     const dealer: Dealer = {
       dealer_id: dealerOld.dealer_id,
-      cabang_id: dealerNew.cabang_id ?? dealerOld.cabang_id,
       name: dealerNew.name ?? dealerOld.name,
       phone: dealerNew.phone ?? dealerOld.phone,
       subtitle: dealerNew.subtitle ?? dealerOld.subtitle,

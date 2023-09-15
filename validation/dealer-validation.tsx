@@ -62,13 +62,6 @@ const addValidation = async (request: Request, dealer: Dealer) => {
     };
   }
 
-  if (dealer.cabang_id === undefined) {
-    return {
-      code: 400,
-      message: "cabang_id is required",
-    };
-  }
-
   return null;
 };
 
@@ -120,12 +113,6 @@ const updateValidation = async (request: Request, dealer: Dealer) => {
     }
   }
 
-  if (dealer.cabang_id === undefined) {
-    return {
-      code: 400,
-      message: "cabang_id is required",
-    };
-  }
 
   return null;
 };
