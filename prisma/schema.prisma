@@ -192,21 +192,18 @@ model ManualBook {
 model DealerCabang {
   cabang_id String   @id @db.VarChar(64)
   name      String   @db.VarChar(128)
-  dealers   Dealer[]
 
   @@map("tb_dealer_cabang")
 }
 
 model Dealer {
   dealer_id String       @id @db.VarChar(64)
-  cabang_id String       @db.VarChar(64)
   name      String       @db.VarChar(128)
   subtitle  String       @db.VarChar(128)
   phone     String       @db.VarChar(16)
   location  String       @db.VarChar(255)
   latitude  Float
   longitude Float
-  cabang    DealerCabang @relation(fields: [cabang_id], references: [cabang_id])
 
   @@map("tb_dealer")
 }
