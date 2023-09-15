@@ -10,7 +10,9 @@ import ImgBgPartner from "./assets/img-bg-partner.png";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 export interface IProps {
-  source: any;
+  source: {
+    src: string;
+  };
 }
 
 export const HeroWrapper = styled.div`
@@ -186,7 +188,7 @@ export const HeadCardProduct = styled.div`
 `;
 
 export const ImgBG = styled.div<IProps>`
-  background: ${(props) => props.source && `url(${props.source.src})`};
+  background: ${(props) => props?.source && `url(${props.source.src})`};
   background-position: center;
   background-repeat: no-repeat;
   width: 60%;

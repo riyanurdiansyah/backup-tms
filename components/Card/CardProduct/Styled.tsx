@@ -4,8 +4,9 @@ import { styled } from "styled-components";
 export const Card = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   width: auto;
-  height: max-content;
+  /* height: max-content; */
   border: 0.125rem solid rgb(234, 240, 249);
   border-radius: 1rem;
   padding: 1.5rem;

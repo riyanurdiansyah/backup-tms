@@ -18,8 +18,13 @@ import BgCardProduct1 from "./assets/bg-product-1.jpg";
 import BgCardProduct2 from "./assets/bg-product-2.jpg";
 import BgCardProduct3 from "./assets/bg-product-3.jpg";
 import Flickity from "react-flickity-component";
+import { useFetchUmum } from "@/utils/useFetchData";
+import { useRouter } from "next/navigation";
 
 const Product = () => {
+  const router = useRouter();
+  const [vehicleData, loadingVehicleData] = useFetchUmum("/api/product");
+
   return (
     <ProductWrapper>
       <ProductContainer>
@@ -35,57 +40,33 @@ const Product = () => {
               draggable: true,
             }}
           >
-            <CardProduct>
-              <HeadCardProduct>
-                <Image
-                  src={ImageCar1}
-                  alt=""
-                  layout="responsive"
-                  objectFit="contain"
-                  style={{
-                    position: "absolute",
-                    bottom: "-10px",
-                    maxWidth: "90%",
-                  }}
-                />
-                <ImgBG source={BgCardProduct1} />
-              </HeadCardProduct>
-              <TitleCardProduct>GIGA</TitleCardProduct>
-            </CardProduct>
-            <CardProduct>
-              <HeadCardProduct>
-                <Image
-                  src={ImageCar2}
-                  alt=""
-                  layout="responsive"
-                  objectFit="contain"
-                  style={{
-                    position: "absolute",
-                    bottom: "-10px",
-                    maxWidth: "90%",
-                  }}
-                />
-                <ImgBG source={BgCardProduct2} />
-              </HeadCardProduct>
-              <TitleCardProduct>TRAGA</TitleCardProduct>
-            </CardProduct>
-            <CardProduct>
-              <HeadCardProduct>
-                <Image
-                  src={ImageCar3}
-                  alt=""
-                  layout="responsive"
-                  objectFit="contain"
-                  style={{
-                    position: "absolute",
-                    bottom: "-10px",
-                    maxWidth: "90%",
-                  }}
-                />
-                <ImgBG source={BgCardProduct3} />
-              </HeadCardProduct>
-              <TitleCardProduct>ELF</TitleCardProduct>
-            </CardProduct>
+            {!loadingVehicleData &&
+              vehicleData?.data?.map((item: any, index: number) => {
+                return (
+                  <CardProduct
+                    key={index}
+                    onClick={() => router.push(`/products/${item.product_id}`)}
+                  >
+                    <HeadCardProduct>
+                      <Image
+                        src={item.image}
+                        alt=""
+                        width={100}
+                        height={100}
+                        layout="responsive"
+                        objectFit="contain"
+                        style={{
+                          position: "absolute",
+                          bottom: "-10px",
+                          maxWidth: "90%",
+                        }}
+                      />
+                      <ImgBG source={{ src: item.image_bg }} />
+                    </HeadCardProduct>
+                    <TitleCardProduct>{item.name}</TitleCardProduct>
+                  </CardProduct>
+                );
+              })}
           </Flickity>
         </ListProduct>
       </ProductContainer>

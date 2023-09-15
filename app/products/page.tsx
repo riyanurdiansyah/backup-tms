@@ -18,17 +18,23 @@ import DropdownMenu from "@/components/Hover/DropdownMenu";
 import { FaSortDown } from "react-icons/fa";
 import { Container } from "@/styles/styledComponents/GlobalStyled";
 import CardProduct from "@/components/Card/CardProduct";
+import { useFetchUmum } from "@/utils/useFetchData";
+import DropdownMenuV2 from "@/components/Hover/DropdownMenuV2";
 
 const ProductPage = () => {
   const [lebarLayar] = useDimensiLayar();
-  const listMenuTipe = [
-    "Light Truck 4 Ban",
-    "Light Truck 6 Ban",
-    "Medium Truck",
-    "Tractor Head",
-    "Pick Up",
-    "Pick Up 4x4",
-  ];
+  const [vehicleData, loadingVehicleData] = useFetchUmum("/api/product");
+  const [vehicleTypeData, loadingVehicleTypeData] =
+    useFetchUmum("/api/product/type");
+
+  // const listMenuTipe = [
+  //   "Light Truck 4 Ban",
+  //   "Light Truck 6 Ban",
+  //   "Medium Truck",
+  //   "Tractor Head",
+  //   "Pick Up",
+  //   "Pick Up 4x4",
+  // ];
 
   const handleClickDropdown = (e: any) => {
     console.log("menu", e);
@@ -52,10 +58,14 @@ const ProductPage = () => {
               kananHover={lebarLayar > 576 ? 0 : "auto"}
               kiriHover={lebarLayar > 576 ? "auto" : 0}
               onHover={
-                <DropdownMenu
-                  dataMenu={listMenuTipe}
-                  handleClickDropdown={handleClickDropdown}
-                />
+                <>
+                  {!loadingVehicleTypeData && (
+                    <DropdownMenuV2
+                      dataMenu={vehicleTypeData?.data}
+                      handleClickDropdown={handleClickDropdown}
+                    />
+                  )}
+                </>
               }
             >
               <FilterCategory>
@@ -68,22 +78,25 @@ const ProductPage = () => {
         </SearchBox>
       </SearchContainer>
       <Container className="body-product-page">
-        <ListProduct>
-          {vehicleDummy?.map((item: any, index: number) => {
-            return (
-              <CardProduct
-                id={item.id || index}
-                name={item.name}
-                slug={item.slug}
-                type={item.type}
-                gwv={item.gwv}
-                cabin_to_end={item.cabin_to_end}
-                max_power={item.max_power}
-                max_torque={item.max_torque}
-              />
-            );
-          })}
-        </ListProduct>
+        {!loadingVehicleData && vehicleData && (
+          <ListProduct>
+            {vehicleData?.data?.map((item: any, index: number) => {
+              return (
+                <CardProduct
+                  id={item.product_id || index}
+                  image={item.image}
+                  name={item.name}
+                  slug={item.product_id}
+                  type={item.product_type.product_type_name}
+                  gwv={item.gvw}
+                  cabin_to_end={item.cabin}
+                  max_power={item.max_power}
+                  max_torque={item.max_torque}
+                />
+              );
+            })}
+          </ListProduct>
+        )}
       </Container>
     </div>
   );

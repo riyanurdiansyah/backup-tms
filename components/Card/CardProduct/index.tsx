@@ -19,6 +19,7 @@ import Image from "next/image";
 
 const CardProduct: FC<ICardJob> = ({
   id,
+  image,
   name,
   slug,
   type,
@@ -33,8 +34,10 @@ const CardProduct: FC<ICardJob> = ({
     <Card>
       <HeadCard>
         <Image
-          src={ImageCar3}
+          src={image}
           alt=""
+          width={100}
+          height={100}
           layout="responsive"
           objectFit="contain"
           style={{
@@ -75,6 +78,7 @@ const CardProduct: FC<ICardJob> = ({
 
 interface ICardJob {
   id: number;
+  image: string;
   name: string;
   slug: string;
   type: string;

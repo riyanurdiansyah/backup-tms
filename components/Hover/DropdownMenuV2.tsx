@@ -12,9 +12,9 @@ const DropdownMenuV2: FC<IDropdownMenuV2> = ({
         return (
           <ItemMenuDropdown
             key={index}
-            onClick={() => handleClickDropdown(item)}
+            onClick={() => handleClickDropdown(item?.product_type_id || item)}
           >
-            {item?.name || item}
+            {item?.name || item?.product_type_name || item}
           </ItemMenuDropdown>
         );
       })}
@@ -23,8 +23,8 @@ const DropdownMenuV2: FC<IDropdownMenuV2> = ({
 };
 
 interface IDropdownMenuV2 {
-  dataMenu: any;
-  handleClickDropdown: (e: any) => void;
+  dataMenu: any[] | undefined; // Sesuaikan tipe data sesuai kebutuhan
+  handleClickDropdown: (item: any) => void; // Sesuaikan tipe data sesuai kebutuhan
 }
 
 export default DropdownMenuV2;

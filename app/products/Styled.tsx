@@ -85,6 +85,7 @@ export const FilterRank = styled(FilterCategory)``;
 export const ListProduct = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
   grid-gap: 15px;
   width: 100%;
   @media screen and (max-width: 991px) {
