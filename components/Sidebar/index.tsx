@@ -101,6 +101,10 @@ const MenuAdmin = [
         nameChild: "Brochure",
         url: "/admin/service-and-tools/brochure",
       },
+      {
+        nameChild: "Booking Service",
+        url: "/admin/service-and-tools/booking-service",
+      },
     ],
   },
   {
@@ -134,6 +138,14 @@ const MenuAdmin = [
       {
         nameChild: "Interest Rate",
         url: "/admin/others/interest-rate",
+      },
+      {
+        nameChild: "Users",
+        url: "/admin/others/users",
+      },
+      {
+        nameChild: "Role User",
+        url: "/admin/others/role-user",
       },
     ],
   },
