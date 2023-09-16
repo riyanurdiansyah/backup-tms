@@ -33,11 +33,12 @@ const CreateDialog: FC<ICreateDialog> = ({
     setValue,
   } = useForm<FormData>();
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: any) => {
     try {
+      data.bunga = parseFloat(data.bunga);
       const response = await postData(data);
 
-      if (response.status === 201) {
+      if (response.code === 201) {
         const fetchDataNew = await fetchTrigger();
         await setDataNew(fetchDataNew?.data);
         await showToast({

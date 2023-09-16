@@ -46,13 +46,13 @@ const EditDialog: FC<IEditDialog> = ({
     }
   }, [dataOld]);
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: any) => {
     try {
       data.bank_id = id;
-
+      data.bunga = parseFloat(data.bunga);
       const response = await axios.put(`${api_backend}/api/bank`, data, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: token,
         },
       });

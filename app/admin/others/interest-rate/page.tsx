@@ -82,26 +82,6 @@ const InterestRateContent = () => {
     });
   };
 
-  const imageBodyTemplate = (rowData: any) => {
-    return (
-      <Image
-        src={rowData.image || "/no-image.png"}
-        alt={rowData.image}
-        layout="responsive"
-        objectFit="cover"
-        loading="lazy"
-        width="0"
-        height="0"
-        style={{
-          maxWidth: "100px",
-          height: "auto",
-          boxShadow:
-            "0 4px 10px rgba(0,0,0,.03),0 0 2px rgba(0,0,0,.06),0 2px 6px rgba(0, 0, 0, 0.081)",
-        }}
-      />
-    );
-  };
-
   const actionBodyTemplate = (rowData: any) => {
     return (
       <BoxAction>
@@ -117,11 +97,11 @@ const InterestRateContent = () => {
 
   const columns = [
     { field: "nama", header: "Name" },
-    { body: imageBodyTemplate, header: "Image" },
+    { field: "bunga", header: "Bunga" },
     { body: actionBodyTemplate, header: "", style: { width: "10%" } },
   ];
 
-  const globalFilterFields = ["title"];
+  const globalFilterFields = ["nama"];
 
   return (
     <>
