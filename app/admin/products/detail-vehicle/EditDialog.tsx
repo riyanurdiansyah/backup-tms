@@ -18,9 +18,13 @@ import useToken from "@/utils/useToken";
 import { Dropdown } from "primereact/dropdown";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
+type Category = {
+  name: string;
+};
+
 type FormData = {
   product_id: string | null;
-  category: string | null;
+  category: Category | null;
   title: string;
   satuan: string;
   keterangan: string;
@@ -45,7 +49,6 @@ const EditDialog: FC<IEditDialog> = ({
   } = useForm<FormData>();
 
   useEffect(() => {
-    console.log(vehicleData, dataOld);
     if (dataOld) {
       setValue(
         "product_id",
