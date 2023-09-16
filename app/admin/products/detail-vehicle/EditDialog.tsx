@@ -20,7 +20,7 @@ const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 type FormData = {
   product_id: string | null;
-  category: string;
+  category: string | null;
   title: string;
   satuan: string;
   keterangan: string;
@@ -45,6 +45,7 @@ const EditDialog: FC<IEditDialog> = ({
   } = useForm<FormData>();
 
   useEffect(() => {
+    console.log(vehicleData, dataOld);
     if (dataOld) {
       setValue(
         "product_id",
@@ -52,7 +53,7 @@ const EditDialog: FC<IEditDialog> = ({
           (item: any) => item.product_id === dataOld?.data?.product_id
         )
       );
-      setValue("category", dataOld?.data?.category);
+      setValue("category", { name: dataOld?.data?.category });
       setValue("title", dataOld?.data?.title);
       setValue("satuan", dataOld?.data?.satuan);
       setValue("keterangan", dataOld?.data?.keterangan);
@@ -61,12 +62,13 @@ const EditDialog: FC<IEditDialog> = ({
         dataOld?.data?.product_spesification_id
       );
     }
-  }, [dataOld]);
+  }, [dataOld, vehicleData]);
 
   const onSubmit = async (data: any) => {
     try {
       data.product_id = data.product_id.product_id;
       data.product_spesification_id = id;
+      data.category = data.category.name;
 
       const response = await axios.put(
         `${api_backend}/api/product/spec`,
@@ -105,6 +107,21 @@ const EditDialog: FC<IEditDialog> = ({
     }
   };
 
+  const ListCategorySpec = [
+    "Berat",
+    "Comfort & Convinience",
+    "Dimensi",
+    "Kapasitas Gardan",
+    "Lampu",
+    "Mesin",
+    "Rem",
+    "Roda",
+    "Safety",
+    "Suspensi",
+    "Transmisi",
+    "Lain-Lain",
+  ];
+
   return (
     <CreateDialogContainer>
       <FormInput onSubmit={handleSubmit(onSubmit)}>
@@ -136,17 +153,20 @@ const EditDialog: FC<IEditDialog> = ({
         <Controller
           name="category"
           control={control}
-          rules={{ required: "Category is required." }}
+          rules={{ required: "Detail Category is required." }}
           render={({ field, fieldState }) => (
             <>
               <FormGroup>
-                <label htmlFor="category">Category</label>
-                <InputText
+                <label htmlFor="category">Pilih Detail Category</label>
+                <Dropdown
                   id={field.name}
                   value={field.value}
+                  optionLabel="name"
+                  placeholder="Pilih Detail Category"
+                  options={ListCategorySpec.map((item) => ({ name: item }))}
+                  focusInputRef={field.ref}
+                  onChange={(e) => field.onChange(e.value)}
                   className={classNames({ "p-invalid": fieldState.error })}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
                   {errors?.category?.message}
@@ -184,7 +204,9 @@ const EditDialog: FC<IEditDialog> = ({
           render={({ field, fieldState }) => (
             <>
               <FormGroup>
-                <label htmlFor="satuan">Satuan</label>
+                <label htmlFor="satuan">
+                  Satuan (beri tanda "-" kalo tidak ada satuan)
+                </label>
                 <InputText
                   id={field.name}
                   value={field.value}
