@@ -112,7 +112,7 @@ const ProductSpec: FC<IProductSpec> = ({ params: { productId } }) => {
   );
 };
 
-export const CardSpecProduct: FC<ICardSpecProduct> = ({ dataSpec }) => {
+const CardSpecProduct: FC<ICardSpecProduct> = ({ dataSpec }) => {
   return (
     <CardContent>
       <TitleCard>{dataSpec[0].category.toUpperCase()}</TitleCard>
