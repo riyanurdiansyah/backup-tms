@@ -7,7 +7,7 @@ import { useFetchUmum } from "@/utils/useFetchData";
 
 const Hero = () => {
   const [dataSlider, loadingDataSlider] = useFetchUmum<any>("/api/slider");
-  console.log(dataSlider);
+
   return (
     <HeroWrapper>
       <Flickity
