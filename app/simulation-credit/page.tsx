@@ -18,16 +18,29 @@ import {
 import Hover from "@/components/Hover";
 import DropdownMenuV2 from "@/components/Hover/DropdownMenuV2";
 import { FaSortDown } from "react-icons/fa";
+import { useFetchUmum } from "@/utils/useFetchData";
 
 const SimulationCreditPage = () => {
+  const [bankData] = useFetchUmum("/api/bank");
   const [data, setData] = useState<any>({
     hargaKendaraan: 0,
     diskonOTR: 0,
     tenor: 0,
-    bunga: 10,
+    bunga: 0,
     totalHarga: 0,
     angsuran: 0,
   });
+
+  useEffect(() => {
+    if (bankData) {
+      let totalBunga = 0;
+      for (const item of bankData?.data) {
+        totalBunga += item.bunga;
+      }
+      const rataRataBunga = totalBunga / bankData?.data?.length;
+      setData({ ...data, bunga: rataRataBunga.toFixed(2) });
+    }
+  }, [bankData]);
 
   const handleChangeInput = (e: any) => {
     const { name, value } = e.target;
