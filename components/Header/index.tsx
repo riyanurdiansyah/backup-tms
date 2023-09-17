@@ -30,12 +30,14 @@ import { FaSortUp } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import useDimensiLayar from "@/utils/useDimensiLayar";
+import { useFetchUmum } from "@/utils/useFetchData";
 
 const Header = () => {
   const route = useRouter();
   const pathname = usePathname();
   const [lebarLayar] = useDimensiLayar();
   const [isShowNavbarMobile, setIsShowNavbarMobile] = useState(false);
+  const [sosmedData] = useFetchUmum("/api/sosmed");
 
   const handleClickDropdown = (e: any) => {
     if (e == "/part-catalogue") {
@@ -45,7 +47,7 @@ const Header = () => {
       );
     } else if (e == "/customer-service") {
       window.open(
-        "https://wa.me/6281326017533?text=Hallo TMS Isuzu, Saya ingin bertanya.",
+        `https://wa.me/${sosmedData?.data?.whatsapp}?text=Hallo TMS Isuzu, Saya ingin bertanya.`,
         "_blank"
       );
     } else {
