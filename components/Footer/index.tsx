@@ -27,6 +27,7 @@ import { FaFacebookF, FaTwitter, FaYoutube } from "react-icons/fa";
 import { TbMailFilled } from "react-icons/tb";
 import { AiFillInstagram } from "react-icons/ai";
 import { usePathname } from "next/navigation";
+import { useFetchUmum } from "@/utils/useFetchData";
 
 const Footer = () => {
   const pathname = usePathname();
@@ -34,6 +35,10 @@ const Footer = () => {
   if (pathname.startsWith("/admin") || pathname.startsWith("/auth")) {
     return <></>;
   }
+
+  const [sosmedData] = useFetchUmum("/api/sosmed");
+  const [productData, loadingProductData] = useFetchUmum("/api/product");
+
   return (
     <Foo>
       <FooterContainer>
@@ -48,19 +53,19 @@ const Footer = () => {
           </TextAdress>
           <TitleSosmed>Stay Connect With Us</TitleSosmed>
           <ListSosmed>
-            <LSosmed href="">
+            <LSosmed href={sosmedData?.data?.facebook || ""}>
               <FaFacebookF />
             </LSosmed>
-            <LSosmed href="">
+            <LSosmed href={sosmedData?.data?.twitter || ""}>
               <FaTwitter />
             </LSosmed>
-            <LSosmed href="">
+            <LSosmed href={sosmedData?.data?.instagram || ""}>
               <AiFillInstagram />
             </LSosmed>
-            <LSosmed href="">
+            {/* <LSosmed href={sosmedData?.data?.youtube || ""}>
               <FaYoutube />
-            </LSosmed>
-            <LSosmed href="">
+            </LSosmed> */}
+            <LSosmed href={`mailto:${sosmedData?.data?.email}`}>
               <TbMailFilled />
             </LSosmed>
           </ListSosmed>
@@ -83,14 +88,20 @@ const Footer = () => {
           <FooterThree>
             <LTitle href="">Vehicles</LTitle>
             <ListVehicle>
-              <LVehicle href="#">Isuzu Traga</LVehicle>
-              <LVehicle href="#">Isuzu Traga</LVehicle>
-              <LVehicle href="#">Isuzu Traga</LVehicle>
-              <LVehicle href="#">Isuzu Traga</LVehicle>
-              <LVehicle href="#">Isuzu Traga</LVehicle>
-              <LVehicle href="#">Isuzu Traga</LVehicle>
-              <LVehicle href="#">Isuzu Traga</LVehicle>
-              <LVehicle href="#">Isuzu Traga</LVehicle>
+              {!loadingProductData &&
+                productData?.data?.map((item: any, index: number) => {
+                  if (index < 8) {
+                    return (
+                      <LVehicle
+                        href={`https://www.tmsisuzu.co.id/products/${item?.product_id}`}
+                        key={index}
+                      >
+                        {item.name}
+                      </LVehicle>
+                    );
+                  }
+                  return null;
+                })}
             </ListVehicle>
           </FooterThree>
         </FooterMenu>
