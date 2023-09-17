@@ -20,14 +20,16 @@ import { AiOutlineCalculator } from "react-icons/ai";
 import { BiSupport } from "react-icons/bi";
 import { usePathname, useRouter } from "next/navigation";
 import useDimensiLayar from "@/utils/useDimensiLayar";
+import { useFetchUmum } from "@/utils/useFetchData";
 
 const ButtonHome = () => {
   const pathname = usePathname();
   const [lebarLayar] = useDimensiLayar();
 
-  if (pathname.startsWith("/admin")|| pathname.startsWith("/auth")) {
+  if (pathname.startsWith("/admin") || pathname.startsWith("/auth")) {
     return <></>;
   }
+  const [sosmedData] = useFetchUmum("/api/sosmed");
 
   const route = useRouter();
   const [showMenu, setShowMenu] = useState(false);
@@ -76,7 +78,7 @@ const ButtonHome = () => {
               <ItemMenuHome
                 onClick={() =>
                   window.open(
-                    "https://wa.me/6281326017533?text=Hallo TMS Isuzu, Saya ingin bertanya.",
+                    `https://wa.me/${sosmedData?.data?.whatsapp}?text=Hallo TMS Isuzu, Saya ingin bertanya.`,
                     "_blank"
                   )
                 }
