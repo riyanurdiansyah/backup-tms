@@ -1,7 +1,7 @@
 import React from "react";
 import { CardWelcome, TitleAdmin } from "./Styled";
 import Image from "next/image";
-import ImgColab from "../../public/logo-colab.png";
+import ImgColab from "../../public/logo-tms.png";
 
 const AdminPage = () => {
   return (
@@ -12,7 +12,7 @@ const AdminPage = () => {
         alt=""
         layout="responsive"
         objectFit="contain"
-        style={{ width: "80%", maxWidth: "400px", height: "auto" }}
+        style={{ width: "80%", maxWidth: "200px", height: "auto" }}
       />
     </CardWelcome>
   );

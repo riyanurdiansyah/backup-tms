@@ -22,11 +22,10 @@ const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 type FormData = {
   name: string;
   subtitle: string;
-  latitude: number;
-  longitude: number;
+  latitude: string;
+  longitude: string;
   phone: string;
   location: string;
-  cabang_id: string;
   dealer_id: any;
 };
 
@@ -50,18 +49,18 @@ const EditDialog: FC<IEditDialog> = ({
     if (dataOld) {
       setValue("name", dataOld?.data?.name);
       setValue("subtitle", dataOld?.data?.subtitle);
-      setValue("latitude", dataOld?.data?.latitude);
-      setValue("longitude", dataOld?.data?.longitude);
+      setValue("latitude", dataOld?.data?.latitude.toString());
+      setValue("longitude", dataOld?.data?.longitude.toString());
       setValue("phone", dataOld?.data?.phone);
       setValue("location", dataOld?.data?.location);
-      setValue("cabang_id", dataOld?.data?.cabang_id);
     }
   }, [dataOld]);
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: any) => {
     try {
       data.dealer_id = id;
-      data.cabang_id = "cbx-001";
+      data.latitude = parseFloat(data.latitude);
+      data.longitude = parseFloat(data.longitude);
       const response = await axios.put(`${api_backend}/api/dealer`, data, {
         headers: {
           "Content-Type": "application/json",
@@ -150,13 +149,11 @@ const EditDialog: FC<IEditDialog> = ({
             <>
               <FormGroup>
                 <label htmlFor="latitude">Latitude</label>
-                <InputNumber
+                <InputText
                   id={field.name}
-                  value={field.value}
                   defaultValue={field.value}
                   className={classNames({ "p-invalid": fieldState.error })}
-                  onValueChange={(e) => field.onChange(e.value)}
-                  useGrouping={false}
+                  onChange={(e) => field.onChange(e.target.value)}
                   style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
@@ -174,13 +171,11 @@ const EditDialog: FC<IEditDialog> = ({
             <>
               <FormGroup>
                 <label htmlFor="longitude">Longitude</label>
-                <InputNumber
+                <InputText
                   id={field.name}
-                  value={field.value}
                   defaultValue={field.value}
                   className={classNames({ "p-invalid": fieldState.error })}
-                  onValueChange={(e) => field.onChange(e.value)}
-                  useGrouping={false}
+                  onChange={(e) => field.onChange(e.target.value)}
                   style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">

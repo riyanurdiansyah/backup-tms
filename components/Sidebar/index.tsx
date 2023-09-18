@@ -13,6 +13,7 @@ import {
   TitleParentMenu,
 } from "./Styled";
 import LogoColab from "./logo-colab.png";
+import LogoTMS from "../../public/logo-tms.png";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -32,11 +33,11 @@ const Sidebar = () => {
     <SidebarLayout>
       <SidebarHeader>
         <Image
-          src={LogoColab}
+          src={LogoTMS}
           alt=""
-          layout="responsive"
-          objectFit="contain"
+          loading="lazy"
           onClick={() => router.push("/admin")}
+          style={{ maxWidth: "100%", height: "auto", maxHeight: "35px" }}
         />
       </SidebarHeader>
       <MenuContainer>

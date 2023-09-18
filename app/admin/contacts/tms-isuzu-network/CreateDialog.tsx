@@ -19,11 +19,10 @@ import { InputTextarea } from "primereact/inputtextarea";
 type FormData = {
   name: string;
   subtitle: string;
-  latitude: number;
-  longitude: number;
+  latitude: string;
+  longitude: string;
   phone: string;
   location: string;
-  cabang_id: string;
 };
 
 const CreateDialog: FC<ICreateDialog> = ({
@@ -40,9 +39,10 @@ const CreateDialog: FC<ICreateDialog> = ({
     setValue,
   } = useForm<FormData>();
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: any) => {
     try {
-      data.cabang_id = "cbx-001";
+      data.latitude = parseFloat(data.latitude);
+      data.longitude = parseFloat(data.longitude);
       const response = await postData(data);
       if (response && response.code === 201) {
         const fetchDataNew = await fetchTriggerNetwork();
@@ -126,12 +126,11 @@ const CreateDialog: FC<ICreateDialog> = ({
             <>
               <FormGroup>
                 <label htmlFor="latitude">Latitude</label>
-                <InputNumber
+                <InputText
                   id={field.name}
                   defaultValue={field.value}
                   className={classNames({ "p-invalid": fieldState.error })}
-                  onValueChange={(e) => field.onChange(e.value)}
-                  useGrouping={false}
+                  onChange={(e) => field.onChange(e.target.value)}
                   style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
@@ -149,12 +148,11 @@ const CreateDialog: FC<ICreateDialog> = ({
             <>
               <FormGroup>
                 <label htmlFor="longitude">Longitude</label>
-                <InputNumber
+                <InputText
                   id={field.name}
                   defaultValue={field.value}
                   className={classNames({ "p-invalid": fieldState.error })}
-                  onValueChange={(e) => field.onChange(e.value)}
-                  useGrouping={false}
+                  onChange={(e) => field.onChange(e.target.value)}
                   style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
