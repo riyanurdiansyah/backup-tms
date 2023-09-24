@@ -302,7 +302,7 @@ const updateValidationSpecification = async (
   return null;
 };
 
-const updateContent = async (request: Request, content: ProductContent) => {
+const updateContent = async (request: Request, formData: FormData) => {
   const token = request.headers.get("Authorization");
   if (token === null) {
     return {
@@ -320,7 +320,7 @@ const updateContent = async (request: Request, content: ProductContent) => {
       };
     }
   }
-  if (content.product_content_id === undefined) {
+  if (formData.get("product_content_id") === undefined) {
     return {
       code: 400,
       message: "product_content_id is required",

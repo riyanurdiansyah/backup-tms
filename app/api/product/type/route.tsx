@@ -74,7 +74,25 @@ export async function PUT(req: Request) {
         status: errorValidation.code,
       });
     }
-    const result = await productService.putType(productType);
+    const typeOld = await productService.getByIdType(
+      productType.product_type_id
+    );
+    if (typeOld === null) {
+      return NextResponse.json(
+        {
+          code: 404,
+          message: "Product Type id is not found",
+        },
+        { status: 404 }
+      );
+    }
+    const newType: ProductType = {
+      product_type_id: typeOld.product_type_id,
+      product_type_name:
+        productType.product_type_name ?? typeOld.product_type_name,
+    };
+
+    const result = await productService.putType(newType);
 
     return NextResponse.json(
       {

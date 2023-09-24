@@ -1,5 +1,7 @@
 import authService from "@/services/auth-service";
 
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
 const addValidation = async (request: Request, formData: FormData) => {
   const token = request.headers.get("Authorization");
   if (token === null) {
@@ -41,6 +43,13 @@ const addValidation = async (request: Request, formData: FormData) => {
         message: "file is only allowed for pdf",
       };
     }
+
+    if (image.size > MAX_FILE_SIZE) {
+      return {
+        code: 400,
+        message: "file size maximal is 10MB",
+      };
+    }
   }
 
   return null;
@@ -78,6 +87,13 @@ const updateValidation = async (request: Request, formData: FormData) => {
       return {
         code: 400,
         message: "image is only allowed for pdf",
+      };
+    }
+
+    if (image.size > MAX_FILE_SIZE) {
+      return {
+        code: 400,
+        message: "file size maximal is 10MB",
       };
     }
   }
