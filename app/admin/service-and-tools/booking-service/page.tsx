@@ -133,6 +133,7 @@ const BookingServiceContent = () => {
           columns={columns}
           globalFilterFields={globalFilterFields}
           withSearchBar={true}
+          withBtnAdd={false}
           setVisible={setVisible}
         />
       </CardAdmin>

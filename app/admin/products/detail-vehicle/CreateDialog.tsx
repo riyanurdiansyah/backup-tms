@@ -84,6 +84,7 @@ const CreateDialog: FC<ICreateDialog> = ({
     "Rem",
     "Roda",
     "Safety",
+    "Sistem Kemudi",
     "Suspensi",
     "Transmisi",
     "Lain-Lain",

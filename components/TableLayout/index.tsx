@@ -16,6 +16,7 @@ const TableLayout: FC<ITableLayout> = ({
   columns,
   globalFilterFields,
   withSearchBar = true,
+  withBtnAdd = true,
   setVisible,
 }) => {
   const [globalFilterValue, setGlobalFilterValue] = useState("");
@@ -94,13 +95,15 @@ const TableLayout: FC<ITableLayout> = ({
             />
           </span>
         )}
-        <Button
-          label="Add New"
-          severity="success"
-          outlined
-          icon="pi pi-plus"
-          onClick={() => setVisible(true)}
-        />
+        {withBtnAdd && (
+          <Button
+            label="Add New"
+            severity="success"
+            outlined
+            icon="pi pi-plus"
+            onClick={() => setVisible(true)}
+          />
+        )}
       </HeaderTableLayoutContainer>
     );
   };
@@ -137,6 +140,7 @@ interface ITableLayout {
   columns: any;
   globalFilterFields: any;
   withSearchBar: boolean;
+  withBtnAdd: boolean;
   setVisible: (e: boolean) => void;
 }
 

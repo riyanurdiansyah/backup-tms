@@ -50,7 +50,7 @@ const CardProduct: FC<ICardJob> = ({
         <Name>{name}</Name>
         <ListInfoDetail>
           <ItemInfoDetail>
-            <KeyInfo>GWV</KeyInfo>
+            <KeyInfo>GVW</KeyInfo>
             <ValueInfo>{gwv} Kg</ValueInfo>
           </ItemInfoDetail>
           <ItemInfoDetail>

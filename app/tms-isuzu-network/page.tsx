@@ -43,7 +43,7 @@ const TmsIsuzuNetworkPage = () => {
 
       networkData?.data?.forEach((data: any) => {
         const marker = new mapboxgl.Marker({ draggable: false, color: "red" })
-          .setLngLat([data.latitude, data.longitude])
+          .setLngLat([data.longitude, data.latitude])
           .addTo(map);
 
         const popupContent = document.createElement("div");
@@ -59,7 +59,7 @@ const TmsIsuzuNetworkPage = () => {
 
           // Zoom ke marker yang di klik
           map.flyTo({
-            center: [data.latitude, data.longitude],
+            center: [data.longitude, data.latitude],
             zoom: 12,
             essential: true,
           });

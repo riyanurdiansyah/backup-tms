@@ -116,6 +116,7 @@ const WarrantyAndKsgContent = () => {
           columns={columns}
           globalFilterFields={globalFilterFields}
           withSearchBar={true}
+          withBtnAdd={true}
           setVisible={setVisible}
         />
         <Dialog

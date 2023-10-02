@@ -120,6 +120,7 @@ const EditDialog: FC<IEditDialog> = ({
     "Rem",
     "Roda",
     "Safety",
+    "Sistem Kemudi",
     "Suspensi",
     "Transmisi",
     "Lain-Lain",

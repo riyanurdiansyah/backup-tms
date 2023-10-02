@@ -79,6 +79,11 @@ const ProductSpec: FC<IProductSpec> = ({ params: { productId } }) => {
           {groupedSpecifications?.Lampu?.length > 0 && (
             <CardSpecProduct dataSpec={groupedSpecifications?.Lampu || []} />
           )}
+          {groupedSpecifications?.SistemKemudi?.length > 0 && (
+            <CardSpecProduct
+              dataSpec={groupedSpecifications?.SistemKemudi || []}
+            />
+          )}
           {groupedSpecifications?.LainLain?.length > 0 && (
             <CardSpecProduct dataSpec={groupedSpecifications?.LainLain || []} />
           )}
@@ -117,13 +122,15 @@ const CardSpecProduct: FC<ICardSpecProduct> = ({ dataSpec }) => {
     <CardContent>
       <TitleCard>{dataSpec[0].category.toUpperCase()}</TitleCard>
       <ListItemCard>
-        {dataSpec.map((item: any, i: number) => (
-          <ItemCard key={i}>
-            <TextItem className="key">{item.title}</TextItem>
-            <TextItem className="value">{item.keterangan}</TextItem>
-            <TextItem className="satuan">{item.satuan}</TextItem>
-          </ItemCard>
-        ))}
+        {dataSpec
+          .slice()
+          .sort((a, b) => a.title.localeCompare(b.title))
+          .map((item: any, i: number) => (
+            <ItemCard key={i}>
+              <TextItem className="key">{item.title}</TextItem>
+              <TextItem className="value">{item.age}</TextItem>
+            </ItemCard>
+          ))}
       </ListItemCard>
     </CardContent>
   );
