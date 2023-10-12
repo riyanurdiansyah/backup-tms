@@ -11,12 +11,12 @@ export async function POST(req: Request) {
     const userBody: User = await req.json();
     const id = uuidv4();
 
-    const errorValidation = await SigninValidation.registValidation(
-      userBody
-    );
+    const errorValidation = await SigninValidation.registValidation(userBody);
 
     if (errorValidation != null) {
-      return NextResponse.json(errorValidation, { status: errorValidation.code });
+      return NextResponse.json(errorValidation, {
+        status: errorValidation.code,
+      });
     }
 
     const checkUser = await AuthService.getUserByUsername(userBody.username);
@@ -46,12 +46,10 @@ export async function POST(req: Request) {
 
     const secretKey = process.env.JWT_SECRET_KEY as string;
 
-    const username = userBody.username
+    const username = userBody.username;
 
     const timezone = "Asia/Jakarta";
-    const token = jwt.sign({ username, timezone }, secretKey, {
-      expiresIn: "24h",
-    });
+    const token = jwt.sign({ username, timezone }, secretKey);
 
     return NextResponse.json(
       {

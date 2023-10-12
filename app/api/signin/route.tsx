@@ -6,11 +6,9 @@ import { User } from "@prisma/client";
 
 export async function POST(req: Request) {
   try {
-    const body : User = await req.json();
+    const body: User = await req.json();
 
-    const errorValidation = await SigninValidation.loginValidation(
-      body
-    );
+    const errorValidation = await SigninValidation.loginValidation(body);
 
     if (errorValidation != null) {
       return NextResponse.json(errorValidation, {
@@ -18,7 +16,8 @@ export async function POST(req: Request) {
       });
     }
 
-    const userWithoutPassword = await AuthService.getUserByUsernameWithoutPassword(body.username);
+    const userWithoutPassword =
+      await AuthService.getUserByUsernameWithoutPassword(body.username);
     const user = await AuthService.getUserByUsername(body.username);
 
     if (user === null) {
@@ -33,7 +32,7 @@ export async function POST(req: Request) {
 
     const checkPassword = await AuthService.decryptPassword(
       body.password,
-      user.password,
+      user.password
     );
 
     if (!checkPassword) {
@@ -51,9 +50,7 @@ export async function POST(req: Request) {
     const username = body.username;
 
     const timezone = "Asia/Jakarta";
-    const token = jwt.sign({ username, timezone }, secretKey, {
-      expiresIn: "24h",
-    });
+    const token = jwt.sign({ username, timezone }, secretKey);
 
     return NextResponse.json(
       {
