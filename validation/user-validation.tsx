@@ -1,7 +1,7 @@
 import authService from "@/services/auth-service";
-import { UserRole } from "@prisma/client";
+import { User } from "@prisma/client";
 
-const addValidation = async (request: Request, role: UserRole) => {
+const updateValidation = async (request: Request, user: User) => {
   const token = request.headers.get("Authorization");
   if (token === null) {
     return {
@@ -20,17 +20,24 @@ const addValidation = async (request: Request, role: UserRole) => {
     }
   }
 
-  if (role.role === undefined) {
+  if (user.user_id === undefined) {
     return {
       code: 400,
-      message: "role is required",
+      message: "user_id is required",
+    };
+  }
+
+  if (user.email === undefined) {
+    return {
+      code: 400,
+      message: "email is required",
     };
   }
 
   return null;
 };
 
-const updateValidation = async (request: Request, role: UserRole) => {
+const deleteValidation = async (request: Request, id: string) => {
   const token = request.headers.get("Authorization");
   if (token === null) {
     return {
@@ -49,10 +56,10 @@ const updateValidation = async (request: Request, role: UserRole) => {
     }
   }
 
-  if (role.role_id === undefined) {
+  if (id === undefined || id === null) {
     return {
       code: 400,
-      message: "role_id is required",
+      message: "user id is required",
     };
   }
 
@@ -60,6 +67,6 @@ const updateValidation = async (request: Request, role: UserRole) => {
 };
 
 export default {
-  addValidation,
   updateValidation,
+  deleteValidation,
 };
