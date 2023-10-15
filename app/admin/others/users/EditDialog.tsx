@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import {
   ButtonGroup,
   CreateDialogContainer,
@@ -12,29 +12,30 @@ import { InputText } from "primereact/inputtext";
 import { Controller, useForm } from "react-hook-form";
 import { classNames } from "primereact/utils";
 import { Button } from "primereact/button";
-import {
-  useFetchTrigger,
-  useFetchUmum,
-  usePostUmum,
-} from "@/utils/useFetchData";
+import { useFetchTrigger, useFetchUmum } from "@/utils/useFetchData";
+import axios from "axios";
+import useToken from "@/utils/useToken";
 import { Dropdown } from "primereact/dropdown";
+const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 type FormData = {
   username: string;
   email: string;
   password: string;
   role_id: number | null;
+  user_id: number | null;
 };
 
-const CreateDialog: FC<ICreateDialog> = ({
+const EditDialog: FC<IEditDialog> = ({
   setVisible,
   setDataNew,
   showToast,
+  id,
 }) => {
-  const [postData] = usePostUmum("/api/signup");
+  const [dataOld, loadingDataOld] = useFetchUmum(`/api/user/${id}`);
   const [fetchTrigger] = useFetchTrigger<any>("/api/user");
-  const [roleData] = useFetchUmum("/api/role");
-
+  const [userData] = useFetchUmum("/api/role");
+  const [token] = useToken();
   const {
     handleSubmit,
     control,
@@ -42,25 +43,45 @@ const CreateDialog: FC<ICreateDialog> = ({
     setValue,
   } = useForm<FormData>();
 
+  useEffect(() => {
+    if (dataOld) {
+      setValue(
+        "role_id",
+        userData?.data?.find(
+          (item: any) => item.role_id === dataOld?.data?.role.role_id
+        )
+      );
+      setValue("username", dataOld?.data?.username);
+      setValue("email", dataOld?.data?.email);
+      setValue("user_id", dataOld?.data?.user_id);
+    }
+  }, [dataOld, userData]);
+
   const onSubmit = async (data: any) => {
     try {
       data.role_id = data.role_id.role_id;
-      const response = await postData(data);
+      data.user_id = id;
 
-      if (response.code === 201) {
+      const response = await axios.put(`${api_backend}/api/user`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
+      if (response.status === 200) {
         const fetchDataNew = await fetchTrigger();
         await setDataNew(fetchDataNew?.data);
         await showToast({
           type: "success",
           title: "Success",
-          message: "Berhasil Menambahkan Data",
+          message: "Berhasil Mengubah Data",
         });
         setVisible(false);
       } else {
         await showToast({
           type: "error",
           title: "Error",
-          message: "Gagal Menambahkan Data",
+          message: "Gagal Mengubah Data",
         });
         setVisible(false);
       }
@@ -68,7 +89,7 @@ const CreateDialog: FC<ICreateDialog> = ({
       await showToast({
         type: "error",
         title: "Error",
-        message: "Gagal Menambahkan Data",
+        message: "Gagal Mengubah Data",
       });
       setVisible(false);
     }
@@ -121,28 +142,7 @@ const CreateDialog: FC<ICreateDialog> = ({
             </>
           )}
         />
-        <Controller
-          name="password"
-          control={control}
-          rules={{ required: "Password is required." }}
-          render={({ field, fieldState }) => (
-            <>
-              <FormGroup>
-                <label htmlFor="password">Password</label>
-                <InputText
-                  id={field.name}
-                  value={field.value}
-                  className={classNames({ "p-invalid": fieldState.error })}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  style={{ width: "100%" }}
-                />
-                <InfoError className="p-error">
-                  {errors?.password?.message}
-                </InfoError>
-              </FormGroup>
-            </>
-          )}
-        />
+
         <Controller
           name="role_id"
           control={control}
@@ -155,7 +155,7 @@ const CreateDialog: FC<ICreateDialog> = ({
                   id={field.name}
                   value={field.value}
                   placeholder="Pilih Role"
-                  options={roleData?.data}
+                  options={userData?.data}
                   optionLabel="role"
                   focusInputRef={field.ref}
                   onChange={(e) => field.onChange(e.value)}
@@ -185,10 +185,11 @@ const CreateDialog: FC<ICreateDialog> = ({
   );
 };
 
-interface ICreateDialog {
+interface IEditDialog {
   setVisible: (e: boolean) => void;
   setDataNew: (e: any) => void;
   showToast: (data: ToastData) => void;
+  id: any;
 }
 interface ToastData {
   type: "success" | "error" | "info";
@@ -196,4 +197,4 @@ interface ToastData {
   message: string;
 }
 
-export default CreateDialog;
+export default EditDialog;

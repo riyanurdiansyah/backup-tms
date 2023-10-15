@@ -13,6 +13,7 @@ import { useFetchTrigger, useFetchUmum } from "@/utils/useFetchData";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import axios from "axios";
 import useToken from "@/utils/useToken";
+import EditDialog from "./EditDialog";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 const RoleUserContent = () => {
@@ -26,6 +27,7 @@ const RoleUserContent = () => {
   const [visible, setVisible] = useState(false);
   const [visibleEdit, setVisibleEdit] = useState(false);
   const [idSelected, setIdSelected] = useState<any>(null);
+  const [dataById, setDataById] = useState<any>(null);
 
   useEffect(() => {
     if (fetchData && !loadingFetchData) {
@@ -33,6 +35,15 @@ const RoleUserContent = () => {
       setloading(false);
     }
   }, [fetchData, loadingFetchData]);
+
+  useEffect(() => {
+    if (visibleEdit && idSelected != null) {
+      const filterData = fetchData?.data?.filter(
+        (type: any) => type?.role_id == idSelected
+      )[0];
+      setDataById(filterData);
+    }
+  }, [visibleEdit, idSelected]);
 
   const showToast = (data: any) => {
     toast.current.show({
@@ -84,11 +95,11 @@ const RoleUserContent = () => {
   const actionBodyTemplate = (rowData: any) => {
     return (
       <BoxAction>
-        {/* <BtnEdit
+        <BtnEdit
           setVisibleEdit={setVisibleEdit}
           setIdSelected={setIdSelected}
           id={rowData.role_id}
-        /> */}
+        />
         {/* <BtnDelete confirmDeleteData={confirmDeleteData} id={rowData.role_id} /> */}
       </BoxAction>
     );
@@ -117,7 +128,7 @@ const RoleUserContent = () => {
           setVisible={setVisible}
         />
         <Dialog
-          header="Add New Bank"
+          header="Add New Role"
           visible={visible}
           style={{ width: "30vw" }}
           onHide={() => setVisible(false)}
@@ -129,17 +140,18 @@ const RoleUserContent = () => {
           />
         </Dialog>
         <Dialog
-          header="Edit Bank"
+          header="Edit Role"
           visible={visibleEdit}
           style={{ width: "30vw" }}
           onHide={() => setVisibleEdit(false)}
         >
-          {/* <EditDialog
+          <EditDialog
             setVisible={setVisibleEdit}
             setDataNew={setDataFetch}
             showToast={showToast}
             id={idSelected}
-          /> */}
+            dataById={dataById}
+          />
         </Dialog>
       </CardAdmin>
     </>
