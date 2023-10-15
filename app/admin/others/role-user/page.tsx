@@ -100,7 +100,7 @@ const RoleUserContent = () => {
     { body: actionBodyTemplate, header: "", style: { width: "10%" } },
   ];
 
-  const globalFilterFields = ["role"];
+  const globalFilterFields = ["role_id", "role"];
 
   return (
     <>

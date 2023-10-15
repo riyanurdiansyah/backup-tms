@@ -1,6 +1,6 @@
 "use client";
 import HeroBanner from "@/components/HeroBanner";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ListBook,
   Search,
@@ -14,14 +14,35 @@ import CardBook from "@/components/Card/CardBook";
 import { useFetchUmum } from "@/utils/useFetchData";
 
 const OwnersManual = () => {
+  const [data, setData] = useState<any>([]);
+  const [keyword, setKeyword] = useState<any>("");
   const [manualBookData, loadingManualBookData] = useFetchUmum("/api/book");
+
+  useEffect(() => {
+    if (!loadingManualBookData && manualBookData && keyword == "") {
+      setData(manualBookData?.data);
+    }
+    if (manualBookData && keyword != "") {
+      const dataSearch = manualBookData?.data?.filter((type: any) => {
+        return type.nama
+          ?.toLowerCase()
+          .includes(keyword?.toString().toLowerCase([]));
+      });
+      setData(dataSearch);
+    }
+  }, [loadingManualBookData, keyword]);
+
   return (
     <div className="owners-manual-page-wrapper">
       <HeroBanner title={"Owners Manual Book"} />
       <SearchContainer>
         <SearchBox>
           <Search>
-            <SearchInput placeholder="Cari buku panduan..." />
+            <SearchInput
+              placeholder="Cari buku panduan..."
+              value={keyword}
+              onChange={(e: any) => setKeyword(e.target.value)}
+            />
             <p>
               <FiSearch />
             </p>
@@ -31,7 +52,7 @@ const OwnersManual = () => {
       {!loadingManualBookData && manualBookData && (
         <Container>
           <ListBook>
-            {manualBookData?.data?.map((item: any, index: number) => {
+            {data?.map((item: any, index: number) => {
               return (
                 <CardBook
                   id={item.book_id || index}

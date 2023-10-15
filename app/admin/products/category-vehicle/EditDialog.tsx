@@ -48,12 +48,16 @@ const EditDialog: FC<IEditDialog> = ({
   const onSubmit = async (data: FormData) => {
     try {
       data.product_type_id = id;
-      const response = await axios.put(`${api_backend}/api/type`, data, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      });
+      const response = await axios.put(
+        `${api_backend}/api/product/type`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
       if (response.status === 200) {
         const fetchDataNew = await fetchTrigger();
         await setDataNew(fetchDataNew?.data);

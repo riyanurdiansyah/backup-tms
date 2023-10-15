@@ -124,7 +124,7 @@ const SliderHomepageContent = () => {
     { body: actionBodyTemplate, header: "", style: { width: "10%" } },
   ];
 
-  const globalFilterFields = ["title"];
+  const globalFilterFields = ["nama"];
 
   return (
     <>

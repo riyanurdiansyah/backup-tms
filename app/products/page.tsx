@@ -2,7 +2,7 @@
 
 import HeroBanner from "@/components/HeroBanner";
 import useDimensiLayar from "@/utils/useDimensiLayar";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   DropdownFilterCategory,
   FilterCategory,
@@ -23,6 +23,9 @@ import DropdownMenuV2 from "@/components/Hover/DropdownMenuV2";
 
 const ProductPage = () => {
   const [lebarLayar] = useDimensiLayar();
+  const [dataNew, setDataNew] = useState<any>(null);
+  const [keyword, setKeyword] = useState<any>("");
+  const [categoryTerpilih, setCategoryTerpilih] = useState(null);
   const [vehicleData, loadingVehicleData] = useFetchUmum("/api/product");
   const [vehicleTypeData, loadingVehicleTypeData] =
     useFetchUmum("/api/product/type");
@@ -36,8 +39,33 @@ const ProductPage = () => {
   //   "Pick Up 4x4",
   // ];
 
+  useEffect(() => {
+    if (!loadingVehicleData && vehicleData) {
+      setDataNew(vehicleData?.data);
+    }
+  }, [loadingVehicleData]);
+
+  useEffect(() => {
+    if (categoryTerpilih !== null || keyword != "") {
+      const dataSearch = vehicleData?.data?.filter((type: any) => {
+        return type.name
+          ?.toLowerCase()
+          .includes(keyword?.toString().toLowerCase([]));
+      });
+      const filteredData = dataSearch?.filter((item: any) => {
+        if (categoryTerpilih !== null) {
+          return item?.product_type?.product_type_name === categoryTerpilih;
+        }
+        return true;
+      });
+      setDataNew(filteredData);
+    } else {
+      setDataNew(vehicleData?.data);
+    }
+  }, [categoryTerpilih, keyword]);
+
   const handleClickDropdown = (e: any) => {
-    console.log("menu", e);
+    setCategoryTerpilih(e);
   };
 
   return (
@@ -46,7 +74,11 @@ const ProductPage = () => {
       <SearchContainer>
         <SearchBox>
           <Search>
-            <SearchInput placeholder="Cari Kendaraan..." />
+            <SearchInput
+              placeholder="Cari Kendaraan..."
+              value={keyword}
+              onChange={(e: any) => setKeyword(e.target.value)}
+            />
             <p>
               <FiSearch />
             </p>
@@ -70,7 +102,13 @@ const ProductPage = () => {
             >
               <FilterCategory>
                 <p className="text">
-                  Pilih Kategori <FaSortDown />
+                  {categoryTerpilih ? (
+                    categoryTerpilih
+                  ) : (
+                    <>
+                      Pilih Kategori <FaSortDown />
+                    </>
+                  )}
                 </p>
               </FilterCategory>
             </Hover>
@@ -80,7 +118,7 @@ const ProductPage = () => {
       <Container className="body-product-page">
         {!loadingVehicleData && vehicleData && (
           <ListProduct>
-            {vehicleData?.data?.map((item: any, index: number) => {
+            {dataNew?.map((item: any, index: number) => {
               return (
                 <CardProduct
                   id={item.product_id || index}

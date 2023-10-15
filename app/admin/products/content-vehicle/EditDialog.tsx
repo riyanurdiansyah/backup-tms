@@ -76,8 +76,6 @@ const EditDialog: FC<IEditDialog> = ({
       data.image != null && formData.append("image", data.image as File);
       formData.append("text", data.text);
 
-      console.log(data);
-
       const response = await axios.put(
         `${api_backend}/api/product/content`,
         formData,
@@ -88,7 +86,6 @@ const EditDialog: FC<IEditDialog> = ({
           },
         }
       );
-      console.log(response);
       if (response.status === 200) {
         const fetchDataNew = await fetchTrigger();
         await setDataNew(fetchDataNew?.data);

@@ -35,7 +35,6 @@ const CreateDialog: FC<ICreateDialog> = ({
   const onSubmit = async (data: FormData) => {
     try {
       const response = await postData(data);
-      console.log(response);
 
       if (response.code === 201) {
         const fetchDataNew = await fetchTrigger();

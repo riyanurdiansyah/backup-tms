@@ -109,7 +109,6 @@ const BookingServicePage = () => {
         title: "Error",
         message: "Form Harus Diisi semua",
       });
-      console.log("Terdapat nilai string kosong dalam data.");
     } else {
       try {
         const response = await postData(data);

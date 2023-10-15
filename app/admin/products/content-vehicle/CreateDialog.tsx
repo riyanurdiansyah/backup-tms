@@ -69,7 +69,6 @@ const CreateDialog: FC<ICreateDialog> = ({
           },
         }
       );
-      console.log(response);
       if (response.status === 201) {
         const fetchDataNew = await fetchTrigger();
         await setDataNew(fetchDataNew?.data);

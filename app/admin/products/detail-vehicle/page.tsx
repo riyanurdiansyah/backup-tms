@@ -110,7 +110,7 @@ const DetailVehicleContent = () => {
     { body: actionBodyTemplate, header: "", style: { width: "10%" } },
   ];
 
-  const globalFilterFields = ["title"];
+  const globalFilterFields = ["product_id", "category", "title"];
 
   return (
     <>

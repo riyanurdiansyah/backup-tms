@@ -78,7 +78,6 @@ const EditDialog: FC<IEditDialog> = ({
 
   const onSubmit = async (data: any) => {
     try {
-      console.log(data);
       const formData = new FormData();
       formData.append("product_id", id);
       data.image != null && formData.append("image", data.image as File);

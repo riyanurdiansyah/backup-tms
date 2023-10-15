@@ -21,8 +21,6 @@ const ProductSpec: FC<IProductSpec> = ({ params: { productName } }) => {
   const [specVehicleData, loadingSpecVehicleData] = useFetchUmum(
     `/api/product/${productName}`
   );
-
-  console.log(productName, specVehicleData);
   return (
     <div className="spec-product-page-warpper">
       <HeaderContent>

@@ -12,7 +12,7 @@ const DropdownMenuV2: FC<IDropdownMenuV2> = ({
         return (
           <ItemMenuDropdown
             key={index}
-            onClick={() => handleClickDropdown(item?.product_type_id || item)}
+            onClick={() => handleClickDropdown(item?.product_type_name || item)}
           >
             {item?.name || item?.product_type_name || item}
           </ItemMenuDropdown>

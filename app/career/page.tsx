@@ -25,6 +25,7 @@ import { listDataFunction, listDataJenjang } from "@/utils/craeerDataList";
 const CareerPage = () => {
   const [lebarLayar] = useDimensiLayar();
   const [dataNew, setDataNew] = useState<any>(null);
+  const [keyword, setKeyword] = useState<any>("");
   const [functionTerpilih, setFunctionTerpilih] = useState(null);
   const [levelTerpilih, setLevelTerpilih] = useState(null);
   const [careerData, loadingCareerData] = useFetchUmum("/api/career");
@@ -58,15 +59,21 @@ const CareerPage = () => {
   //     expired: "10 Agustus 2023",
   //   },
   // ];
+
   useEffect(() => {
     if (!loadingCareerData && careerData) {
       setDataNew(careerData?.data);
     }
-  }, [careerData, loadingCareerData]);
+  }, [loadingCareerData]);
 
   useEffect(() => {
-    if (functionTerpilih !== null || levelTerpilih !== null) {
-      const filteredData = careerData.data.filter((item: any) => {
+    if (functionTerpilih !== null || levelTerpilih !== null || keyword != "") {
+      const dataSearch = careerData?.data?.filter((type: any) => {
+        return type.title
+          ?.toLowerCase()
+          .includes(keyword?.toString().toLowerCase([]));
+      });
+      const filteredData = dataSearch?.filter((item: any) => {
         if (functionTerpilih !== null && levelTerpilih !== null) {
           return (
             item.subtitle === functionTerpilih && item.status === levelTerpilih
@@ -82,7 +89,7 @@ const CareerPage = () => {
     } else {
       setDataNew(careerData?.data);
     }
-  }, [functionTerpilih, levelTerpilih]);
+  }, [functionTerpilih, levelTerpilih, keyword]);
 
   const handleClickDropdownFunction = (e: any) => {
     setFunctionTerpilih(e);
@@ -98,7 +105,11 @@ const CareerPage = () => {
       <SearchContainer>
         <SearchBox>
           <Search>
-            <SearchInput placeholder="Cari lowongan..." />
+            <SearchInput
+              placeholder="Cari lowongan..."
+              value={keyword}
+              onChange={(e: any) => setKeyword(e.target.value)}
+            />
             <p>
               <FiSearch />
             </p>

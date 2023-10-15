@@ -12,6 +12,7 @@ import { Toast } from "primereact/toast";
 import axios from "axios";
 import useToken from "@/utils/useToken";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import EditDialog from "./EditDialog";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 const OwnersManualBookContent = () => {
@@ -21,7 +22,7 @@ const OwnersManualBookContent = () => {
   const [loading, setloading] = useState(true);
 
   const [manualBookData, loadingManualBookData] = useFetchUmum("/api/book");
-  const [fetchTrigger] = useFetchTrigger<any>("/api/dealer");
+  const [fetchTrigger] = useFetchTrigger<any>("/api/book");
   const [visible, setVisible] = useState(false);
   const [visibleEdit, setVisibleEdit] = useState(false);
   const [idSelected, setIdSelected] = useState<any>(null);
@@ -125,6 +126,19 @@ const OwnersManualBookContent = () => {
             setVisible={setVisible}
             setDataManualBook={setDataManualBook}
             showToast={showToast}
+          />
+        </Dialog>
+        <Dialog
+          header="Edit Manual Book"
+          visible={visibleEdit}
+          style={{ width: "30vw" }}
+          onHide={() => setVisibleEdit(false)}
+        >
+          <EditDialog
+            setVisible={setVisibleEdit}
+            setDataNew={setDataManualBook}
+            showToast={showToast}
+            id={idSelected}
           />
         </Dialog>
       </CardAdmin>

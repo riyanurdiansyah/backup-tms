@@ -1,6 +1,6 @@
 "use client";
 import HeroBanner from "@/components/HeroBanner";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ListBrochures,
   Search,
@@ -14,14 +14,34 @@ import CardBrochure from "@/components/Card/CardBrochure";
 import { useFetchUmum } from "@/utils/useFetchData";
 
 const BrochuresPage = () => {
+  const [data, setData] = useState<any>([]);
+  const [keyword, setKeyword] = useState<any>("");
   const [brochurekData, loadingBrochureData] = useFetchUmum("/api/brochure");
+
+  useEffect(() => {
+    if (!loadingBrochureData && brochurekData && keyword == "") {
+      setData(brochurekData?.data);
+    }
+    if (brochurekData && keyword != "") {
+      const dataSearch = brochurekData?.data?.filter((type: any) => {
+        return type.title
+          ?.toLowerCase()
+          .includes(keyword?.toString().toLowerCase([]));
+      });
+      setData(dataSearch);
+    }
+  }, [loadingBrochureData, keyword]);
   return (
     <div className="brochures-page-wrapper">
       <HeroBanner title={"Brochures"} />
       <SearchContainer>
         <SearchBox>
           <Search>
-            <SearchInput placeholder="Cari brosur..." />
+            <SearchInput
+              placeholder="Cari brosur..."
+              value={keyword}
+              onChange={(e: any) => setKeyword(e.target.value)}
+            />
             <p>
               <FiSearch />
             </p>
@@ -31,7 +51,7 @@ const BrochuresPage = () => {
       <Container>
         {!loadingBrochureData && brochurekData && (
           <ListBrochures>
-            {brochurekData?.data?.map((item: any, index: number) => {
+            {data?.map((item: any, index: number) => {
               return (
                 <CardBrochure
                   id={item.brochure_id || index}

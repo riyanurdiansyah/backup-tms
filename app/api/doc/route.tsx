@@ -26,10 +26,8 @@ export async function POST(req: Request) {
         ACL: "public-read",
       })
     );
-    console.log("Success", data.Location);
     return data;
   } catch (err) {
-    console.log("Error", err);
     return "gagal";
   }
 }

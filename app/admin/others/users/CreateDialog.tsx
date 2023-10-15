@@ -34,7 +34,6 @@ const CreateDialog: FC<ICreateDialog> = ({
   const [postData] = usePostUmum("/api/signup");
   const [fetchTrigger] = useFetchTrigger<any>("/api/signup");
   const [roleData] = useFetchUmum("/api/role");
-  console.log(roleData);
 
   const {
     handleSubmit,

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useEffect } from "react";
 import {
   ButtonGroup,
   CreateDialogContainer,
@@ -12,22 +12,24 @@ import { InputText } from "primereact/inputtext";
 import { Controller, useForm } from "react-hook-form";
 import { classNames } from "primereact/utils";
 import { Button } from "primereact/button";
+import { useFetchTrigger, useFetchUmum } from "@/utils/useFetchData";
 import axios from "axios";
 import useToken from "@/utils/useToken";
-import { useFetchTrigger } from "@/utils/useFetchData";
 const api_backend = process.env.NEXT_PUBLIC_APP_API_BACKEND;
 
 type FormData = {
-  title: string;
+  nama: string;
   file: File | null;
 };
 
-const CreateDialog: FC<ICreateDialog> = ({
+const EditDialog: FC<IEditDialog> = ({
   setVisible,
-  setDataManualBook,
+  setDataNew,
   showToast,
+  id,
 }) => {
-  const [fetchTriggerManualBook] = useFetchTrigger<any>("/api/book");
+  const [dataOld, loadingDataOld] = useFetchUmum(`/api/book/${id}`);
+  const [fetchTrigger] = useFetchTrigger<any>("/api/book");
   const [token] = useToken();
   const {
     handleSubmit,
@@ -35,6 +37,12 @@ const CreateDialog: FC<ICreateDialog> = ({
     formState: { errors },
     setValue,
   } = useForm<FormData>();
+
+  useEffect(() => {
+    if (dataOld) {
+      setValue("nama", dataOld?.data?.nama);
+    }
+  }, [dataOld]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
@@ -44,30 +52,30 @@ const CreateDialog: FC<ICreateDialog> = ({
   const onSubmit = async (data: FormData) => {
     try {
       const formData = new FormData();
-      formData.append("nama", data.title);
-      formData.append("file", data.file as File);
+      formData.append("book_id", id);
+      formData.append("nama", data.nama);
+      data.file != null && formData.append("file", data.file as File);
 
-      const response = await axios.post(`${api_backend}/api/book`, formData, {
+      const response = await axios.put(`${api_backend}/api/book`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: token,
         },
       });
-
-      if (response.status === 201) {
-        const fetchDataNew = await fetchTriggerManualBook();
-        await setDataManualBook(fetchDataNew?.data);
+      if (response.status === 200) {
+        const fetchDataNew = await fetchTrigger();
+        await setDataNew(fetchDataNew?.data);
         await showToast({
           type: "success",
           title: "Success",
-          message: "Berhasil Menambahkan Data",
+          message: "Berhasil Mengubah Data",
         });
         setVisible(false);
       } else {
         await showToast({
           type: "error",
           title: "Error",
-          message: "Gagal Menambahkan Data",
+          message: "Gagal Mengubah Data",
         });
         setVisible(false);
       }
@@ -75,53 +83,23 @@ const CreateDialog: FC<ICreateDialog> = ({
       await showToast({
         type: "error",
         title: "Error",
-        message: "Gagal Menambahkan Data",
+        message: "Gagal Mengubah Data",
       });
       setVisible(false);
     }
-
-    // Handle login logic here using data.title, data.link, and uploadedFiles
   };
-
-  // const [file, setFile] = useState<File>();
-  // const [imageUrl, setImageUrl] = useState<string>("");
-
-  // const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   if (!file) return;
-
-  //   const formData = new FormData();
-  //   formData.append("file", file);
-
-  //   try {
-  //     const res = await fetch("/api/upload", {
-  //       method: "POST",
-  //       body: formData,
-  //     });
-
-  //     if (!res.ok) {
-  //       console.error("something went wrong, check your console.");
-  //       return;
-  //     }
-
-  //     const data: { fileUrl: string } = await res.json();
-  //     setImageUrl(data.fileUrl);
-  //   } catch (error) {
-  //     console.error("something went wrong, check your console.");
-  //   }
-  // };
 
   return (
     <CreateDialogContainer>
       <FormInput onSubmit={handleSubmit(onSubmit)}>
         <Controller
-          name="title"
+          name="nama"
           control={control}
           rules={{ required: "Title is required." }}
           render={({ field, fieldState }) => (
             <>
               <FormGroup>
-                <label htmlFor="title">Title</label>
+                <label htmlFor="nama">Title</label>
                 <InputText
                   id={field.name}
                   value={field.value}
@@ -130,7 +108,7 @@ const CreateDialog: FC<ICreateDialog> = ({
                   style={{ width: "100%" }}
                 />
                 <InfoError className="p-error">
-                  {errors?.title?.message}
+                  {errors?.nama?.message}
                 </InfoError>
               </FormGroup>
             </>
@@ -167,28 +145,20 @@ const CreateDialog: FC<ICreateDialog> = ({
           <Button label="Save" type="submit" icon="pi pi-check" />
         </ButtonGroup>
       </FormInput>
-      {/* <form onSubmit={onSubmit}>
-        <input
-          type="file"
-          name="file"
-          onChange={(e) => setFile(e.target.files?.[0])}
-        />
-        <input type="submit" value="Upload" />
-      </form> */}
     </CreateDialogContainer>
   );
 };
 
-interface ICreateDialog {
+interface IEditDialog {
   setVisible: (e: boolean) => void;
-  setDataManualBook: (e: any) => void;
+  setDataNew: (e: any) => void;
   showToast: (data: ToastData) => void;
+  id: any;
 }
-
 interface ToastData {
   type: "success" | "error" | "info";
   title: string;
   message: string;
 }
 
-export default CreateDialog;
+export default EditDialog;

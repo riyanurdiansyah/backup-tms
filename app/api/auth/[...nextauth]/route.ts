@@ -19,7 +19,6 @@ export { handler as GET, handler as POST };
 //         password: { label: "Password", type: "password" },
 //       },
 //       async authorize(credentials, req) {
-//         console.log("credentials", credentials);
 //         const { username, password } = credentials as {
 //           username: string;
 //           password: string;
